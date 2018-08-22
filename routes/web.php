@@ -11,10 +11,29 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware(['auth'])->group(function() {
+    
+    Route::view('/', 'dashboard')->name('dashboard');
+
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::view('/test', 'test');
+    
+    Route::prefix('/item')->group(function () {
+        Route::get('/index')->name('item.index');
+        Route::get('/create')->name('item.create');
+        Route::get('/update/{item}')->name('item.update');
+        Route::post('/delete/{item}')->name('item.delete');
+    });
+    
+    Route::prefix('/vendor')->group(function () {
+        Route::get('/index', 'VendorController@index')->name('vendor.index');
+        Route::get('/create', 'VendorController@create')->name('vendor.create');
+        Route::post('/create', 'VendorController@processCreate')->name('vendor.create');
+        Route::get('/update/{vendor}', 'VendorController@update')->name('vendor.update');
+        Route::post('/update/{vendor}', 'VendorController@processUpdate')->name('vendor.update');
+        Route::post('/delete/{vendor}', 'VendorController@delete')->name('vendor.delete');
+    });
+});
