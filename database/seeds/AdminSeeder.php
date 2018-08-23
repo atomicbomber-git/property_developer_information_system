@@ -13,7 +13,8 @@ class AdminSeeder extends Seeder
     {
         factory(\App\User::class)->create([
             'email' => 'admin@admin.com',
-            'password' => bcrypt('admin')
+            'password' => bcrypt('admin'),
+            'privilege' => 'ADMINISTRATOR'
         ]);
     }
 }

@@ -7,7 +7,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"> <a href="{{ route('dashboard') }}"> Dashboard </a> </li>
-            <li class="breadcrumb-item active"> <a href="{{ route('invoice.index') }}"> Invoice </a> </li>
+            <li class="breadcrumb-item active"> Invoice </li>
         </ol>
     </nav>
 
@@ -29,7 +29,7 @@
 
             @include('shared.message-success')
 
-            <table class="table table-sm table-striped">
+            <table class="table table-sm table-striped table-responsive-xl">
                 <thead class="thead-dark">
                     <tr>
                         <th> # </th>
@@ -47,17 +47,23 @@
                         <td> {{ optional($invoice->receiver)->name }} </td>
                         <td> {{ $invoice->vendor->name }} </td>
                         <td>
-                            <a href="{{ route('invoice.detail', $invoice) }}" class="btn btn-dark btn-sm">
+                            <a href="{{ route('invoice.detail', $invoice) }}" class="btn mb-1 btn-dark btn-sm">
+                                Request
                                 <i class="fa fa-list-alt"></i>
                             </a>
 
-                            <a href="{{ route('invoice.update', $invoice) }}" class="btn btn-dark btn-sm">
+                            <a href="{{ route('invoice.detail', $invoice) }}" class="btn mb-1 btn-dark btn-sm">
+                                Receive
+                                <i class="fa fa-money"></i>
+                            </a>
+
+                            <a href="{{ route('invoice.update', $invoice) }}" class="btn mb-1 btn-dark btn-sm">
                                 <i class="fa fa-pencil"></i>
                             </a>
 
                             <form method="POST" class="d-inline-block" action="{{ route('invoice.delete', $invoice) }}">
                                 @csrf
-                                <button class="btn btn-danger btn-sm">
+                                <button class="btn mb-1 btn-danger btn-sm">
                                     <i class="fa fa-trash"></i>
                                 </button>
                             </form>
