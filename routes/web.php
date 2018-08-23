@@ -22,10 +22,12 @@ Route::middleware(['auth'])->group(function() {
     Route::view('/test', 'test');
     
     Route::prefix('/item')->group(function () {
-        Route::get('/index')->name('item.index');
-        Route::get('/create')->name('item.create');
-        Route::get('/update/{item}')->name('item.update');
-        Route::post('/delete/{item}')->name('item.delete');
+        Route::get('/index', 'ItemController@index')->name('item.index');
+        Route::get('/create', 'ItemController@create')->name('item.create');
+        Route::post('/create', 'ItemController@processCreate')->name('item.create');
+        Route::get('/update/{item}', 'ItemController@update')->name('item.update');
+        Route::post('/update/{item}', 'ItemController@processDelete')->name('item.update');
+        Route::post('/delete/{item}', 'ItemController@delete')->name('item.delete');
     });
     
     Route::prefix('/vendor')->group(function () {

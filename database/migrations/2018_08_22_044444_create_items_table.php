@@ -16,6 +16,16 @@ class CreateItemsTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
+
+            $table->string('name');
+            $table->string('unit');
+
+            $table->integer('vendor_id')
+                ->unsigned();
+
+            $table->foreign('vendor_id')
+                ->references('id')
+                ->on('vendors');
         });
     }
 

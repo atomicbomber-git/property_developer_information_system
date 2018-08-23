@@ -26,7 +26,7 @@
                     Vendors
                 </a>
 
-                <a href="" class="btn btn-info">
+                <a href="{{ route('item.index') }}" class="btn btn-info">
                     <i class="fa fa-list"></i>
                     Items
                 </a>
