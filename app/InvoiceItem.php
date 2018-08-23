@@ -19,14 +19,14 @@ class InvoiceItem extends Model
 
     public function allocations()
     {
-        return $this->hasMany(ItemAllocation::class);
+        return $this->morphMany(ItemAllocation::class, 'source');
     }
 
     public function total_quantity()
     {
         return $this->allocations()
-            ->selectRaw('invoice_item_id, SUM(quantity) as value')
-            ->groupBy('invoice_item_id');
+            ->selectRaw('source_id, SUM(quantity) as value')
+            ->groupBy('source_id');
     }
 
     public function getTotalQuantityAttribute($value) {

@@ -113,7 +113,7 @@ class InvoiceController extends Controller
                 $query->has('allocations');
             },
             'invoice_items.total_quantity',
-            'invoice_items.allocations:id,invoice_item_id,storage_id,quantity',
+            'invoice_items.allocations:id,source_id,source_type,target_id,target_type,quantity',
             'invoice_items.allocations.storage:id,name',
             'invoice_items.item:id,name,unit',
             'vendor:id,name',
@@ -158,15 +158,19 @@ class InvoiceController extends Controller
             }
 
             $allocation = ItemAllocation::where([
-                'invoice_item_id' => $invoice_item->id,
-                'storage_id' => $data['storage_id']
+                'source_id' => $invoice_item->id,
+                'source_type' => 'INVOICE',
+                'target_id' => $data['storage_id'],
+                'target_type' => 'STORAGE',
             ])->first();
 
             if (!$allocation) {
                 ItemAllocation::create([
-                    'invoice_item_id' => $invoice_item->id,
+                    'source_id' => $invoice_item->id,
+                    'source_type' => 'INVOICE',
+                    'target_id' => $data['storage_id'],
+                    'target_type' => 'STORAGE',
                     'quantity' => $data['quantity'],
-                    'storage_id' => $data['storage_id']
                 ]);
                 return;
             }

@@ -25,8 +25,10 @@ class ItemAllocationSeeder extends Seeder
         foreach ($invoice_item_ids as $invoice_item_id) {
             foreach ($storage_ids as $storage_id) {
                 ItemAllocation::create([
-                    'invoice_item_id' => $invoice_item_id,
-                    'storage_id' => $storage_id,
+                    'source_id' => $invoice_item_id,
+                    'source_type' => 'INVOICE',
+                    'target_id' => $storage_id,
+                    'target_type' => 'STORAGE',
                     'quantity' => 4
                 ]);
             }

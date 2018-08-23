@@ -16,24 +16,18 @@ class CreateItemAllocationsTable extends Migration
         Schema::create('item_allocations', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('invoice_item_id')
-                ->unsigned();
+            $table->integer('source_id')->unsigned();
+            $table->string('source_type');
 
-            $table->integer('storage_id')
-                ->unsigned();
+            $table->integer('target_id')->unsigned();
+            $table->string('target_type');
 
-            $table->integer('quantity')
-                ->unsigned();
+            $table->integer('quantity')->unsigned();
 
-            $table->foreign('invoice_item_id')
-                ->references('id')
-                ->on('invoice_items');
-
-            $table->foreign('storage_id')
-                ->references('id')
-                ->on('storages');
-
-            $table->unique(['invoice_item_id', 'storage_id']);
+            $table->unique(
+                ['source_id', 'source_type', 'target_id', 'target_type'],
+                'item_allocation_unique_pairing'
+            );
 
             $table->timestamps();
         });
@@ -46,6 +40,6 @@ class CreateItemAllocationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('invoice_item_allocations');
+        Schema::dropIfExists('item_allocations');
     }
 }
