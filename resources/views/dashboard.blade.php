@@ -13,18 +13,20 @@
 
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">
+            <h1 class="h5">
                 <i class="fa fa-cog"> </i>
                 Dashboard
-            </h5>
+            </h1>
 
-            <p class="card-text">
-                <a href="{{ route('vendor.index') }}" class="btn btn-info btn-sm">
+            <hr class="mt-2 mb-2">
+
+            <p class="card-text mt-5">
+                <a href="{{ route('vendor.index') }}" class="btn btn-info">
                     <i class="fa fa-shopping-cart"></i>
                     Vendors
                 </a>
 
-                <a href="" class="btn btn-info btn-sm">
+                <a href="" class="btn btn-info">
                     <i class="fa fa-list"></i>
                     Items
                 </a>
