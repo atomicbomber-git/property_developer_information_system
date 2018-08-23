@@ -47,7 +47,7 @@
                         <td> {{ optional($invoice->receiver)->name }} </td>
                         <td> {{ $invoice->vendor->name }} </td>
                         <td>
-                            <a href="{{ route('invoice_item.index', $invoice) }}" class="btn btn-dark btn-sm">
+                            <a href="{{ route('invoice.detail', $invoice) }}" class="btn btn-dark btn-sm">
                                 <i class="fa fa-list-alt"></i>
                             </a>
 

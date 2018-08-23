@@ -17,7 +17,7 @@ class ItemSeeder extends Seeder
             ->get();
         
         foreach ($vendors as $vendor) {
-            factory(Item::class, 10)->create([
+            factory(Item::class, 3)->create([
                 'vendor_id' => $vendor->id
             ]);
         }

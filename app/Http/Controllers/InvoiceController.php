@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\InvoiceItemAllocation;
 use App\Invoice;
 use App\Vendor;
+use App\Storage;
 
 class InvoiceController extends Controller
 {
@@ -96,9 +98,40 @@ class InvoiceController extends Controller
         }
 
         $invoice->delete();
-        
+
         return back()
             ->with('message.success', __('messages.delete.success'));
     }
 
+    public function detail(Invoice $invoice)
+    {
+        $invoice->load([
+            'invoice_items' => function ($query) {
+                $query->select('id', 'item_id', 'price', 'invoice_id');
+                $query->has('allocations');
+            },
+            'invoice_items.total_quantity',
+            'invoice_items.allocations:id,invoice_item_id,storage_id,quantity',
+            'invoice_items.allocations.storage:id,name',
+            'invoice_items.item:id,name,unit',
+            'vendor:id,name',
+            'vendor.items:id,name,vendor_id',
+            'creator:id,name'
+        ]);
+
+        $storages = Storage::select('id', 'name')
+            ->get();
+        
+        return view('invoice.detail', [
+            'invoice' => $invoice,
+            'storages' => $storages
+        ]);
+    }
+
+    public function deleteAllocation(Invoice $invoice, InvoiceItemAllocation $allocation)
+    {
+        $allocation->delete();
+        return back()
+            ->with('message.success', __('messages.delete.success'));
+    }
 }
