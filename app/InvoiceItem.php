@@ -19,7 +19,7 @@ class InvoiceItem extends Model
 
     public function allocations()
     {
-        return $this->hasMany(InvoiceItemAllocation::class);
+        return $this->hasMany(ItemAllocation::class);
     }
 
     public function total_quantity()

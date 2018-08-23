@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Storage;
 
-class InvoiceItemAllocation extends Model
+class ItemAllocation extends Model
 {
     public $fillable = [
         'invoice_item_id',

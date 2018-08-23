@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use App\InvoiceItemAllocation;
+use App\ItemAllocation;
 use App\InvoiceItem;
 use App\Invoice;
 use App\Vendor;
@@ -157,13 +157,13 @@ class InvoiceController extends Controller
                 ]);
             }
 
-            $allocation = InvoiceItemAllocation::where([
+            $allocation = ItemAllocation::where([
                 'invoice_item_id' => $invoice_item->id,
                 'storage_id' => $data['storage_id']
             ])->first();
 
             if (!$allocation) {
-                InvoiceItemAllocation::create([
+                ItemAllocation::create([
                     'invoice_item_id' => $invoice_item->id,
                     'quantity' => $data['quantity'],
                     'storage_id' => $data['storage_id']
@@ -180,7 +180,7 @@ class InvoiceController extends Controller
             ->with('message.success', __('messages.create.success'));
     }
 
-    public function deleteAllocation(Invoice $invoice, InvoiceItemAllocation $allocation)
+    public function deleteAllocation(Invoice $invoice, ItemAllocation $allocation)
     {
         $allocation->delete();
         return back()

@@ -2,10 +2,10 @@
 
 use Illuminate\Database\Seeder;
 use App\InvoiceItem;
-use App\InvoiceItemAllocation;
+use App\ItemAllocation;
 use App\Storage;
 
-class InvoiceItemAllocationSeeder extends Seeder
+class ItemAllocationSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -24,7 +24,7 @@ class InvoiceItemAllocationSeeder extends Seeder
 
         foreach ($invoice_item_ids as $invoice_item_id) {
             foreach ($storage_ids as $storage_id) {
-                InvoiceItemAllocation::create([
+                ItemAllocation::create([
                     'invoice_item_id' => $invoice_item_id,
                     'storage_id' => $storage_id,
                     'quantity' => 4

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInvoiceItemAllocationsTable extends Migration
+class CreateItemAllocationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateInvoiceItemAllocationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('invoice_item_allocations', function (Blueprint $table) {
+        Schema::create('item_allocations', function (Blueprint $table) {
             $table->increments('id');
 
             $table->integer('invoice_item_id')
