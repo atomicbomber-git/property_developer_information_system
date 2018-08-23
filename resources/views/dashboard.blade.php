@@ -35,6 +35,11 @@
                     <i class="fa fa-truck"></i>
                     Storages
                 </a>
+
+                <a href="{{ route('invoice.index') }}" class="btn btn-info btn-lg">
+                    <i class="fa fa-money"></i>
+                    Invoice
+                </a>
             </p>
         </div>
     </div>

@@ -12,4 +12,14 @@ class Vendor extends Model
         'contact_person',
         'contact_person_phone'
     ];
+
+    public function items()
+    {
+        return $this->hasMany(Item::class);
+    }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
 }

@@ -14,6 +14,6 @@ class Item extends Model
 
     public function vendor()
     {
-        return $this->belongsTo(\App\Vendor::class);
+        return $this->belongsTo(Vendor::class);
     }
 }
