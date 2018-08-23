@@ -139,13 +139,13 @@
                                     <td> {{ $invoice_item->item->unit }} </td>
                                     <td> {{ $invoice_item->price ?? '-' }} </td>
                                     <td class="text-center">
-                                        <button class="btn btn-sm">
-                                            <i class="fa fa-chevron-down"></i>
+                                        <button class="btn btn-toggle-subitem btn-sm" data-invoice-item-id="{{ $invoice_item->id }}">
+                                            <i class="fa fa-chevron-up"></i>
                                         </button>
                                     </td>
                                 </tr>
 
-                                <tr>
+                                <tr class="d-none" data-invoice-item-id="{{ $invoice_item->id }}">
                                     <td class="pt-2"></td>
                                     <td class="pt-2"></td>
                                     <td class="pt-2"></td>
@@ -155,7 +155,7 @@
                                 </tr>
 
                                 @foreach ($invoice_item->allocations as $allocation)
-                                <tr>
+                                <tr class="d-none" data-invoice-item-id="{{ $invoice_item->id }}">
                                     <td class="border-top-0 pt-1 {{ $loop->last ? 'pb-4' : 'pb-1' }}"> </td>
                                     <td class="border-top-0 pt-1 align-middle {{ $loop->last ? 'pb-4' : 'pb-1' }}">
                                         <form method="POST" class="d-inline-block" action="{{ route('allocation.delete', [$invoice, $allocation]) }}">
@@ -182,8 +182,28 @@
             </div>
         </div>
     </div>
-
-
-    
 </div>
+@endsection
+
+@section('script')
+<script>
+    const toggle_active_class = 'fa-chevron-down';
+    const toggle_inactive_class = 'fa-chevron-up';
+
+    $(document).ready(() => {
+        $('button.btn-toggle-subitem[data-invoice-item-id]').each((i, button) => {
+            let id = $(button).data('invoice-item-id');
+            let icon = $(button).find('i');
+
+            $(button).click(() => {
+                console.log(id);
+                $(`tr[data-invoice-item-id=${id}]`)
+                    .toggleClass('d-none');
+                
+                icon.toggleClass(toggle_active_class);
+                icon.toggleClass(toggle_inactive_class);
+            })
+        })
+    });
+</script>
 @endsection

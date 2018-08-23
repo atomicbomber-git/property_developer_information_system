@@ -136,7 +136,6 @@ class InvoiceController extends Controller
             'vendor:id,name',
             'vendor.items:id,name,vendor_id',
             'invoice_items:id,item_id,invoice_id'
-            // 'invoice_items.allocations:invoice_item_id,storage_id,quantity'
         ]);
 
         $invoice_items = $invoice->invoice_items->keyBy('item_id');
