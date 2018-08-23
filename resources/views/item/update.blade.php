@@ -1,6 +1,6 @@
 @extends('shared.layout')
 
-@section('title', 'Create New Item')
+@section('title', "Update Item '$item->name'")
 
 @section('content')
 <div class="container">
@@ -8,7 +8,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"> <a href="{{ route('dashboard') }}"> Dashboard </a> </li>
             <li class="breadcrumb-item"> <a href="{{ route('item.index') }}"> Item </a> </li>
-            <li class="breadcrumb-item active"> <a href="{{ route('item.create') }}"> Tambahkan Item Baru </a> </li>
+            <li class="breadcrumb-item active"> <a href="{{ route('item.create') }}"> Update Item '{{ $item->name }}' </a> </li>
         </ol>
     </nav>
 
@@ -23,7 +23,7 @@
 
             <form
                 method='POST'
-                action='{{ route('item.create') }}'>
+                action='{{ route('item.update', $item) }}'>
                 @csrf
 
                 <div class='form-group'>
@@ -31,7 +31,7 @@
                 
                     <input
                         id='name' name='name' type='text'
-                        value='{{ old('name') }}'
+                        value='{{ old('name', $item->name) }}'
                         class='form-control {{ !$errors->has('name') ?: 'is-invalid' }}'>
                 
                     <div class='invalid-feedback'>
@@ -44,7 +44,7 @@
                 
                     <input
                         id='unit' name='unit' type='text'
-                        value='{{ old('unit') }}'
+                        value='{{ old('unit', $item->unit) }}'
                         class='form-control {{ !$errors->has('unit') ?: 'is-invalid' }}'>
                 
                     <div class='invalid-feedback'>
@@ -56,7 +56,7 @@
                     <label for='vendor_id'> Vendor: </label>
                     <select name='vendor_id' id='vendor_id' class='form-control'>
                         @foreach($vendors as $vendor)
-                        <option {{ old('vendor_id') !== $vendor->id ?: 'selected' }} value='{{ $vendor->id }}'> {{ $vendor->name }} </option>
+                        <option {{ old('vendor_id', $item->vendor_id) !== $vendor->id ?: 'selected' }} value='{{ $vendor->id }}'> {{ $vendor->name }} </option>
                         @endforeach
                     </select>
                     <div class='invalid-feedback'>
@@ -66,8 +66,8 @@
 
                 <div class="text-right mt-3">
                     <button class="btn btn-primary btn-sm">
-                        Tambahkan
-                        <i class="fa fa-plus"></i>
+                        Update
+                        <i class="fa fa-check"></i>
                     </button>
                 </div>
 

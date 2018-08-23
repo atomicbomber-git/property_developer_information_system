@@ -42,7 +42,7 @@
                 <tbody>
                     @foreach ($items as $item)
                     <tr>
-                        <td> {{ $loop->iteration }}. </td>
+                        <td> {{ $items->firstItem() - 1 + $loop->iteration }}. </td>
                         <td> {{ $item->name }} </td>
                         <td> {{ $item->unit }} </td>
                         <td> {{ $item->vendor->name }} </td>
@@ -62,6 +62,10 @@
                     @endforeach
                 </tbody>
             </table>
+
+            <div style="text-align: center">
+                {{ $items->links() }}
+            </div>
         </div>
     </div>
 </div>
