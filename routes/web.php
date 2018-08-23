@@ -38,4 +38,13 @@ Route::middleware(['auth'])->group(function() {
         Route::post('/update/{vendor}', 'VendorController@processUpdate')->name('vendor.update');
         Route::post('/delete/{vendor}', 'VendorController@delete')->name('vendor.delete');
     });
+
+    Route::prefix('/storage')->group(function () {
+        Route::get('/index', 'StorageController@index')->name('storage.index');
+        Route::get('/create', 'StorageController@create')->name('storage.create');
+        Route::post('/create', 'StorageController@processCreate')->name('storage.create');
+        Route::get('/update/{storage}', 'StorageController@update')->name('storage.update');
+        Route::post('/update/{storage}', 'StorageController@processUpdate')->name('storage.update');
+        Route::post('/delete/{storage}', 'StorageController@delete')->name('storage.delete');
+    });
 });

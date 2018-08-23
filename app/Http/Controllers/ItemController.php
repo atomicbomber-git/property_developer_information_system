@@ -12,6 +12,7 @@ class ItemController extends Controller
     public function index()
     {
         $items = Item::select('id', 'name', 'unit', 'vendor_id')
+            ->with('vendor:id,name')
             ->orderBy('created_at', 'desc')
             ->paginate(20);
     
