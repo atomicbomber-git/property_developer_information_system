@@ -1,6 +1,6 @@
 @extends('shared.layout')
 
-@section('title', 'All Vendors')
+@section('title', 'Dashboard')
 
 @section('content')
 
