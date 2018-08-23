@@ -48,6 +48,15 @@ Route::middleware(['auth'])->group(function() {
         Route::post('/delete/{storage}', 'StorageController@delete')->name('storage.delete');
     });
 
+    Route::prefix('/category')->group(function () {
+        Route::get('/index', 'CategoryController@index')->name('category.index');
+        Route::get('/create', 'CategoryController@create')->name('category.create');
+        Route::post('/create', 'CategoryController@processCreate')->name('category.create');
+        Route::get('/update/{category}', 'CategoryController@update')->name('category.update');
+        Route::post('/update/{category}', 'CategoryController@processUpdate')->name('category.update');
+        Route::post('/delete/{category}', 'CategoryController@delete')->name('category.delete');
+    });
+
     Route::prefix('/invoice')->group(function () {
         Route::get('/index', 'InvoiceController@index')->name('invoice.index');
         Route::get('/create', 'InvoiceController@create')->name('invoice.create');

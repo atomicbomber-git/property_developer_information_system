@@ -26,6 +26,11 @@
                     Vendors
                 </a>
 
+                <a href="{{ route('category.index') }}" class="btn btn-info btn-lg">
+                    <i class="fa fa-folder"></i>
+                    Categories
+                </a>
+
                 <a href="{{ route('item.index') }}" class="btn btn-info btn-lg">
                     <i class="fa fa-list"></i>
                     Items

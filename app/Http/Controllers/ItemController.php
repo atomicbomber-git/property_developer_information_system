@@ -6,6 +6,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use App\Item;
 use App\Vendor;
+use App\Category;
 
 class ItemController extends Controller
 {
@@ -26,8 +27,12 @@ class ItemController extends Controller
         $vendors = Vendor::select('id', 'name')
             ->get();
 
+        $categories = Category::select('id', 'name')
+            ->get();
+
         return view('item.create', [
-            'vendors' => $vendors
+            'vendors' => $vendors,
+            'categories' => $categories
         ]);
     }
 

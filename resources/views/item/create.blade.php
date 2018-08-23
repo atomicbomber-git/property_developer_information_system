@@ -64,6 +64,18 @@
                     </div>
                 </div>
 
+                <div class='form-group'>
+                    <label for='category_id'> Category: </label>
+                    <select name='category_id' id='category_id' class='form-control'>
+                        @foreach($categories as $category)
+                        <option {{ old('category_id') !== $category->id ?: 'selected' }} value='{{ $category->id }}'> {{ $category->name }} </option>
+                        @endforeach
+                    </select>
+                    <div class='invalid-feedback'>
+                        {{ $errors->first('category_id') }}
+                    </div>
+                </div>
+
                 <div class="text-right mt-3">
                     <button class="btn btn-primary btn-sm">
                         Tambahkan
