@@ -55,7 +55,7 @@
 
                             <hr class="mt-2 mb-2">
 
-                            <form method="POST" action="">
+                            <form method="POST" action="{{ route('allocation.create', $invoice) }}">
                                 @csrf
                                 <div class='form-group'>
                                     <label for='item_id'> Item: </label>

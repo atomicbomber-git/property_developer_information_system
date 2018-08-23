@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\InvoiceItemAllocation;
+use App\InvoiceItem;
 use App\Invoice;
 use App\Vendor;
 use App\Storage;
+use DB;
 
 class InvoiceController extends Controller
 {
@@ -126,6 +128,57 @@ class InvoiceController extends Controller
             'invoice' => $invoice,
             'storages' => $storages
         ]);
+    }
+
+    public function createAllocation(Invoice $invoice) {
+        
+        $invoice->load([
+            'vendor:id,name',
+            'vendor.items:id,name,vendor_id',
+            'invoice_items:id,item_id,invoice_id'
+            // 'invoice_items.allocations:invoice_item_id,storage_id,quantity'
+        ]);
+
+        $invoice_items = $invoice->invoice_items->keyBy('item_id');
+        $allowed_item_ids = $invoice->vendor->items->pluck('id');
+
+        $data = $this->validate(request(), [
+            'item_id' => ['required', 'integer', Rule::in($allowed_item_ids)],
+            'quantity' => 'required|integer|min:1',
+            'storage_id' => 'required|integer'
+        ]);
+        
+        DB::transaction(function() use($invoice, $invoice_items, $data) {
+            $invoice_item = $invoice_items->get($data['item_id']);
+
+            if (empty($invoice_item)) {
+                $invoice_item = InvoiceItem::create([
+                    'invoice_id' => $invoice->id,
+                    'item_id' => $data['item_id']
+                ]);
+            }
+
+            $allocation = InvoiceItemAllocation::where([
+                'invoice_item_id' => $invoice_item->id,
+                'storage_id' => $data['storage_id']
+            ])->first();
+
+            if (!$allocation) {
+                InvoiceItemAllocation::create([
+                    'invoice_item_id' => $invoice_item->id,
+                    'quantity' => $data['quantity'],
+                    'storage_id' => $data['storage_id']
+                ]);
+                return;
+            }
+
+            $allocation->update([
+                'quantity' => $allocation->quantity + $data['quantity'],
+            ]);
+        });
+
+        return back()
+            ->with('message.success', __('messages.create.success'));
     }
 
     public function deleteAllocation(Invoice $invoice, InvoiceItemAllocation $allocation)
