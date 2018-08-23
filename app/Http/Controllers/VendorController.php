@@ -9,7 +9,9 @@ class VendorController extends Controller
 {
     public function index()
     {
-        $vendors = Vendor::all();
+        $vendors = Vendor::query()
+            ->withCount('items')
+            ->get();
 
         return view('vendor.index', [
             'vendors' => $vendors
@@ -62,6 +64,10 @@ class VendorController extends Controller
 
     public function delete(Vendor $vendor)
     {
+        if ($vendor->items()->count() > 0) {
+            abort(409);
+        } 
+
         $vendor->delete();
         return back()
             ->with('message.success', 'Data berhasil dihapus.');
