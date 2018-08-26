@@ -28,12 +28,12 @@
 
                 <a href="{{ route('category.index') }}" class="btn btn-info btn-lg">
                     <i class="fa fa-folder"></i>
-                    Categories
+                    Categories and Items
                 </a>
 
-                <a href="{{ route('item.index') }}" class="btn btn-info btn-lg">
-                    <i class="fa fa-list"></i>
-                    Items
+                <a href="{{ route('user.index') }}" class="btn btn-info btn-lg">
+                    <i class="fa fa-users"></i>
+                    User
                 </a>
 
                 <a href="{{ route('storage.index') }}" class="btn btn-info btn-lg">

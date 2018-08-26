@@ -7,12 +7,14 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"> <a href="{{ route('dashboard') }}"> Dashboard </a> </li>
-            <li class="breadcrumb-item"> <a href="{{ route('item.index') }}"> Item </a> </li>
-            <li class="breadcrumb-item active"> <a href="{{ route('item.create') }}"> Tambahkan Item Baru </a> </li>
+            <li class="breadcrumb-item"> <a href="{{ route('category.index') }}"> Category </a> </li>
+            <li class="breadcrumb-item"> {{ $category->name }} </li>
+            <li class="breadcrumb-item"> <a href="{{ route('item.index', $category) }}"> Items </a> </li>
+            <li class="breadcrumb-item active"> Tambahkan Item Baru </li>
         </ol>
     </nav>
 
-    <div class="card" style="max-width: 25rem; margin: auto">
+    <div class="card" style="max-width: 25rem">
         <div class="card-body">
             <h1 class="h5">
                 <i class="fa fa-plus"></i>
@@ -23,7 +25,7 @@
 
             <form
                 method='POST'
-                action='{{ route('item.create') }}'>
+                action='{{ route('item.create', $category) }}'>
                 @csrf
 
                 <div class='form-group'>
@@ -63,19 +65,7 @@
                         {{ $errors->first('vendor_id') }}
                     </div>
                 </div>
-
-                <div class='form-group'>
-                    <label for='category_id'> Category: </label>
-                    <select name='category_id' id='category_id' class='form-control'>
-                        @foreach($categories as $category)
-                        <option {{ old('category_id') !== $category->id ?: 'selected' }} value='{{ $category->id }}'> {{ $category->name }} </option>
-                        @endforeach
-                    </select>
-                    <div class='invalid-feedback'>
-                        {{ $errors->first('category_id') }}
-                    </div>
-                </div>
-
+                
                 <div class="text-right mt-3">
                     <button class="btn btn-primary btn-sm">
                         Tambahkan

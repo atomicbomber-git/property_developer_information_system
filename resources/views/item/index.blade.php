@@ -7,7 +7,9 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"> <a href="{{ route('dashboard') }}"> Dashboard </a> </li>
-            <li class="breadcrumb-item active"> <a href="{{ route('item.index') }}"> Item </a> </li>
+            <li class="breadcrumb-item"> <a href="{{ route('category.index') }}"> Category </a> </li>
+            <li class="breadcrumb-item"> {{ $category->name }} </li>
+            <li class="breadcrumb-item"> Items </li>
         </ol>
     </nav>
 
@@ -21,7 +23,7 @@
             <hr class="mt-2 mb-2">
 
             <div class="text-right mb-5 mt-3">
-                <a href="{{ route('item.create') }}" class="btn btn-secondary btn-sm">
+                <a href="{{ route('item.create', $category) }}" class="btn btn-secondary btn-sm">
                     Tambahkan Item Baru
                     <i class="fa fa-plus"></i>
                 </a>
@@ -47,11 +49,11 @@
                         <td> {{ $item->unit }} </td>
                         <td> {{ $item->vendor->name }} </td>
                         <td>
-                            <a href="{{ route('item.update', $item) }}" class="btn btn-dark btn-sm">
+                            <a href="{{ route('item.update', [$category, $item]) }}" class="btn btn-dark btn-sm">
                                 <i class="fa fa-pencil"></i>
                             </a>
 
-                            <form method="POST" class="d-inline-block" action="{{ route('item.delete', $item) }}">
+                            <form method="POST" class="d-inline-block" action="{{ route('item.delete', [$category, $item]) }}">
                                 @csrf
                                 <button class="btn btn-danger btn-sm">
                                     <i class="fa fa-trash"></i>

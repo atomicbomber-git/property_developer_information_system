@@ -20,16 +20,7 @@ Route::middleware(['auth'])->group(function() {
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::view('/test', 'test');
-    
-    Route::prefix('/item')->group(function () {
-        Route::get('/index', 'ItemController@index')->name('item.index');
-        Route::get('/create', 'ItemController@create')->name('item.create');
-        Route::post('/create', 'ItemController@processCreate')->name('item.create');
-        Route::get('/update/{item}', 'ItemController@update')->name('item.update');
-        Route::post('/update/{item}', 'ItemController@processUpdate')->name('item.update');
-        Route::post('/delete/{item}', 'ItemController@delete')->name('item.delete');
-    });
-    
+
     Route::prefix('/vendor')->group(function () {
         Route::get('/index', 'VendorController@index')->name('vendor.index');
         Route::get('/create', 'VendorController@create')->name('vendor.create');
@@ -55,6 +46,15 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/update/{category}', 'CategoryController@update')->name('category.update');
         Route::post('/update/{category}', 'CategoryController@processUpdate')->name('category.update');
         Route::post('/delete/{category}', 'CategoryController@delete')->name('category.delete');
+
+        Route::prefix('/items/{category}')->group(function() {
+            Route::get('/index', 'ItemController@index')->name('item.index');
+            Route::get('/create', 'ItemController@create')->name('item.create');
+            Route::post('/create', 'ItemController@processCreate')->name('item.create');
+            Route::get('/update/{item}', 'ItemController@update')->name('item.update');
+            Route::post('/update/{item}', 'ItemController@processUpdate')->name('item.update');
+            Route::post('/delete/{item}', 'ItemController@delete')->name('item.delete');
+        });
     });
 
     Route::prefix('/invoice')->group(function () {
@@ -65,9 +65,19 @@ Route::middleware(['auth'])->group(function() {
         Route::post('/update/{invoice}', 'InvoiceController@processUpdate')->name('invoice.update');
         Route::post('/delete/{invoice}', 'InvoiceController@delete')->name('invoice.delete');
 
-        Route::get('/detail/{invoice}/', 'InvoiceController@detail')->name('invoice.detail');
+        Route::prefix('/detail/{invoice}/')->group(function() {
+            Route::get('/', 'InvoiceController@detail')->name('invoice.detail');
+            Route::post('/allocation/delete/{allocation}', 'InvoiceController@deleteAllocation')->name('allocation.delete');
+            Route::post('/allocation/create', 'InvoiceController@createAllocation')->name('allocation.create');
+        });
+    });
 
-        Route::post('/detail/{invoice}/allocation/delete/{allocation}', 'InvoiceController@deleteAllocation')->name('allocation.delete');
-        Route::post('/detail/{invoice}/allocation/create', 'InvoiceController@createAllocation')->name('allocation.create');
+    Route::prefix('/user')->group(function() {
+        Route::get('/index', 'UserController@index')->name('user.index');
+        Route::get('/create', 'UserController@create')->name('user.create');
+        Route::post('/create', 'UserController@processCreate')->name('user.create');
+        Route::get('/update/{user}', 'UserController@update')->name('user.update');
+        Route::post('/update/{user}', 'UserController@processUpdate')->name('user.update');
+        Route::post('/delete/{user}', 'UserController@delete')->name('user.delete');
     });
 });

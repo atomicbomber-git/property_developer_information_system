@@ -8,7 +8,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"> <a href="{{ route('dashboard') }}"> Dashboard </a> </li>
             <li class="breadcrumb-item active"> <a href="{{ route('vendor.index') }}"> Vendor </a> </li>
-            <li class="breadcrumb-item active"> <a href="{{ route('vendor.update', $vendor) }}"> Update Vendor '{{ $vendor->name }}' </a> </li>
+            <li class="breadcrumb-item active"> Update Vendor '{{ $vendor->name }}' </li>
         </ol>
     </nav>
 

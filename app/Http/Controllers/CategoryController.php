@@ -55,7 +55,7 @@ class CategoryController extends Controller
     public function delete(Category $category)
     {
         if ($category->items()->count() > 0)
-            abort(409);
+        abort(409);
 
         $category->delete();
         return back()

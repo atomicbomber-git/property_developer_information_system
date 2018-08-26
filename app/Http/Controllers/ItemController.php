@@ -10,19 +10,17 @@ use App\Category;
 
 class ItemController extends Controller
 {
-    public function index()
+    public function index(Category $category)
     {
         $items = Item::select('id', 'name', 'unit', 'vendor_id')
-            ->with('vendor:id,name')
+            ->where('category_id', $category->id)
             ->orderBy('created_at', 'desc')
             ->paginate(20);
-    
-        return view('item.index', [
-            'items' => $items
-        ]);
+        
+        return view('item.index', compact('items', 'category'));
     }
 
-    public function create()
+    public function create(Category $category)
     {
         $vendors = Vendor::select('id', 'name')
             ->get();
@@ -30,13 +28,10 @@ class ItemController extends Controller
         $categories = Category::select('id', 'name')
             ->get();
 
-        return view('item.create', [
-            'vendors' => $vendors,
-            'categories' => $categories
-        ]);
+        return view('item.create', compact('vendors', 'categories', 'category'));
     }
 
-    public function processCreate()
+    public function processCreate(Category $category)
     {
         $vendors = Vendor::select('id')
             ->pluck('id');
@@ -47,24 +42,21 @@ class ItemController extends Controller
             'vendor_id' => ['required', Rule::in($vendors)]
         ]);
 
-        Item::create($data);
+        Item::create(array_merge($data, ['category_id' => $category->id]));
 
         return redirect()
-            ->route('item.index')
+            ->route('item.index', $category)
             ->with('message.success', __('messages.create.success'));
     }
 
-    public function update(Item $item) {
+    public function update(Category $category, Item $item) {
         $vendors = Vendor::select('id', 'name')
             ->get();
 
-        return view('item.update', [
-            'vendors' => $vendors,
-            'item' => $item
-        ]);
+        return view('item.update', compact('vendors', 'item', 'category'));
     }
 
-    public function processUpdate(Item $item)
+    public function processUpdate(Category $category, Item $item)
     {
         $vendors = Vendor::select('id')
             ->pluck('id');
@@ -78,11 +70,11 @@ class ItemController extends Controller
         $item->update($data);
 
         return redirect()
-            ->route('item.index')
+            ->route('item.index', $category)
             ->with('message.success', __('messages.update.success'));
     }
 
-    public function delete(Item $item)
+    public function delete(Category $category, Item $item)
     {
         $item->delete();
         return back()

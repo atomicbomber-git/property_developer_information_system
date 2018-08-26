@@ -43,6 +43,11 @@
                         <td> {{ $loop->iteration }}. </td>
                         <td> {{ $category->name }} </td>
                         <td>
+                            <a href="{{ route('item.index', $category) }}" class="btn btn-dark btn-sm">
+                                Items
+                                <i class="fa fa-list"></i>
+                            </a>
+
                             <a href="{{ route('category.update', $category) }}" class="btn btn-dark btn-sm">
                                 <i class="fa fa-pencil"></i>
                             </a>

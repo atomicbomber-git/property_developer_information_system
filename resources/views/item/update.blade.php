@@ -7,23 +7,25 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"> <a href="{{ route('dashboard') }}"> Dashboard </a> </li>
-            <li class="breadcrumb-item"> <a href="{{ route('item.index') }}"> Item </a> </li>
-            <li class="breadcrumb-item active"> <a href="{{ route('item.create') }}"> Update Item '{{ $item->name }}' </a> </li>
+            <li class="breadcrumb-item"> <a href="{{ route('category.index') }}"> Category </a> </li>
+            <li class="breadcrumb-item"> {{ $category->name }} </li>
+            <li class="breadcrumb-item"> <a href="{{ route('item.index', $category) }}"> Items </a> </li>
+            <li class="breadcrumb-item active"> Update '{{ $item->name }}' </a> </li>
         </ol>
     </nav>
 
-    <div class="card" style="max-width: 25rem; margin: auto">
+    <div class="card" style="max-width: 25rem">
         <div class="card-body">
             <h1 class="h5">
                 <i class="fa fa-plus"></i>
-                Tambahkan Item Baru
+                Update Item '{{ $item->name }}'
             </h1>
 
             <hr class="mt-2 mb-2">
 
             <form
                 method='POST'
-                action='{{ route('item.update', $item) }}'>
+                action='{{ route('item.update', [$category, $item]) }}'>
                 @csrf
 
                 <div class='form-group'>

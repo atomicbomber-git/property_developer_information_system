@@ -25,6 +25,11 @@ class LoginController extends Controller
         return route('dashboard');
     }
 
+    public function username()
+    {
+        return 'username';
+    }
+
     public function loggedOut()
     {
         return redirect()
