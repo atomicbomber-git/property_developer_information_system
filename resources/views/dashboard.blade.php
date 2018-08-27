@@ -43,7 +43,12 @@
 
                 <a href="{{ route('delivery_order.index') }}" class="btn btn-info btn-lg">
                     <i class="fa fa-credit-card"></i>
-                    Delivery Order (From Vendor)
+                    Delivery Orders (From Vendor)
+                </a>
+
+                <a href="{{ route('delivery_order.index') }}" class="btn btn-info btn-lg">
+                    <i class="fa fa-usd"></i>
+                    Invoices
                 </a>
             </p>
         </div>
