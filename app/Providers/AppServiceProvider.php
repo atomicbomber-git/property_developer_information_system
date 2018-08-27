@@ -17,7 +17,11 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
-        Relation::morphMap(array_merge(\App\ItemAllocation::morphMap));
+        Relation::morphMap([
+            'VENDOR' => \App\Vendor::class,
+            'STORAGE' => \App\Storage::class
+        ]);
+        
     }
 
     /**

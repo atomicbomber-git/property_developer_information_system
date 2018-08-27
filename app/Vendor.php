@@ -18,8 +18,8 @@ class Vendor extends Model
         return $this->hasMany(Item::class);
     }
 
-    public function invoices()
+    public function delivery_orders()
     {
-        return $this->hasMany(Invoice::class);
+        return $this->morphMany(DeliveryOrder::class, 'source');
     }
 }

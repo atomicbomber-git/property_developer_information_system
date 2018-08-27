@@ -2,10 +2,11 @@
 
 use Illuminate\Database\Seeder;
 use App\Vendor;
+use App\Storage;
 use App\User;
-use App\Invoice;
+use App\DeliveryOrder;
 
-class InvoiceSeeder extends Seeder
+class DeliveryOrderSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -21,15 +22,18 @@ class InvoiceSeeder extends Seeder
             ->select('id')
             ->pluck('id');
 
+        $storage_ids = Storage::select('id')
+            ->pluck('id');
+
         foreach ($vendor_ids as $vendor_id) {
-            Invoice::create([
-                'creator_id' => $user_ids->random(),
+            DeliveryOrder::create([
                 'receiver_id' => $user_ids->random(),
-                'vendor_id' => $vendor_id,
+                'source_id' => $vendor_id,
+                'source_type' => 'VENDOR',
+                'target_id' => $storage_ids->random(),
+                'target_type' => 'STORAGE',
                 'received_at' => today()
             ]);
         }
-
-        // echo json_encode($users->random(), JSON_PRETTY_PRINT);
     }
 }

@@ -57,18 +57,18 @@ Route::middleware(['auth'])->group(function() {
         });
     });
 
-    Route::prefix('/invoice')->group(function () {
-        Route::get('/index', 'InvoiceController@index')->name('invoice.index');
-        Route::get('/create', 'InvoiceController@create')->name('invoice.create');
-        Route::post('/create', 'InvoiceController@processCreate')->name('invoice.create');
-        Route::get('/update/{invoice}', 'InvoiceController@update')->name('invoice.update');
-        Route::post('/update/{invoice}', 'InvoiceController@processUpdate')->name('invoice.update');
-        Route::post('/delete/{invoice}', 'InvoiceController@delete')->name('invoice.delete');
+    Route::prefix('/delivery_order')->group(function () {
+        Route::get('/index', 'DeliveryOrderController@index')->name('delivery_order.index');
+        Route::get('/create', 'DeliveryOrderController@create')->name('delivery_order.create');
+        Route::post('/create', 'DeliveryOrderController@processCreate')->name('delivery_order.create');
+        Route::get('/update/{delivery_order}', 'DeliveryOrderController@update')->name('delivery_order.update');
+        Route::post('/update/{delivery_order}', 'DeliveryOrderController@processUpdate')->name('delivery_order.update');
+        Route::post('/delete/{delivery_order}', 'DeliveryOrderController@delete')->name('delivery_order.delete');
 
-        Route::prefix('/detail/{invoice}/')->group(function() {
-            Route::get('/', 'InvoiceController@detail')->name('invoice.detail');
-            Route::post('/allocation/delete/{allocation}', 'InvoiceController@deleteAllocation')->name('allocation.delete');
-            Route::post('/allocation/create', 'InvoiceController@createAllocation')->name('allocation.create');
+        Route::prefix('/detail/{delivery_order}/')->group(function() {
+            Route::get('/', 'DeliveryOrderController@detail')->name('delivery_order.detail');
+            Route::post('/item/create', 'DeliveryOrderController@createItem')->name('delivery_order.create_item');
+            Route::post('/item/delete/{delivery_order_item}', 'DeliveryOrderController@deleteItem')->name('delivery_order.delete_item');
         });
     });
 

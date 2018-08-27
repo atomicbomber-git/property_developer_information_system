@@ -33,7 +33,7 @@
 
                 <a href="{{ route('user.index') }}" class="btn btn-info btn-lg">
                     <i class="fa fa-users"></i>
-                    User
+                    Users
                 </a>
 
                 <a href="{{ route('storage.index') }}" class="btn btn-info btn-lg">
@@ -41,9 +41,9 @@
                     Storages
                 </a>
 
-                <a href="{{ route('invoice.index') }}" class="btn btn-info btn-lg">
-                    <i class="fa fa-money"></i>
-                    Invoice
+                <a href="{{ route('delivery_order.index') }}" class="btn btn-info btn-lg">
+                    <i class="fa fa-credit-card"></i>
+                    Delivery Order (From Vendor)
                 </a>
             </p>
         </div>

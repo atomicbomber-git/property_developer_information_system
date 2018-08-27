@@ -1,28 +1,28 @@
 @extends('shared.layout')
 
-@section('title', 'All Invoices')
+@section('title', 'All Delivery Orders (From Vendor)')
 
 @section('content')
 <div class="container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"> <a href="{{ route('dashboard') }}"> Dashboard </a> </li>
-            <li class="breadcrumb-item active"> Invoice </li>
+            <li class="breadcrumb-item active"> Delivery Order (From Vendor) </li>
         </ol>
     </nav>
 
     <div class="card">
         <div class="card-body">
             <h1 class="h5">
-                <i class="fa fa-money"></i>
-                Kelola Invoice
+                <i class="fa fa-credit-card"></i>
+                Kelola Delivery Order (From Vendor)
             </h1>
 
             <hr class="mt-2 mb-2">
 
             <div class="text-right mb-5 mt-3">
-                <a href="{{ route('invoice.create') }}" class="btn btn-secondary btn-sm">
-                    Tambahkan Invoice Baru
+                <a href="{{ route('delivery_order.create') }}" class="btn btn-secondary btn-sm">
+                    Tambahkan Delivery Order Baru
                     <i class="fa fa-plus"></i>
                 </a>
             </div>
@@ -33,35 +33,35 @@
                 <thead class="thead-dark">
                     <tr>
                         <th> # </th>
-                        <th> Pembuat </th>
                         <th> Penerima </th>
-                        <th> Vendor </th>
+                        <th> Tanggal </th>
+                        <th> Vendor (Source) </th>
+                        <th> Storage (Target) </th>
                         <th> Kendali </th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($invoices as $invoice)
+                    @foreach ($delivery_orders as $delivery_order)
                     <tr>
                         <td> {{ $loop->iteration }}. </td>
-                        <td> {{ $invoice->creator->name }} </td>
-                        <td> {{ optional($invoice->receiver)->name }} </td>
-                        <td> {{ $invoice->vendor->name }} </td>
+                        <td> {{ optional($delivery_order->receiver)->name }} </td>
                         <td>
-                            <a href="{{ route('invoice.detail', $invoice) }}" class="btn mb-1 btn-dark btn-sm">
-                                Request
+                            {{ $delivery_order->received_at->format('l, j F Y') }} <br>
+                            <span class="text-secondary"> {{ $delivery_order->received_at->ago() }} </span>
+                        </td>
+                        <td> {{ optional($delivery_order->source)->name }} </td>
+                        <td> {{ optional($delivery_order->target)->name }} </td>
+                        <td>
+                            <a href="{{ route('delivery_order.detail', $delivery_order) }}" class="btn mb-1 mr-2 btn-dark btn-sm">
+                                Detail
                                 <i class="fa fa-list-alt"></i>
                             </a>
 
-                            <a href="{{ route('invoice.detail', $invoice) }}" class="btn mb-1 btn-dark btn-sm">
-                                Receive
-                                <i class="fa fa-money"></i>
-                            </a>
-
-                            <a href="{{ route('invoice.update', $invoice) }}" class="btn mb-1 btn-dark btn-sm">
+                            <a href="{{ route('delivery_order.update', $delivery_order) }}" class="btn mb-1 btn-dark btn-sm">
                                 <i class="fa fa-pencil"></i>
                             </a>
 
-                            <form method="POST" class="d-inline-block" action="{{ route('invoice.delete', $invoice) }}">
+                            <form method="POST" class="d-inline-block" action="{{ route('delivery_order.delete', $delivery_order) }}">
                                 @csrf
                                 <button class="btn mb-1 btn-danger btn-sm">
                                     <i class="fa fa-trash"></i>

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Invoice;
+use App\DeliveryOrder;
 use App\InvoiceItem;
 use App\Vendor;
 
@@ -14,16 +14,16 @@ class InvoiceItemSeeder extends Seeder
      */
     public function run()
     {
-        $invoices = Invoice::select('id', 'vendor_id')
+        $delivery_orders = DeliveryOrder::select('id', 'vendor_id')
             ->with('vendor:id', 'vendor.items:id,vendor_id')
             ->get();
 
-        foreach ($invoices as $invoice) {
-            foreach ($invoice->vendor->items as $item) {
+        foreach ($delivery_orders as $delivery_order) {
+            foreach ($delivery_order->vendor->items as $item) {
 
                 factory(\App\InvoiceItem::class)->create([
                     'price' => null,
-                    'invoice_id' => $invoice->id,
+                    'invoice_id' => $delivery_order->id,
                     'item_id' => $item->id,
                 ]);
 
