@@ -18,9 +18,6 @@ Route::middleware(['auth'])->group(function() {
     
     Route::view('/', 'dashboard')->name('dashboard');
 
-    Route::get('/home', 'HomeController@index')->name('home');
-    Route::view('/test', 'test');
-
     Route::prefix('/vendor')->group(function () {
         Route::get('/index', 'VendorController@index')->name('vendor.index');
         Route::get('/create', 'VendorController@create')->name('vendor.create');
