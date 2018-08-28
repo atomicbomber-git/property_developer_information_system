@@ -10,7 +10,17 @@ class StorageController extends Controller
 {
     public function index()
     {
-        $storages = Storage::all();
+        $storages = Storage::query()
+            ->select('id', 'name', 'address')
+            ->withCount('inbound_delivery_orders')
+            ->withCount('outbound_delivery_orders')
+            ->get()
+            ->map(function ($storage) {
+                $storage->delivery_orders_count = 
+                    $storage->inbound_delivery_orders_count +
+                    $storage->outbound_delivery_orders_count;
+                return $storage;
+            });
 
         return view('storage.index', [
             'storages' => $storages

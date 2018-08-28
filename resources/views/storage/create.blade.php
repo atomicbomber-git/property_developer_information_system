@@ -8,11 +8,11 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"> <a href="{{ route('dashboard') }}"> Dashboard </a> </li>
             <li class="breadcrumb-item"> <a href="{{ route('storage.index') }}"> Storage </a> </li>
-            <li class="breadcrumb-item active"> <a href="{{ route('storage.create') }}"> Tambahkan Storage Baru </a> </li>
+            <li class="breadcrumb-item active"> Tambahkan Storage Baru </li>
         </ol>
     </nav>
 
-    <div class="card" style="max-width: 25rem; margin: auto">
+    <div class="card" style="max-width: 25rem">
         <div class="card-body">
             <h1 class="h5">
                 <i class="fa fa-plus"></i>
