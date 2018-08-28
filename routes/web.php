@@ -35,6 +35,7 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/update/{storage}', 'StorageController@update')->name('storage.update');
         Route::post('/update/{storage}', 'StorageController@processUpdate')->name('storage.update');
         Route::post('/delete/{storage}', 'StorageController@delete')->name('storage.delete');
+        Route::get('/stock/{storage}', 'StorageController@stock')->name('storage.stock');
     });
 
     Route::prefix('/category')->group(function () {
