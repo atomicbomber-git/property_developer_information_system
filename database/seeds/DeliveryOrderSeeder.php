@@ -18,7 +18,8 @@ class DeliveryOrderSeeder extends Seeder
         $user_ids = User::select('id')
             ->pluck('id');
 
-        $vendor_ids = Vendor::limit(3)
+        $vendor_ids = Vendor::query()
+            ->limit(3)
             ->select('id')
             ->pluck('id');
 
@@ -26,14 +27,20 @@ class DeliveryOrderSeeder extends Seeder
             ->pluck('id');
 
         foreach ($vendor_ids as $vendor_id) {
-            DeliveryOrder::create([
-                'receiver_id' => $user_ids->random(),
-                'source_id' => $vendor_id,
-                'source_type' => 'VENDOR',
-                'target_id' => $storage_ids->random(),
-                'target_type' => 'STORAGE',
-                'received_at' => today()
-            ]);
+            $this->createVendorDeliveryOrder($vendor_id, $storage_ids->random(), $user_ids->random());
+            $this->createVendorDeliveryOrder($vendor_id, $storage_ids->random(), $user_ids->random());
         }
+    }
+
+    private function createVendorDeliveryOrder($vendor_id, $storage_id, $receiver_id)
+    {
+        DeliveryOrder::create([
+            'receiver_id' => $receiver_id,
+            'source_id' => $vendor_id,
+            'source_type' => 'VENDOR',
+            'target_id' => $storage_id,
+            'target_type' => 'STORAGE',
+            'received_at' => now()
+        ]);
     }
 }

@@ -9,7 +9,8 @@ class DeliveryOrderItem extends Model
     public $fillable = [
         'delivery_order_id',
         'item_id',
-        'quantity'
+        'quantity',
+        'price'
     ];
 
     public function delivery_order()

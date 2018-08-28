@@ -32,11 +32,6 @@ class User extends Authenticatable
         'ADMINISTRATOR'
     ];
 
-    public function invoices_created()
-    {
-        return $this->hasMany(DeliveryOrder::class, 'creator_id');
-    }
-
     public function invoices_received()
     {
         return $this->hasMany(DeliveryOrder::class, 'receiver_id');

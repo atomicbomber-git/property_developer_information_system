@@ -18,5 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ItemSeeder::class);
         $this->call(StorageSeeder::class);
         $this->call(DeliveryOrderSeeder::class);
+        $this->call(DeliveryOrderItemSeeder::class);
+        $this->call(InvoiceSeeder::class);
+        $this->call(GiroSeeder::class);
     }
 }

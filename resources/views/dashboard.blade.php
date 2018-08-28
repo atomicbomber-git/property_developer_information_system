@@ -46,7 +46,7 @@
                     Delivery Orders (From Vendor)
                 </a>
 
-                <a href="{{ route('delivery_order.index') }}" class="btn btn-info btn-lg">
+                <a href="{{ route('invoice.index') }}" class="btn btn-info btn-lg">
                     <i class="fa fa-usd"></i>
                     Invoices
                 </a>

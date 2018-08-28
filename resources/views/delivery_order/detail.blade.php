@@ -7,7 +7,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"> <a href="{{ route('dashboard') }}"> Dashboard </a> </li>
-            <li class="breadcrumb-item"> <a href="{{ route('delivery_order.index') }}"> Delivery Order </a> </li>
+            <li class="breadcrumb-item"> <a href="{{ route('delivery_order.index') }}"> Delivery Order (From Vendor) </a> </li>
             <li class="breadcrumb-item active"> {{ $delivery_order->id }} </li>
         </ol>
     </nav>

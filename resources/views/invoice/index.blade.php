@@ -1,30 +1,28 @@
 @extends('shared.layout')
 
-@section('title', "Items In Category '$category->name'")
+@section('title', 'All Invoices')
 
 @section('content')
 <div class="container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"> <a href="{{ route('dashboard') }}"> Dashboard </a> </li>
-            <li class="breadcrumb-item"> <a href="{{ route('category.index') }}"> Category </a> </li>
-            <li class="breadcrumb-item"> {{ $category->name }} </li>
-            <li class="breadcrumb-item"> Items </li>
+            <li class="breadcrumb-item active"> Invoice </li>
         </ol>
     </nav>
 
     <div class="card">
         <div class="card-body">
             <h1 class="h5">
-                <i class="fa fa-list"></i>
-                Kelola Item
+                <i class="fa fa-folder"></i>
+                Kelola Invoice
             </h1>
 
             <hr class="mt-2 mb-2">
 
             <div class="text-right mb-5 mt-3">
-                <a href="{{ route('item.create', $category) }}" class="btn btn-secondary btn-sm">
-                    Tambahkan Item Baru
+                <a href="{{ route('invoice.create') }}" class="btn btn-secondary btn-sm">
+                    Tambahkan Invoice Baru
                     <i class="fa fa-plus"></i>
                 </a>
             </div>
@@ -35,27 +33,26 @@
                 <thead class="thead-dark">
                     <tr>
                         <th> # </th>
-                        <th> Item </th>
-                        <th> Unit </th>
-                        <th> Vendor </th>
-                        <th> Latest Price (Rp.) </th>
+                        <th> Nama </th>
                         <th> Control </th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($items as $item)
+                    @foreach ($invoices as $invoice)
                     <tr>
-                        <td> {{ $items->firstItem() - 1 + $loop->iteration }}. </td>
-                        <td> {{ $item->name }} </td>
-                        <td> {{ $item->unit }} </td>
-                        <td> {{ $item->vendor->name }} </td>
-                        <td class="text-right pr-5"> @convert_money($delivery_orders->get($item->id)['latest_price']) </td>
+                        <td> {{ $loop->iteration }}. </td>
+                        <td> Invoice {{ $invoice->id }} </td>
                         <td>
-                            <a href="{{ route('item.update', [$category, $item]) }}" class="btn btn-dark btn-sm">
+                            <a href="{{ route('invoice.pay', $invoice) }}" class="btn btn-dark mr-2 btn-sm">
+                                Payment
+                                <i class="fa fa-usd"></i>
+                            </a>
+
+                            <a href="{{ route('invoice.update', $invoice) }}" class="btn btn-dark btn-sm">
                                 <i class="fa fa-pencil"></i>
                             </a>
 
-                            <form method="POST" class="d-inline-block" action="{{ route('item.delete', [$category, $item]) }}">
+                            <form method="POST" class="d-inline-block" action="{{ route('invoice.delete', $invoice) }}">
                                 @csrf
                                 <button class="btn btn-danger btn-sm">
                                     <i class="fa fa-trash"></i>
@@ -63,13 +60,10 @@
                             </form>
                         </td>
                     </tr>
+
                     @endforeach
                 </tbody>
             </table>
-
-            <div style="text-align: center">
-                {{ $items->links() }}
-            </div>
         </div>
     </div>
 </div>

@@ -25,6 +25,7 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/update/{vendor}', 'VendorController@update')->name('vendor.update');
         Route::post('/update/{vendor}', 'VendorController@processUpdate')->name('vendor.update');
         Route::post('/delete/{vendor}', 'VendorController@delete')->name('vendor.delete');
+        Route::get('/unbilled_delivery_orders/{vendor}', 'VendorController@unbilledDeliveryOrders')->name('vendor.unbilled_delivery_orders');
     });
 
     Route::prefix('/storage')->group(function () {
@@ -67,6 +68,22 @@ Route::middleware(['auth'])->group(function() {
             Route::post('/item/create', 'DeliveryOrderController@createItem')->name('delivery_order.create_item');
             Route::post('/item/delete/{delivery_order_item}', 'DeliveryOrderController@deleteItem')->name('delivery_order.delete_item');
         });
+    });
+
+    Route::prefix('/invoice')->group(function () {
+        Route::get('/index', 'InvoiceController@index')->name('invoice.index');
+        Route::get('/create', 'InvoiceController@create')->name('invoice.create');
+        Route::post('/create', 'InvoiceController@processCreate')->name('invoice.create');
+        Route::get('/update/{invoice}', 'InvoiceController@update')->name('invoice.update');
+        Route::post('/update/{invoice}', 'InvoiceController@processUpdate')->name('invoice.update');
+        Route::post('/delete/{invoice}', 'InvoiceController@delete')->name('invoice.delete');
+        Route::get('/pay/{invoice}', 'InvoiceController@pay')->name('invoice.pay');
+        Route::post('/pay/{invoice}', 'InvoiceController@processPay')->name('invoice.pay');
+    });
+
+    Route::prefix('/giro')->group(function() {
+        Route::get('/search', 'GiroController@search')->name('giro.search');
+        Route::get('/detail/{giro}', 'GiroController@detail')->name('giro.detail');
     });
 
     Route::prefix('/user')->group(function() {

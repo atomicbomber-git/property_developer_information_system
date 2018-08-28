@@ -6,7 +6,9 @@ use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use App\Item;
 use App\Vendor;
+use App\DeliveryOrderItem;
 use App\Category;
+use DB;
 
 class ItemController extends Controller
 {
@@ -17,7 +19,16 @@ class ItemController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(20);
         
-        return view('item.index', compact('items', 'category'));
+        $delivery_orders = DeliveryOrderItem::select(
+                'item_id',
+                DB::raw("FIRST_VALUE(price) OVER(PARTITION BY item_id ORDER BY created_at) AS latest_price")
+            )
+            ->whereIn('item_id', $items->pluck('id'))
+            ->groupBy('item_id')
+            ->get()
+            ->keyBy('item_id');
+        
+        return view('item.index', compact('items', 'category', 'delivery_orders'));
     }
 
     public function create(Category $category)

@@ -19,6 +19,7 @@ class CreateDeliveryOrderItemsTable extends Migration
             $table->integer('delivery_order_id')->unsigned();
             $table->integer('item_id')->unsigned();
             $table->integer('quantity')->unsigned();
+            $table->decimal('price', 19, 4)->unsigned()->nullable();
 
             $table->foreign('delivery_order_id')->references('id')->on('delivery_orders');
             $table->foreign('item_id')->references('id')->on('items');

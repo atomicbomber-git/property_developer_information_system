@@ -13,7 +13,7 @@ class UserController extends Controller
     {
         $users = User::query()
             ->select('id', 'name', 'privilege', 'username')
-            ->withCount(['invoices_created', 'invoices_received'])
+            ->withCount(['invoices_received'])
             ->get();
 
         return view('user.index', [

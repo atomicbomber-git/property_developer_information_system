@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,6 +23,9 @@ class AppServiceProvider extends ServiceProvider
             'STORAGE' => \App\Storage::class
         ]);
         
+        Blade::directive('convert_money', function ($money) {
+            return "<?php echo number_format($money, 0, ',', '.'); ?>";
+        });
     }
 
     /**

@@ -72,4 +72,19 @@ class VendorController extends Controller
         return back()
             ->with('message.success', 'Data berhasil dihapus.');
     }
+
+    public function unbilledDeliveryOrders(Vendor $vendor)
+    {
+        $vendor->load([
+            'delivery_orders' => function ($query) {
+                $query->select('id', 'source_id', 'source_type');
+                $query->has('delivery_order_items');
+                $query->whereNull('invoice_id');
+            },
+            'delivery_orders.delivery_order_items:delivery_order_id,item_id,quantity',
+            'delivery_orders.delivery_order_items.item:id,name',
+        ]);
+
+        return $vendor->delivery_orders;
+    }
 }

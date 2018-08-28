@@ -17,7 +17,7 @@ class CreateDeliveryOrdersTable extends Migration
             $table->increments('id');
 
             $table->integer('receiver_id')->unsigned()->nullable();
-            $table->date('received_at')->nullable();
+            $table->datetime('received_at')->nullable();
             $table->morphs('source');
             $table->morphs('target');
             $table->timestamps();
