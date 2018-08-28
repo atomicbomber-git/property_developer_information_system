@@ -12,7 +12,7 @@
         </ol>
     </nav>
 
-    <div class="card" style="max-width: 25rem; margin: auto">
+    <div class="card" style="max-width: 25rem">
         <div class="card-body">
             <h1 class="h5">
                 <i class="fa fa-pencil"></i>

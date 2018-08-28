@@ -21,32 +21,32 @@
             <hr class="mt-2 mb-2">
 
             <p class="card-text mt-5">
-                <a href="{{ route('vendor.index') }}" class="btn btn-info btn-lg">
+                <a href="{{ route('vendor.index') }}" class="my-1 mr-2 btn btn-info btn-lg">
                     <i class="fa fa-shopping-cart"></i>
                     Vendors
                 </a>
 
-                <a href="{{ route('category.index') }}" class="btn btn-info btn-lg">
+                <a href="{{ route('category.index') }}" class="my-1 mr-2 btn btn-info btn-lg">
                     <i class="fa fa-folder"></i>
                     Categories and Items
                 </a>
 
-                <a href="{{ route('user.index') }}" class="btn btn-info btn-lg">
+                <a href="{{ route('user.index') }}" class="my-1 mr-2 btn btn-info btn-lg">
                     <i class="fa fa-users"></i>
                     Users
                 </a>
 
-                <a href="{{ route('storage.index') }}" class="btn btn-info btn-lg">
+                <a href="{{ route('storage.index') }}" class="my-1 mr-2 btn btn-info btn-lg">
                     <i class="fa fa-truck"></i>
                     Storages
                 </a>
 
-                <a href="{{ route('delivery_order.index') }}" class="btn btn-info btn-lg">
+                <a href="{{ route('delivery_order.index') }}" class="my-1 mr-2 btn btn-info btn-lg">
                     <i class="fa fa-credit-card"></i>
                     Delivery Orders (From Vendor)
                 </a>
 
-                <a href="{{ route('invoice.index') }}" class="btn btn-info btn-lg">
+                <a href="{{ route('invoice.index') }}" class="my-1 mr-2 btn btn-info btn-lg">
                     <i class="fa fa-usd"></i>
                     Invoices
                 </a>
