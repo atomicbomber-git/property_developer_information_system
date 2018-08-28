@@ -197,9 +197,12 @@ class InvoiceController extends Controller
             ->with('message.success', __('messages.update.success'));
     }
 
-    public function delete()
+    public function delete(Invoice $invoice)
     {
+        $invoice->delete();
 
+        return back()
+            ->with('message.success', __('messages.delete.success'));
     }
 
 }

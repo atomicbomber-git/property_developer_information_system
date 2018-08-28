@@ -68,3 +68,7 @@
     </div>
 </div>
 @endsection
+
+@section('script')
+    @include('shared.activate-tooltip')
+@endsection

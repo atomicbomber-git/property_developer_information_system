@@ -66,7 +66,7 @@
 
                             @else
 
-                            <button class="btn btn-danger btn-sm disabled" disabled data-toggle="tooltip" title="Data ini tidak dapat dihapus karena masih terdapat item terkait dengan data ini.">
+                            <button class="btn btn-danger btn-sm disabled" data-toggle="tooltip" title="Data ini tidak dapat dihapus karena masih terdapat item terkait dengan data ini.">
                                 <i class="fa fa-trash"></i>
                             </button>
 

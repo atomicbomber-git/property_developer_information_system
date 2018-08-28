@@ -15,7 +15,7 @@ class AddInvoiceIdFieldToDeliveryOrders extends Migration
     {
         Schema::table('delivery_orders', function (Blueprint $table) {
             $table->integer('invoice_id')->unsigned()->nullable();
-            $table->foreign('invoice_id')->references('id')->on('invoices');
+            $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('SET NULL');
         });
     }
 

@@ -45,7 +45,7 @@
                         <td> {{ $storage->name }} </td>
                         <td> {{ $storage->address }} </td>
                         <td>
-                            <a href="{{ route('storage.stock', $storage) }}" class="btn btn-dark btn-sm">
+                            <a href="{{ route('storage.stock', $storage) }}" class="btn btn-dark btn-sm mr-2">
                                 Item Stocks
                                 <i class="fa fa-list"></i>
                             </a>
