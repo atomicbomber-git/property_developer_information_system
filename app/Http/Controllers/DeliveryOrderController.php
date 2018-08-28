@@ -17,6 +17,7 @@ class DeliveryOrderController extends Controller
     {
         $delivery_orders = DeliveryOrder::query()
             ->select('id', 'receiver_id', 'received_at', 'source_type', 'source_id', 'target_type', 'target_id')
+            ->where('source_type', 'VENDOR')
             ->with(['receiver:id,name', 'source:id,name', 'target:id,name'])
             ->withCount('delivery_order_items')
             ->orderBy('created_at', 'desc')
