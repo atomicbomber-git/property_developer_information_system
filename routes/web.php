@@ -76,13 +76,18 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/create', 'InvoiceController@create')->name('invoice.create');
         Route::post('/create', 'InvoiceController@processCreate')->name('invoice.create');
         Route::get('/update/{invoice}', 'InvoiceController@update')->name('invoice.update');
-        Route::post('/update/{invoice}', 'InvoiceController@processUpdate')->name('invoice.update');
+        Route::post('/attach_delivery_order/{invoice}', 'InvoiceController@processAttachDeliveryOrder')->name('invoice.attach_delivery_order');
+        Route::post('/remove_delivery_order/{invoice}', 'InvoiceController@processRemoveDeliveryOrder')->name('invoice.remove_delivery_order');
         Route::post('/delete/{invoice}', 'InvoiceController@delete')->name('invoice.delete');
         Route::get('/pay/{invoice}', 'InvoiceController@pay')->name('invoice.pay');
         Route::post('/pay/{invoice}', 'InvoiceController@processPay')->name('invoice.pay');
     });
 
     Route::prefix('/giro')->group(function() {
+        Route::get('/index', 'GiroController@index')->name('giro.index');
+        Route::get('/update/{giro}', 'GiroController@update')->name('giro.update');
+        Route::post('/update/{giro}', 'GiroController@processUpdate')->name('giro.update');
+        Route::post('/delete/{giro}', 'GiroController@delete')->name('giro.delete');
         Route::get('/search', 'GiroController@search')->name('giro.search');
         Route::get('/detail/{giro}', 'GiroController@detail')->name('giro.detail');
     });

@@ -50,6 +50,11 @@
                     <i class="fa fa-usd"></i>
                     Invoices
                 </a>
+
+                <a href="{{ route('giro.index') }}" class="my-1 mr-2 btn btn-info btn-lg">
+                    <i class="fa fa-money"></i>
+                    Giros
+                </a>
             </p>
         </div>
     </div>

@@ -25,7 +25,6 @@ class InvoiceController extends Controller
 
     public function create()
     {
-
         $vendors = Vendor::select('id', 'name')
             ->get();
 
@@ -71,17 +70,78 @@ class InvoiceController extends Controller
 
         return redirect()
             ->route('invoice.index')
-            ->with('message.succes', __('messages.create.success'));
+            ->with('message.success', __('messages.create.success'));
     }
 
     public function update(Invoice $invoice)
     {
+        $vendors = Vendor::select('id', 'name')
+            ->get();
 
+        $invoice->load([
+            'delivery_orders:id,invoice_id,target_id,target_type',
+            'delivery_orders.target:id,name',
+            'delivery_orders.delivery_order_items:delivery_order_id,item_id,quantity',
+            'delivery_orders.delivery_order_items.item:id,name,unit'
+        ]);
+
+        $current_vendor_id = $invoice
+            ->delivery_orders()
+            ->limit(1)
+            ->value('source_id');
+
+        return view('invoice.update', compact('invoice', 'vendors', 'current_vendor_id'));
     }
 
-    public function processUpdate(Invoice $invoice)
+    public function processAttachDeliveryOrder(Invoice $invoice)
     {
+        $vendor_ids = Vendor::select('id')
+            ->pluck('id');
 
+        $temp = $this->validate(request(), [
+            'vendor_id' => ['required', Rule::in($vendor_ids)]
+        ]);
+
+        $delivery_order_ids = DeliveryOrder::select('id')
+            ->where([
+                'source_id' => $temp['vendor_id'],
+                'source_type' => 'VENDOR',
+                'invoice_id' => NULL,
+            ])
+            ->has('delivery_order_items')
+            ->pluck('id');
+
+        $data = $this->validate(request(), [
+            'delivery_orders' => ['required', 'array',
+                function ($attribute, $value, $fail) {
+                    if (count($value) < 1) {
+                        return $fail("$attribute must have at least one member.");
+                    }
+                }
+            ],
+            'delivery_orders.*' => [Rule::in($delivery_order_ids)]
+        ]);
+
+        DeliveryOrder::whereIn('id', $data['delivery_orders'])
+            ->update(['invoice_id' => $invoice->id]);
+
+        return back()
+            ->with('message.success', __('messages.create.success'));
+    }
+
+    public function processRemoveDeliveryOrder(Invoice $invoice)
+    {
+        $invoice->load('delivery_orders:id,invoice_id');
+        
+        $data = $this->validate(request(), [
+            'delivery_order_id' => ['required', Rule::in($invoice->delivery_orders->pluck('id'))]
+        ]);
+
+        DeliveryOrder::where('id', $data['delivery_order_id'])
+            ->update(['invoice_id' => null]);
+        
+        return back()
+            ->with('message.success', __('messages.delete.success'));
     }
 
     public function pay(Invoice $invoice)

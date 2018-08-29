@@ -12,6 +12,8 @@ class GiroSeeder extends Seeder
      */
     public function run()
     {
-        factory(Giro::class, 20)->create();
+        factory(Giro::class, 20)->create([
+            'transfered_at' => now()
+        ]);
     }
 }

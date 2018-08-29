@@ -77,12 +77,14 @@ class VendorController extends Controller
     {
         $vendor->load([
             'delivery_orders' => function ($query) {
-                $query->select('id', 'source_id', 'source_type');
+                $query->select('id', 'source_id', 'source_type', 'target_id', 'target_type');
+                $query->where('source_type', 'VENDOR');
                 $query->has('delivery_order_items');
                 $query->whereNull('invoice_id');
             },
+            'delivery_orders.target:id,name',
             'delivery_orders.delivery_order_items:delivery_order_id,item_id,quantity',
-            'delivery_orders.delivery_order_items.item:id,name',
+            'delivery_orders.delivery_order_items.item:id,name,unit',
         ]);
 
         return $vendor->delivery_orders;

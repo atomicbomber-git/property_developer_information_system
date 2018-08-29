@@ -27,7 +27,7 @@
                     @break
 
                     @case('giro')
-                    <a href="{{ route('giro.detail', $invoice->giro_id) }}" class="badge badge-primary">
+                    <a href="{{ route('giro.update', $invoice->giro_id) }}" class="badge badge-primary">
                         Paid With Giro {{ $invoice->giro_id }}
                     </a>
                     @break

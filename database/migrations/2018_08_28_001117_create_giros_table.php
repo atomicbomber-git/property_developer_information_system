@@ -17,7 +17,8 @@ class CreateGirosTable extends Migration
             $table->increments('id');
             $table->decimal('amount', 19, 4)->unsigned()->nullable();
             $table->string('number')->nullable();
-            $table->datetime('paid_at')->nullable();
+            $table->datetime('made_at')->nullable();
+            $table->datetime('transfered_at')->nullable();
             $table->timestamps();
         });
     }
