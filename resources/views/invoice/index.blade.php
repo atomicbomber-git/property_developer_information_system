@@ -46,13 +46,13 @@
                         <td>
                             @switch($invoice->payment_method)
                                 @case('cash')
-                                <span class="badge badge-primary">
+                                <span class="badge badge-success">
                                     Paid With Cash
                                 </span>
                                 @break
 
                                 @case('giro')
-                                <a href="{{ route('giro.update', $invoice->giro_id) }}" class="badge badge-primary">
+                                <a href="{{ route('giro.update', $invoice->giro_id) }}" class="badge {{ $invoice->giro->transfered_at ? 'badge-success' : 'badge-primary' }}">
                                     Paid With Giro {{ $invoice->giro_id }}
                                 </a>
                                 @break

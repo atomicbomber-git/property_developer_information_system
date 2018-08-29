@@ -27,7 +27,7 @@
                     @break
 
                     @case('giro')
-                    <a href="{{ route('giro.update', $invoice->giro_id) }}" class="badge badge-primary">
+                    <a href="{{ route('giro.update', $invoice->giro_id) }}" class="badge {{ $invoice->giro->transfered_at ? 'badge-success' : 'badge-primary' }}">
                         Paid With Giro {{ $invoice->giro_id }}
                     </a>
                     @break
@@ -53,8 +53,8 @@
                         <th> Item </th>
                         <th> Quantity </th>
                         <th> Unit </th>
-                        <th> Price </th>
-                        <th> Subtotal </th>
+                        <th class="text-right"> Price </th>
+                        <th class="text-right"> Subtotal (Rp) </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -178,7 +178,7 @@
         let item_id = input_elem.data('item-id');
         let price = input_elem.val();
         let quantity = parseInt($(`.quantity[data-item-id=${item_id}]`).text());
-        let subtotal = (price * quantity).toLocaleString("id-ID", {style: "currency", currency: "IDR", minimumFractionDigits: 2})
+        let subtotal = (price * quantity).toLocaleString("id-ID");
         $(`td.subtotal[data-item-id=${item_id}]`).text(subtotal);
     }
 
@@ -193,7 +193,7 @@
             total = total + (price * quantity)
         });
 
-        $('td#total').text(total.toLocaleString("id-ID", {style: "currency", currency: "IDR", minimumFractionDigits: 2}));
+        $('td#total').text(total.toLocaleString("id-ID"));
     }
     //--------------------------------------------------------------------------------------------
 
