@@ -28,7 +28,7 @@
                         <th> # </th>
                         <th> Giro </th>
                         <th> Number </th>
-                        <th> Amount (Rp) </th>
+                        <th class="text-right pr-3"> Amount (Rp) </th>
                         <th> Transfer Date </th>
                         <th> Control </th>
                     </tr>
@@ -39,7 +39,7 @@
                         <td> {{ $giros->firstItem() - 1 + $loop->iteration }}. </td>
                         <td> Giro {{ $giro->id }} </td>
                         <td> {{ $giro->number }} </td>
-                        <td> @convert_money($giro->amount) </td>
+                        <td class="text-right pr-3"> @convert_money($giro->amount) </td>
                         <td> {{ $giro->transfered_at->format('d-m-Y') }} </td>
                         <td>
                             <a href="{{ route('giro.update', $giro) }}" class="btn btn-dark btn-sm">

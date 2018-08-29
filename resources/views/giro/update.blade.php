@@ -114,7 +114,7 @@
                     <tr>
                         <td colspan="4"></td>
                         <td colspan="1" class="text-right"> <strong> Total: </strong> </td>
-                        <td class="text-right"> @convert_money( $price_sums->get($invoice_id) ) </td>
+                        <td class="text-right"> @convert_money($price_sums->get($invoice_id)) </td>
                     </tr>
                 </tbody>
             </table>

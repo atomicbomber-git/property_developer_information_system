@@ -145,7 +145,7 @@ class DeliveryOrderController extends Controller
             'source.items:id,name,vendor_id,category_id',
             'source.items.category:id,name',
             'delivery_order_items:id,delivery_order_id,item_id,quantity',
-            'delivery_order_items.item:id,name'
+            'delivery_order_items.item:id,name,unit'
         ]);
         
         return view('delivery_order.detail', compact('delivery_order'));

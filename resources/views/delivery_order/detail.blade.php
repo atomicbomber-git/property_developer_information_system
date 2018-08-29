@@ -75,8 +75,9 @@
                     <tr>
                         <th> # </th>
                         <th> Item </th>
+                        <th> Unit </th>
                         <th> Quantity </th>
-                        <th> Kendali </th>
+                        <th> Control </th>
                     </tr>
                 </thead>
 
@@ -85,6 +86,7 @@
                     <tr>
                         <td> {{ $loop->iteration }}. </td>
                         <td> {{ $delivery_order_item->item->name }} </td>
+                        <td> {{ $delivery_order_item->item->unit }} </td>
                         <td> {{ $delivery_order_item->quantity }} </td>
                         <td>
                             <form action="{{ route('delivery_order.delete_item', [$delivery_order, $delivery_order_item]) }}" method="POST">
