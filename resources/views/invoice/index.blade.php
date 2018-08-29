@@ -33,15 +33,34 @@
                 <thead class="thead-dark">
                     <tr>
                         <th> # </th>
-                        <th> Nama </th>
+                        <th> Invoice </th>
+                        <th> Status </th>
                         <th> Control </th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($invoices as $invoice)
                     <tr>
-                        <td> {{ $loop->iteration }}. </td>
+                        <td> {{ $invoices->firstItem() + $loop->index }}. </td>
                         <td> Invoice {{ $invoice->id }} </td>
+                        <td>
+                            @switch($invoice->payment_method)
+                                @case('cash')
+                                <span class="badge badge-primary">
+                                    Paid With Cash
+                                </span>
+                                @break
+
+                                @case('giro')
+                                <a href="{{ route('giro.update', $invoice->giro_id) }}" class="badge badge-primary">
+                                    Paid With Giro {{ $invoice->giro_id }}
+                                </a>
+                                @break
+
+                                @default
+                                <span class="badge badge-danger"> Unpaid </span>
+                            @endswitch
+                        </td>
                         <td>
                             <a href="{{ route('invoice.pay', $invoice) }}" class="btn btn-dark mr-2 btn-sm">
                                 Payment
@@ -64,6 +83,10 @@
                     @endforeach
                 </tbody>
             </table>
+
+            <div class="text-center">
+                {{ $invoices->links() }}
+            </div>
         </div>
     </div>
 </div>

@@ -19,20 +19,23 @@ class DeliveryOrderSeeder extends Seeder
             ->pluck('id');
 
         $vendor_ids = Vendor::query()
-            ->limit(3)
             ->select('id')
             ->pluck('id');
 
         $storage_ids = Storage::select('id')
             ->pluck('id');
 
-        foreach ($vendor_ids as $vendor_id) {
-            $this->createVendorDeliveryOrder($vendor_id, $storage_ids->random(), $user_ids->random());
-            $this->createVendorDeliveryOrder($vendor_id, $storage_ids->random(), $user_ids->random());
+        $months = 12;
+
+        for ($i = 0; $i < $months; $i++) {
+            foreach ($vendor_ids as $vendor_id) {
+                $this->createVendorDeliveryOrder($vendor_id, $storage_ids->random(), $user_ids->random(), now()->subMonth($i));
+                $this->createVendorDeliveryOrder($vendor_id, $storage_ids->random(), $user_ids->random(), now()->subMonth($i));
+            }
         }
     }
 
-    private function createVendorDeliveryOrder($vendor_id, $storage_id, $receiver_id)
+    private function createVendorDeliveryOrder($vendor_id, $storage_id, $receiver_id, $received_at)
     {
         DeliveryOrder::create([
             'receiver_id' => $receiver_id,
@@ -40,7 +43,7 @@ class DeliveryOrderSeeder extends Seeder
             'source_type' => 'VENDOR',
             'target_id' => $storage_id,
             'target_type' => 'STORAGE',
-            'received_at' => now()
+            'received_at' => $received_at
         ]);
     }
 }

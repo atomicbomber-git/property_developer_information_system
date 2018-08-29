@@ -16,9 +16,9 @@ class InvoiceController extends Controller
 {
     public function index()
     {
-        $invoices = Invoice::select('id')
+        $invoices = Invoice::select('id', 'cash_amount', 'giro_id')
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(10);
 
         return view('invoice.index', compact('invoices'));
     }

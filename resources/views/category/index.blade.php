@@ -38,7 +38,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($category as $category)
+                    @foreach ($categories as $category)
                     <tr>
                         <td> {{ $loop->iteration }}. </td>
                         <td> {{ $category->name }} </td>
@@ -52,12 +52,22 @@
                                 <i class="fa fa-pencil"></i>
                             </a>
 
+                            @if ($category->items_count == 0)
+
                             <form method="POST" class="d-inline-block" action="{{ route('category.delete', $category) }}">
                                 @csrf
                                 <button class="btn btn-danger btn-sm">
                                     <i class="fa fa-trash"></i>
                                 </button>
                             </form>
+
+                            @else
+
+                            <button class="btn btn-danger btn-sm disabled" data-toggle="tooltip" title="Data ini tidak dapat dihapus karena masih terdapat item terkait dengan data ini.">
+                                <i class="fa fa-trash"></i>
+                            </button>
+
+                            @endif
                         </td>
                     </tr>
                     @endforeach
@@ -66,4 +76,12 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+    $(document).ready(() => {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+</script>
 @endsection

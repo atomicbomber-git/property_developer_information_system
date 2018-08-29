@@ -53,6 +53,7 @@ Route::middleware(['auth'])->group(function() {
             Route::get('/update/{item}', 'ItemController@update')->name('item.update');
             Route::post('/update/{item}', 'ItemController@processUpdate')->name('item.update');
             Route::post('/delete/{item}', 'ItemController@delete')->name('item.delete');
+            Route::get('/price_history/{item}', 'ItemController@priceHistory')->name('item.price_history');
         });
     });
 

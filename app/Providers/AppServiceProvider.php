@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Blade;
+use Date;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +26,10 @@ class AppServiceProvider extends ServiceProvider
         
         Blade::directive('convert_money', function ($money) {
             return "<?php echo number_format($money, 0, ',', '.'); ?>";
+        });
+
+        Blade::directive('format_date', function ($date) {
+            return "<?php echo (new Date($date))->format('j F Y'); ?>";
         });
     }
 

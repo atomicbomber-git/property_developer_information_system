@@ -66,6 +66,9 @@
             <h1 class="h5">
                 <i class="fa fa-credit-card"></i>
                 Detail Delivery Order
+                <span class="badge badge-dark">
+                    From {{ $delivery_order->source->name }} to {{ $delivery_order->target->name }}
+                </span>
             </h1>
 
             <hr class="mt-2 mb-2">

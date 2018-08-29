@@ -23,7 +23,7 @@ class DeliveryOrderItemSeeder extends Seeder
                 factory(DeliveryOrderItem::class)->create([
                     'delivery_order_id' => $delivery_order->id,
                     'item_id' => $item->id,
-                    'price' => NULL
+                    'price' => rand(1, 20) * 10000
                 ]);
             }
         }

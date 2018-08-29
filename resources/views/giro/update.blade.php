@@ -84,14 +84,15 @@
             <hr class="mt-2 mb-2">
             
             @foreach ($invoices as $invoice_id => $invoice)
-            <h5>
-                Invoice
-                {{ $invoice_id }}
-            </h5>
+            
+            <a class="h5 d-block mb-2" href="{{ route('invoice.pay', $invoice_id) }}">
+                {{ $loop->iteration }}. Invoice {{ $invoice_id }}
+            </a>
+
             <table class="table table-sm table-striped">
                 <thead class="thead thead-dark">
                     <tr>
-                        <th> #. </th>
+                        <th> # </th>
                         <th> Item </th>
                         <th> Unit </th>
                         <th class="text-right"> Quantity </th>
@@ -103,7 +104,7 @@
                 <tbody>
                     @foreach ($invoice as $item)
                     <tr>
-                        <td> {{ $loop->iteration }} </td>
+                        <td> {{ $loop->iteration }}. </td>
                         <td> {{ $item->name }} </td>
                         <td> {{ $item->unit }} </td>
                         <td class="text-right"> {{ $item->quantity_subtotal }} </td>
@@ -119,6 +120,14 @@
                 </tbody>
             </table>
             @endforeach
+
+            <div class="text-right">
+                <p class="h1 font-bold">
+                    TOTAL:
+                    <span class="text-danger"> Rp. @convert_money($price_sums->sum()) </span>
+                </p>
+            </div>
+
         </div>
     </div>
 </div>

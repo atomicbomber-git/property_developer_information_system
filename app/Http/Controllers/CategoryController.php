@@ -9,9 +9,12 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        return view('category.index', [
-            'category' => Category::select('id', 'name')->orderBy('created_at', 'desc')->get()
-        ]);
+        $categories = Category::select('id', 'name')
+            ->withCount('items')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('category.index', compact('categories'));
     }
 
     public function create()
@@ -34,9 +37,7 @@ class CategoryController extends Controller
 
     public function update(Category $category)
     {
-        return view('category.update', [
-            'category' => $category
-        ]);
+        return view('category.update', compact($category));
     }
 
     public function processUpdate(Category $category)
@@ -61,5 +62,4 @@ class CategoryController extends Controller
         return back()
             ->with('message.success', __('messages.delete.success'));
     }
-
 }

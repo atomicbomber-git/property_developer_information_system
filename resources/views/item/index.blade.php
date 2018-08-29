@@ -8,8 +8,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"> <a href="{{ route('dashboard') }}"> Dashboard </a> </li>
             <li class="breadcrumb-item"> <a href="{{ route('category.index') }}"> Category </a> </li>
-            <li class="breadcrumb-item"> {{ $category->name }} </li>
-            <li class="breadcrumb-item"> Items </li>
+            <li class="breadcrumb-item active"> Items in '{{ $category->name }}' </li>
         </ol>
     </nav>
 
@@ -49,11 +48,24 @@
                         <td> {{ $item->name }} </td>
                         <td> {{ $item->unit }} </td>
                         <td> {{ $item->vendor->name }} </td>
-                        <td class="text-right pr-5"> @convert_money($delivery_orders->get($item->id)['latest_price']) </td>
+                        <td class="text-right pr-5">
+                            @if($latest_prices->get($item->id))
+                                @convert_money($latest_prices->get($item->id))
+                            @else
+                                -
+                            @endif
+                        </td>
                         <td>
+                            <a href="{{ route('item.price_history', [$category, $item]) }}" class="btn btn-dark btn-sm mr-2">
+                                Price History
+                                <i class="fa fa-line-chart"></i>
+                            </a>
+
                             <a href="{{ route('item.update', [$category, $item]) }}" class="btn btn-dark btn-sm">
                                 <i class="fa fa-pencil"></i>
                             </a>
+
+                            @if ($item->delivery_order_items_count == 0)
 
                             <form method="POST" class="d-inline-block" action="{{ route('item.delete', [$category, $item]) }}">
                                 @csrf
@@ -61,6 +73,14 @@
                                     <i class="fa fa-trash"></i>
                                 </button>
                             </form>
+
+                            @else
+
+                            <button class="btn btn-danger btn-sm disabled" data-toggle="tooltip" title="Data ini tidak dapat dihapus karena masih terdapat item terkait dengan data ini.">
+                                <i class="fa fa-trash"></i>
+                            </button>
+
+                            @endif
                         </td>
                     </tr>
                     @endforeach
@@ -73,4 +93,12 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+    $(document).ready(() => {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+</script>
 @endsection

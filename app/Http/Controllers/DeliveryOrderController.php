@@ -142,6 +142,7 @@ class DeliveryOrderController extends Controller
     {
         $delivery_order->load([
             'source',
+            'target',
             'source.items:id,name,vendor_id,category_id',
             'source.items.category:id,name',
             'delivery_order_items:id,delivery_order_id,item_id,quantity',

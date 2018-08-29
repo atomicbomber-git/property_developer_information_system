@@ -22,4 +22,9 @@ class Item extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function delivery_order_items()
+    {
+        return $this->hasMany(DeliveryOrderItem::class);
+    }
 }
