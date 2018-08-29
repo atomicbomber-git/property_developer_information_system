@@ -151,7 +151,7 @@ class InvoiceController extends Controller
             ->pluck('id');
 
         $delivery_order_items = DeliveryOrderItem::query()
-            ->select('item_id', 'price', DB::raw('SUM(quantity) AS quantity'), DB::raw('GROUP_CONCAT(CONCAT(delivery_order_id, "-", quantity)) AS sub_quantities'))
+            ->select('item_id', 'price', DB::raw('SUM(quantity) AS quantity'), DB::raw('string_agg(CONCAT(delivery_order_id, \'-\', quantity), \',\') AS sub_quantities'))
             ->whereIn('delivery_order_id', $delivery_order_ids)
             ->with('item:id,name,unit')
             ->groupBy('item_id', 'price')
