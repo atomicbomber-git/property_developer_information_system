@@ -105,13 +105,13 @@
                 list_item.classList.add('list-group-item-action');
                 
                 let list_item_title = document.createElement('h5');
-                list_item_title.innerHTML = `Delivery Order ${delivery_order.id}`;
+                list_item_title.innerHTML = `Delivery Order ${delivery_order.id} <span class="badge badge-dark"> To ${delivery_order.target.name} </span>`;
                 list_item.appendChild(list_item_title);
 
                 let list_item_ol = document.createElement('ol');
                 delivery_order.delivery_order_items.forEach(delivery_order_item => {
                     let li = document.createElement('li');
-                    li.innerText = `${delivery_order_item.item.name} × ${delivery_order_item.quantity}`;
+                    li.innerText = `${delivery_order_item.item.name} (${delivery_order_item.item.unit}) × ${delivery_order_item.quantity}`;
                     list_item_ol.appendChild(li);
                 });
                 
