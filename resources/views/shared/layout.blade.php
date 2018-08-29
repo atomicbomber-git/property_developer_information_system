@@ -14,11 +14,19 @@
     </head>
 
     <body>
-        <nav class="navbar navbar-dark bg-dark mb-3">
+        <nav class="navbar navbar-dark bg-dark justify-content-between mb-3">
             <div class="container">
                 <a href="{{ route('dashboard') }}" class="navbar-brand">
                     {{ config('app.name') }}
                 </a>
+
+                <form method="POST" action="{{ route('logout') }}" class="form-inline">
+                    @csrf
+                    <button class="btn btn-danger">
+                        Log Out
+                        <i class="fa fa-sign-out"></i>
+                    </button>
+                </form>
             </div>
         </nav>
 
