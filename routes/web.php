@@ -78,6 +78,7 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/create', 'InvoiceController@create')->name('invoice.create');
         Route::post('/create', 'InvoiceController@processCreate')->name('invoice.create');
         Route::get('/update/{invoice}', 'InvoiceController@update')->name('invoice.update');
+        Route::post('/update/{invoice}', 'InvoiceController@processUpdate')->name('invoice.update');
         Route::post('/attach_delivery_order/{invoice}', 'InvoiceController@processAttachDeliveryOrder')->name('invoice.attach_delivery_order');
         Route::post('/remove_delivery_order/{invoice}', 'InvoiceController@processRemoveDeliveryOrder')->name('invoice.remove_delivery_order');
         Route::post('/delete/{invoice}', 'InvoiceController@delete')->name('invoice.delete');

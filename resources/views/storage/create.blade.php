@@ -46,9 +46,7 @@
                         id='address' name='address'
                         class='form-control {{ !$errors->has('address') ?: 'is-invalid' }}'
                         col='30' row='6'
-                        >{{ old('address') }}
-                    </textarea>
-                
+                        >{{ old('address') }}</textarea>
                     <div class='invalid-feedback'>
                         {{ $errors->first('address') }}
                     </div>

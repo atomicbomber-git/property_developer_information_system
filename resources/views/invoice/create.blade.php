@@ -34,6 +34,19 @@
                 @csrf
 
                 <div class='form-group'>
+                    <label for='received_at'> Receivement Date: </label>
+                
+                    <input
+                        id='received_at' name='received_at' type='date'
+                        value='{{ old('received_at') }}'
+                        class='form-control {{ !$errors->has('received_at') ?: 'is-invalid' }}'>
+                
+                    <div class='invalid-feedback'>
+                        {{ $errors->first('received_at') }}
+                    </div>
+                </div>
+
+                <div class='form-group'>
                     <label for='vendor'> Vendor: </label>
                     <select name="vendor_id" id='vendor' class='form-control'>
                         @foreach($vendors as $vendor)

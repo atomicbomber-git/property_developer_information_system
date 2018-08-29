@@ -40,7 +40,7 @@
                         <td> Giro {{ $giro->id }} </td>
                         <td> {{ $giro->number }} </td>
                         <td class="text-right pr-3"> @convert_money($giro->amount) </td>
-                        <td> {{ $giro->transfered_at->format('d-m-Y') }} </td>
+                        <td> {{ optional($giro->transfered_at)->format('d-m-Y') }} </td>
                         <td>
                             <a href="{{ route('giro.update', $giro) }}" class="btn btn-dark btn-sm">
                                 <i class="fa fa-pencil"></i>

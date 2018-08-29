@@ -16,7 +16,7 @@ class InvoiceController extends Controller
 {
     public function index()
     {
-        $invoices = Invoice::select('id', 'cash_amount', 'giro_id')
+        $invoices = Invoice::select('id', 'cash_amount', 'giro_id', 'received_at', 'transfered_at')
             ->with('giro:id,amount,number,transfered_at')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
@@ -39,7 +39,8 @@ class InvoiceController extends Controller
             ->pluck('id');
 
         $temp = $this->validate(request(), [
-            'vendor_id' => ['required', Rule::in($vendor_ids)]
+            'vendor_id' => ['required', Rule::in($vendor_ids)],
+            'received_at' => ['required', 'date']
         ]);
 
         $delivery_order_ids = DeliveryOrder::select('id')
@@ -62,8 +63,10 @@ class InvoiceController extends Controller
             'delivery_orders.*' => [Rule::in($delivery_order_ids)]
         ]);
 
-        DB::transaction(function () use($data) {
-            $invoice = Invoice::create();
+        DB::transaction(function () use($temp, $data) {
+            $invoice = Invoice::create([
+                'received_at' => $temp['received_at']
+            ]);
         
             DeliveryOrder::whereIn('id', $data['delivery_orders'])
                 ->update(['invoice_id' => $invoice->id]);
@@ -92,6 +95,18 @@ class InvoiceController extends Controller
             ->value('source_id');
 
         return view('invoice.update', compact('invoice', 'vendors', 'current_vendor_id'));
+    }
+
+    public function processUpdate(Invoice $invoice)
+    {
+        $data = $this->validate(request(), [
+            'received_at' => ['required', 'date']
+        ]);
+
+        $invoice->update($data);
+
+        return back()
+            ->with('message.success', 'messages.update.success');
     }
 
     public function processAttachDeliveryOrder(Invoice $invoice)

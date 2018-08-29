@@ -35,6 +35,7 @@
                         <th> # </th>
                         <th> Invoice </th>
                         <th> Status </th>
+                        <th> Receivement Date </th>
                         <th> Control </th>
                     </tr>
                 </thead>
@@ -61,6 +62,11 @@
                                 <span class="badge badge-danger"> Unpaid </span>
                             @endswitch
                         </td>
+
+                        <td>
+                            {{ $invoice->received_at->format('d-m-Y') }}
+                        </td>
+
                         <td>
                             <a href="{{ route('invoice.pay', $invoice) }}" class="btn btn-dark mr-2 btn-sm">
                                 Payment

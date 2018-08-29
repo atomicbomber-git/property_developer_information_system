@@ -12,67 +12,109 @@
         </ol>
     </nav>
 
-    <div class="card" style="max-width: 40rem">
-        <div class="card-body">
-            <h1 class="h5">
-                <i class="fa fa-plus"></i>
-                Add Delivery Order To Invoice
-            </h1>
-
-            <hr class="mt-2 mb-2">
-
-            @if($errors->has('delivery_orders'))
-            <div class="alert alert-danger">
-                Pembuatan Invoice gagal! Anda wajib memilih minimal satu (1) Delivery Order!
-            </div>
-            @endif
-
-            <form
-                id="delivery-order-form"
-                method='POST'
-                action='{{ route('invoice.attach_delivery_order', $invoice) }}'>
-                @csrf
-
-                <div class='form-group'>
-                    <label for='vendor'> Vendor: </label>
-                    <select name="vendor_id" id='vendor' class='form-control' {{ $invoice->delivery_orders()->count() > 0 ? 'disabled' : '' }}>
-                        @foreach($vendors as $vendor)
-                        <option {{ $vendor->id == $current_vendor_id ? 'selected' : '' }} value="{{ $vendor->id }}" data-url="{{ route('vendor.unbilled_delivery_orders', $vendor->id) }}">
-                            {{ $vendor->name }}
-                        </option>
-                        @endforeach
-                    </select>
-
-                    @if($invoice->delivery_orders()->count() > 0)
-                    <input type="hidden" name="vendor_id" value="{{ $current_vendor_id }}">
-                    @endif
-
-                    <div class='invalid-feedback'>
-                        {{ $errors->first('vendor_id') }}
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="delivery_orders">
-                        Delivery Orders (Click to Pick):
-                    </label>
-
-                    <div id="delivery-order-list" class="list-group">
-                    </div>
-
-                </div>
-
-                <div class="text-right mt-3">
-                    <button class="btn btn-primary btn-sm">
-                        Tambahkan
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="h5">
                         <i class="fa fa-plus"></i>
-                    </button>
+                        Add Delivery Order To Invoice
+                    </h1>
+        
+                    <hr class="mt-2 mb-2">
+        
+                    @if($errors->has('delivery_orders'))
+                    <div class="alert alert-danger">
+                        Pembuatan Invoice gagal! Anda wajib memilih minimal satu (1) Delivery Order!
+                    </div>
+                    @endif
+        
+                    <form
+                        id="delivery-order-form"
+                        method='POST'
+                        action='{{ route('invoice.attach_delivery_order', $invoice) }}'>
+                        @csrf
+        
+                        <div class='form-group'>
+                            <label for='vendor'> Vendor: </label>
+                            <select name="vendor_id" id='vendor' class='form-control' {{ $invoice->delivery_orders()->count() > 0 ? 'disabled' : '' }}>
+                                @foreach($vendors as $vendor)
+                                <option {{ $vendor->id == $current_vendor_id ? 'selected' : '' }} value="{{ $vendor->id }}" data-url="{{ route('vendor.unbilled_delivery_orders', $vendor->id) }}">
+                                    {{ $vendor->name }}
+                                </option>
+                                @endforeach
+                            </select>
+        
+                            @if($invoice->delivery_orders()->count() > 0)
+                            <input type="hidden" name="vendor_id" value="{{ $current_vendor_id }}">
+                            @endif
+        
+                            <div class='invalid-feedback'>
+                                {{ $errors->first('vendor_id') }}
+                            </div>
+                        </div>
+        
+                        <div class="form-group">
+                            <label for="delivery_orders">
+                                Delivery Orders (Click to Pick):
+                            </label>
+        
+                            <div id="delivery-order-list" class="list-group">
+                            </div>
+        
+                        </div>
+        
+                        <div class="text-right mt-3">
+                            <button class="btn btn-primary btn-sm">
+                                Tambahkan
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+        
+                    </form>
+        
                 </div>
+            </div>
+        </div>
 
-            </form>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="h5">
+                        <i class="fa fa-plus"></i>
+                        Update Invoice
+                    </h1>
+        
+                    <hr class="mt-2 mb-2">
 
+                    <form method="POST" action="{{ route('invoice.update', $invoice) }}">
+                        @csrf
+
+                        <div class='form-group'>
+                            <label for='received_at'> Receivement Date: </label>
+                        
+                            <input
+                                id='received_at' name='received_at' type='date'
+                                value='{{ old('received_at', $invoice->received_at->format('Y-m-d')) }}'
+                                class='form-control {{ !$errors->has('received_at') ?: 'is-invalid' }}'>
+                        
+                            <div class='invalid-feedback'>
+                                {{ $errors->first('received_at') }}
+                            </div>
+                        </div>
+
+                        <div class="text-right">
+                            <button class="btn btn-primary btn-sm">
+                                Update
+                                <i class="fa fa-check"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
+    
 
     <div class="card mt-3" style="max-width: 40rem">
         <div class="card-body">

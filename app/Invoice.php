@@ -6,6 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
 {
+    public $fillable = [
+        'received_at',
+        'transfered_at'
+    ];
+
+    public $dates = [
+        'received_at',
+        'transfered_at'
+    ];
+
     public function getPaymentMethodAttribute()
     {
         if (!$this->cash_amount == NULL)

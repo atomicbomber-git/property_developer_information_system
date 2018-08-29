@@ -78,8 +78,8 @@
                     <tr>
                         <th> # </th>
                         <th> Item </th>
-                        <th> Unit </th>
                         <th> Quantity </th>
+                        <th> Unit </th>
                         <th> Control </th>
                     </tr>
                 </thead>
@@ -89,7 +89,6 @@
                     <tr>
                         <td> {{ $loop->iteration }}. </td>
                         <td> {{ $delivery_order_item->item->name }} </td>
-                        <td> {{ $delivery_order_item->item->unit }} </td>
                         <td>
                             <input
                                 form="form-update"
@@ -102,6 +101,8 @@
                                 {{ $errors->first("quantities.$delivery_order_item->id") }}
                             </div>
                         </td>
+                        <td> {{ $delivery_order_item->item->unit }} </td>
+                        
                         <td>
                             <form action="{{ route('delivery_order.delete_item', [$delivery_order, $delivery_order_item]) }}" method="POST">
                                 @csrf
