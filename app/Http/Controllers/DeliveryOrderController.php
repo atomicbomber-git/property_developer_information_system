@@ -20,7 +20,7 @@ class DeliveryOrderController extends Controller
             ->where('source_type', 'VENDOR')
             ->with(['receiver:id,name', 'source:id,name', 'target:id,name'])
             ->withCount('delivery_order_items')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('received_at', 'desc')
             ->paginate(10);
 
         return view('delivery_order.index', compact('delivery_orders'));

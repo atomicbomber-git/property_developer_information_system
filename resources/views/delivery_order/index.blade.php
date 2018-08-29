@@ -47,26 +47,37 @@
                         <td> {{ optional($delivery_order->receiver)->name }} </td>
                         <td>
                             {{ $delivery_order->received_at->format('l, j F Y') }} <br>
-                            <span class="text-secondary"> {{ $delivery_order->received_at->ago() }} </span>
+                            {{-- <span class="text-secondary"> {{ $delivery_order->received_at->ago() }} </span> --}}
                         </td>
                         <td> {{ optional($delivery_order->source)->name }} </td>
                         <td> {{ optional($delivery_order->target)->name }} </td>
                         <td>
-                            <a href="{{ route('delivery_order.detail', $delivery_order) }}" class="btn mb-1 mr-2 btn-dark btn-sm">
+                            <a href="{{ route('delivery_order.detail', $delivery_order) }}" class="btn mr-2 btn-dark btn-sm">
                                 Detail
                                 <i class="fa fa-list-alt"></i>
                             </a>
 
-                            <a href="{{ route('delivery_order.update', $delivery_order) }}" class="btn mb-1 btn-dark btn-sm">
+                            <a href="{{ route('delivery_order.update', $delivery_order) }}" class="btn btn-dark btn-sm">
                                 <i class="fa fa-pencil"></i>
                             </a>
 
+                            @if ($delivery_order->delivery_order_items_count == 0)
+
                             <form method="POST" class="d-inline-block" action="{{ route('delivery_order.delete', $delivery_order) }}">
                                 @csrf
-                                <button class="btn mb-1 btn-danger btn-sm">
+                                <button class="btn btn-danger btn-sm">
                                     <i class="fa fa-trash"></i>
                                 </button>
                             </form>
+
+                            @else
+
+                            <button class="btn btn-danger btn-sm disabled" data-toggle="tooltip" title="Data ini tidak dapat dihapus karena masih terdapat item terkait dengan data ini.">
+                                <i class="fa fa-trash"></i>
+                            </button>
+
+                            @endif
+
                         </td>
                     </tr>
                     @endforeach
@@ -77,4 +88,12 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+    $(document).ready(() => {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+</script>
 @endsection

@@ -121,7 +121,7 @@
 
             <div class="text-right mt-4">
                 <button form="form-update" type="submit" class="btn btn-sm btn-primary">
-                    Update
+                    Update Quantity
                     <i class="fa fa-check"></i>
                 </button>
             </div>
