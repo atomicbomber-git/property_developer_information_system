@@ -43,7 +43,7 @@
                 <tbody>
                     @foreach ($delivery_orders as $delivery_order)
                     <tr>
-                        <td> {{ $loop->iteration }}. </td>
+                        <td> {{ $delivery_orders->firstItem() + $loop->index }}. </td>
                         <td> {{ optional($delivery_order->receiver)->name }} </td>
                         <td>
                             {{ $delivery_order->received_at->format('l, j F Y') }} <br>
@@ -72,6 +72,8 @@
                     @endforeach
                 </tbody>
             </table>
+            
+            {{ $delivery_orders->links() }}
         </div>
     </div>
 </div>

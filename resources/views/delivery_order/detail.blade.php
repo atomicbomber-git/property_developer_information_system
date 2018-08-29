@@ -90,7 +90,18 @@
                         <td> {{ $loop->iteration }}. </td>
                         <td> {{ $delivery_order_item->item->name }} </td>
                         <td> {{ $delivery_order_item->item->unit }} </td>
-                        <td> {{ $delivery_order_item->quantity }} </td>
+                        <td>
+                            <input
+                                form="form-update"
+                                value="{{ old("quantities.$delivery_order_item->id", $delivery_order_item->quantity) }}"
+                                class="form-control form-control-sm {{ $errors->first("quantities.$delivery_order_item->id", 'is-invalid') }}"
+                                name="quantities[{{ $delivery_order_item->id }}]"
+                                type="number">
+                            
+                            <div class='invalid-feedback'>
+                                {{ $errors->first("quantities.$delivery_order_item->id") }}
+                            </div>
+                        </td>
                         <td>
                             <form action="{{ route('delivery_order.delete_item', [$delivery_order, $delivery_order_item]) }}" method="POST">
                                 @csrf
@@ -103,6 +114,17 @@
                     @endforeach
                 </tbody>
             </table>
+
+            <form method="POST" id="form-update" action="{{ route('delivery_order.update_items', $delivery_order) }}">
+                @csrf
+            </form>
+
+            <div class="text-right mt-4">
+                <button form="form-update" type="submit" class="btn btn-sm btn-primary">
+                    Update
+                    <i class="fa fa-check"></i>
+                </button>
+            </div>
         </div>
     </div>
 </div>

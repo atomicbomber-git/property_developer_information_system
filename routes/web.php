@@ -67,6 +67,7 @@ Route::middleware(['auth'])->group(function() {
 
         Route::prefix('/detail/{delivery_order}/')->group(function() {
             Route::get('/', 'DeliveryOrderController@detail')->name('delivery_order.detail');
+            Route::post('/item/update', 'DeliveryOrderController@updateItems')->name('delivery_order.update_items');
             Route::post('/item/create', 'DeliveryOrderController@createItem')->name('delivery_order.create_item');
             Route::post('/item/delete/{delivery_order_item}', 'DeliveryOrderController@deleteItem')->name('delivery_order.delete_item');
         });

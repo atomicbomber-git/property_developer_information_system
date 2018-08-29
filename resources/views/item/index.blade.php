@@ -44,7 +44,7 @@
                 <tbody>
                     @foreach ($items as $item)
                     <tr>
-                        <td> {{ $items->firstItem() - 1 + $loop->iteration }}. </td>
+                        <td> {{ $items->firstItem() + $loop->index }}. </td>
                         <td> {{ $item->name }} </td>
                         <td> {{ $item->unit }} </td>
                         <td> {{ $item->vendor->name }} </td>
