@@ -20,8 +20,8 @@ class DeliveryOrderController extends Controller
             ->where('source_type', 'VENDOR')
             ->with(['receiver:id,name', 'source:id,name', 'target:id,name'])
             ->withCount('delivery_order_items')
-            ->orderBy('created_at', 'desc')
-            ->get();
+            ->orderBy('received_at', 'desc')
+            ->paginate(10);
 
         return view('delivery_order.index', compact('delivery_orders'));
     }
@@ -183,5 +183,32 @@ class DeliveryOrderController extends Controller
 
         return back()
             ->with('message.success', __('messages.delete.success'));
+    }
+
+    public function updateItems(DeliveryOrder $delivery_order)
+    {
+        $delivery_order_item_ids = $delivery_order
+            ->delivery_order_items()
+            ->pluck('id');
+
+        $validation_rules = [
+            "quantities" => 'required|array'
+        ];
+
+        foreach ($delivery_order_item_ids as $id) {
+            $validation_rules["quantities.$id"] = "required|integer|min:1";
+        }
+
+        $data = $this->validate(request(), $validation_rules);
+
+        DB::transaction(function() use($data) {
+            foreach ($data['quantities'] as $id => $quantity) {
+                DeliveryOrderItem::where('id', $id)
+                    ->update(['quantity' => $quantity]);
+            }
+        });
+
+        return back()
+            ->with('message.success', __('messages.update.success'));
     }
 }

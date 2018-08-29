@@ -26,7 +26,7 @@ class ItemController extends Controller
                 DB::raw("FIRST_VALUE(price) OVER(PARTITION BY item_id ORDER BY created_at) AS latest_price")
             )
             ->whereIn('item_id', $items->pluck('id'))
-            ->groupBy('item_id')
+            ->groupBy('item_id', 'price', 'created_at')
             ->get()
             ->mapWithKeys(function($item) { return [$item->item_id => $item->latest_price]; });
         

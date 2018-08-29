@@ -56,7 +56,7 @@
                 
                     <input
                         id='transfered_at' name='transfered_at' type='date'
-                        value='{{ old('transfered_at', $giro->transfered_at->format('Y-m-d')) }}'
+                        value='{{ old('transfered_at', optional($giro->transfered_at)->format('Y-m-d')) }}'
                         class='form-control {{ !$errors->has('transfered_at') ?: 'is-invalid' }}'>
                 
                     <div class='invalid-feedback'>

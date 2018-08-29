@@ -13,6 +13,7 @@ class AdminSeeder extends Seeder
     {
         factory(\App\User::class)->create([
             'username' => 'admin',
+            'name' => 'Alyta',
             'password' => bcrypt('admin'),
             'privilege' => 'ADMINISTRATOR'
         ]);
