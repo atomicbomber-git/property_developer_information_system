@@ -17,7 +17,7 @@
         <nav class="navbar navbar-dark bg-dark mb-3">
             <div class="container">
                 <a href="{{ route('dashboard') }}" class="navbar-brand">
-                    Property Developer Information System
+                    {{ config('app.name') }}
                 </a>
             </div>
         </nav>
