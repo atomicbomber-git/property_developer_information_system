@@ -14,7 +14,7 @@
     <div class="card">
         <div class="card-body">
             <h1 class="h5">
-                <i class="fa fa-folder"></i>
+                <i class="fa fa-usd"></i>
                 Kelola Invoice
             </h1>
 
