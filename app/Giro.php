@@ -24,4 +24,9 @@ class Giro extends Model
     {
         return $this->hasMany(Invoice::class);
     }
+
+    public function getAmount($value)
+    {
+        return number_format($value, 0, '', '');
+    }
 }

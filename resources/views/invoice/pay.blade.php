@@ -50,6 +50,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th> # </th>
+                        <th> Delivery Order </th>
                         <th> Item </th>
                         <th> Quantity </th>
                         <th> Unit </th>
@@ -61,38 +62,34 @@
                     @foreach ($delivery_order_items as $delivery_order_item)
                     <tr>
                         <td> {{ $loop->iteration }}. </td>
+                        <td> Delivery Order {{ $delivery_order_item->delivery_order_id }} </td>
                         <td> {{ $delivery_order_item->item->name }} </td>
                         <td>
-                            <span class="quantity"  data-item-id="{{ $delivery_order_item->item_id }}">
+                            <span class="quantity"  data-item-id="{{ $delivery_order_item->id }}">
                                 {{ $delivery_order_item->quantity }}
                             </span>
-                            <br>
-                            <div style="font-size: 0.7rem">
-                            @foreach ($delivery_order_item->sub_quantities as $id => $sub_quantity)
-                                <a class="d-block" href="{{ route('delivery_order.detail', $id) }}"> Delivery Order {{ $id }} ({{ $sub_quantity }}) </a>
-                            @endforeach
-                            </div>
                         </td>
                         <td> {{ $delivery_order_item->item->unit }} </td>
                         <td style="width: 10rem">
                             <input
                                 form="pay-form"
                                 tabindex="100"
-                                data-item-id="{{ $delivery_order_item->item_id }}"
+                                data-item-id="{{ $delivery_order_item->id }}"
                                 class="pr-2 text-right form-control form-control-sm {{ $errors->first("delivery_order_items.$delivery_order_item->item_id", 'is-invalid') }}"
-                                name="delivery_order_items[{{ $delivery_order_item->item_id }}]" type="number"
-                                value="{{ old("delivery_order_items.$delivery_order_item->item_id", $delivery_order_item->price) }}">
+                                name="delivery_order_items[{{ $delivery_order_item->id }}]" type="number"
+                                value="{{ old("delivery_order_items.$delivery_order_item->id", $delivery_order_item->price) }}">
 
                             <div class='invalid-feedback'>
-                                {{ $errors->first("delivery_order_items.$delivery_order_item->item_id") }}
+                                {{ $errors->first("delivery_order_items.$delivery_order_item->id") }}
                             </div>
                         </td>
-                        <td style="width: 10rem" class="text-right subtotal" data-item-id="{{ $delivery_order_item->item_id }}">
+                        <td style="width: 10rem" class="text-right subtotal" data-item-id="{{ $delivery_order_item->id }}">
                             {{ $delivery_order_item->subtotal }}
                         </td>
                     </tr>
                     @endforeach
                     <tr>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
