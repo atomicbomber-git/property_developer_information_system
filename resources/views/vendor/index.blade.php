@@ -35,7 +35,7 @@
                         <th> # </th>
                         <th> Nama Vendor </th>
                         <th> Alamat </th>
-                        <th> Contact </th>
+                        <th> Contact People </th>
                         <th> Kendali </th>
                     </tr>
                 </thead>
@@ -46,16 +46,17 @@
                         <td> {{ $vendor->name }} </td>
                         <td> {{ $vendor->address }} </td>
                         <td>
-                            {{ $vendor->contact_person }}
-                            <br>
-                            {{ $vendor->contact_person_phone }}
+                            @foreach ($vendor->contact_people as $contact_person)
+                                {{ $contact_person->name }} ({{ $contact_person->phone }})
+                                <br>
+                            @endforeach
                         </td>
                         <td>
                             <a href="{{ route('vendor.update', $vendor) }}" class="btn btn-dark btn-sm">
                                 <i class="fa fa-pencil"></i>
                             </a>
 
-                            @if ($vendor->items_count == 0)
+                            @if ($vendor->items_count + $vendor->contact_people_count == 0)
 
                             <form method="POST" class="d-inline-block" action="{{ route('vendor.delete', $vendor) }}">
                                 @csrf

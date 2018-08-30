@@ -4,18 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Vendor;
+use App\VendorContactPerson;
+use DB;
 
 class VendorController extends Controller
 {
     public function index()
     {
         $vendors = Vendor::query()
-            ->withCount('items')
+            ->withCount('items', 'contact_people')
+            ->with('contact_people:vendor_id,name,phone')
             ->get();
 
-        return view('vendor.index', [
-            'vendors' => $vendors
-        ]);
+        return view('vendor.index', compact('vendors'));
     }
 
     public function create()
@@ -28,15 +29,26 @@ class VendorController extends Controller
         $data = $this->validate(request(), [
             'name' => 'required|string',
             'address' => 'nullable|string',
-            'contact_person' => 'nullable|string',
-            'contact_person_phone' => 'nullable|string'
+            'contact_people' => 'required|array',
+            'contact_people.*.name' => 'required|string',
+            'contact_people.*.phone' => 'required|string',
         ]);
 
-        Vendor::create($data);
+        DB::transaction(function() use($data) {
+            $vendor = Vendor::create([
+                'name' => $data['name'],
+                'address' => $data['address']
+            ]);
+
+            foreach ($data['contact_people'] as $contact_person) {
+                $vendor->contact_people()
+                    ->save(new VendorContactPerson($contact_person));
+            }
+        });
 
         return redirect()
             ->route('vendor.index')
-            ->with('message.success', 'Data berhasil ditambahkan.');
+            ->with('message.success', __('messages.create.success'));
     }
 
     public function update(Vendor $vendor)

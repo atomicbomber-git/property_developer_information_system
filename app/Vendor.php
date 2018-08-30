@@ -8,14 +8,17 @@ class Vendor extends Model
 {
     public $fillable = [
         'name',
-        'address',
-        'contact_person',
-        'contact_person_phone'
+        'address'
     ];
 
     public function items()
     {
         return $this->hasMany(Item::class);
+    }
+
+    public function contact_people()
+    {
+        return $this->hasMany(VendorContactPerson::class);
     }
 
     public function delivery_orders()

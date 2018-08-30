@@ -22,7 +22,11 @@ class InvoiceSeeder extends Seeder
         foreach ($delivery_order_groups as $delivery_orders) {
             foreach ($delivery_orders->chunk(10) as $delivery_order_chunk) {
                 DB::transaction(function() use($delivery_order_chunk) {
-                    $invoice = Invoice::create();
+                    
+                    $invoice = Invoice::create([
+                        'received_at' => now()
+                    ]);
+
                     foreach ($delivery_order_chunk as $delivery_order) {
                         $delivery_order->update(['invoice_id' => $invoice->id]);
                     }
