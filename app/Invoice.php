@@ -8,7 +8,8 @@ class Invoice extends Model
 {
     public $fillable = [
         'received_at',
-        'transfered_at'
+        'transfered_at',
+        'cash_amount'
     ];
 
     public $dates = [
@@ -35,5 +36,10 @@ class Invoice extends Model
     public function delivery_orders()
     {
         return $this->hasMany(DeliveryOrder::class);
+    }
+
+    public function getCashAmountAttribute($value)
+    {
+        return number_format($value, 0, '', '');
     }
 }

@@ -22,4 +22,9 @@ class DeliveryOrderItem extends Model
     {
         return $this->belongsTo(Item::class);
     }
+
+    public function getPriceAttribute($value)
+    {
+        return number_format($value, 0, '', '');
+    }
 }

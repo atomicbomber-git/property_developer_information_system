@@ -25,7 +25,7 @@ class DeliveryOrderSeeder extends Seeder
         $storage_ids = Storage::select('id')
             ->pluck('id');
 
-        $months = 12;
+        $months = 1;
 
         for ($i = 0; $i < $months; $i++) {
             foreach ($vendor_ids as $vendor_id) {
