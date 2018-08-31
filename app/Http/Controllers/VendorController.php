@@ -101,4 +101,10 @@ class VendorController extends Controller
 
         return $vendor->delivery_orders;
     }
+
+    public function item(Vendor $vendor)
+    {
+        $vendor->load('items:id,name,vendor_id');
+        return $vendor->items;
+    }
 }

@@ -150,7 +150,6 @@
                                 .addClass("input-row");
                             
                             let key = $('.input-row').last().data('key');
-                            console.log(key);
                             $clone.data('key', key+1)
                             $clone.find('.input-name').attr('name', `contact_people[${key+1}][name]`).val("");
                             $clone.find('.input-phone').attr('name', `contact_people[${key+1}][phone]`).val("");

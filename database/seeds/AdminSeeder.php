@@ -11,11 +11,10 @@ class AdminSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\User::class)->create([
+        factory(\App\User::class)->states('admin')->create([
             'username' => 'admin',
             'name' => 'Alyta',
-            'password' => bcrypt('admin'),
-            'privilege' => 'ADMINISTRATOR'
+            'password' => bcrypt('admin')
         ]);
     }
 }

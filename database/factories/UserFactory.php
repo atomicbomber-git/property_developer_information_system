@@ -22,3 +22,15 @@ $factory->define(App\User::class, function (Faker $faker) {
         'privilege' => 'EMPLOYEE'
     ];
 });
+
+$factory->state(App\User::class, 'admin', function (Faker $faker) {
+    return [
+        'privilege' => 'ADMINISTRATOR'
+    ];
+});
+
+$factory->state(App\User::class, 'employee', function (Faker $faker) {
+    return [
+        'privilege' => 'EMPLOYEE'
+    ];
+});

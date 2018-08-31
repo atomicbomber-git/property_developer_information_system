@@ -9,6 +9,7 @@ use App\DeliveryOrderItem;
 use App\Vendor;
 use App\Storage;
 use App\User;
+use Validator;
 use DB;
 
 class DeliveryOrderController extends Controller
@@ -20,7 +21,7 @@ class DeliveryOrderController extends Controller
             ->where('source_type', 'VENDOR')
             ->with(['receiver:id,name', 'source:id,name', 'target:id,name'])
             ->withCount('delivery_order_items')
-            ->orderBy('received_at', 'desc')
+            ->orderBy('created_at', 'desc')
             ->paginate(10);
 
         return view('delivery_order.index', compact('delivery_orders'));
@@ -45,34 +46,51 @@ class DeliveryOrderController extends Controller
 
     public function processCreate()
     {
-        $vendor_ids = Vendor::query()
-            ->select('id')
-            ->pluck('id');
+        $vendor_ids = Vendor::select('id')->pluck('id');
+        $storage_ids = Storage::select('id')->pluck('id');
+        $user_ids = User::select('id')->pluck('id');
 
-        $storage_ids = Storage::query()
-            ->select('id')
-            ->pluck('id');
-
-        $user_ids = User::query()
-            ->select('id')
-            ->pluck('id');
-
-        $data = $this->validate(request(), [
+        $first_validator = Validator::make(request()->all(), [
             'source_id' => ['required', Rule::in($vendor_ids)],
             'target_id' => ['required', Rule::in($storage_ids)],
             'receiver_id' => ['required', Rule::in($user_ids)],
             'received_at' => ['required', 'date']
         ]);
 
-        DeliveryOrder::create([
-            'creator_id' => auth()->user()->id,
-            'source_type' => 'VENDOR',
-            'source_id' => $data['source_id'],
-            'target_type' => 'STORAGE',
-            'target_id' => $data['target_id'],
-            'receiver_id' => $data['receiver_id'],
-            'received_at' => $data['received_at']
+        $data = $first_validator->validate();
+
+        $vendor_item_ids = Vendor::find($data['source_id'])
+            ->items()
+            ->select('id')
+            ->pluck('id');
+
+        $second_validator = Validator::make(request()->all(), [
+            'delivery_items' => ['required', 'array'],
+            'delivery_items.*.id' => ['required', Rule::in($vendor_item_ids)],
+            'delivery_items.*.quantity' => ['required', 'integer', 'min:1']
         ]);
+
+        $data = array_merge($data, $second_validator->validate());
+        
+        DB::transaction(function() use($data) {
+            $delivery_order = DeliveryOrder::create([
+                'creator_id' => auth()->user()->id,
+                'source_type' => 'VENDOR',
+                'source_id' => $data['source_id'],
+                'target_type' => 'STORAGE',
+                'target_id' => $data['target_id'],
+                'receiver_id' => $data['receiver_id'],
+                'received_at' => $data['received_at']
+            ]);
+
+            foreach ($data['delivery_items'] as $delivery_item) {
+                DeliveryOrderItem::create([
+                    'delivery_order_id' => $delivery_order->id,
+                    'item_id' => $delivery_item['id'],
+                    'quantity' => $delivery_item['quantity']
+                ]);
+            }
+        });
 
         return redirect()
             ->route('delivery_order.index')
@@ -122,6 +140,7 @@ class DeliveryOrderController extends Controller
             'source_id' => $data['source_id'],
             'target_type' => 'STORAGE',
             'target_id' => $data['target_id'],
+            'receiver_id' => $data['receiver_id'],
             'received_at' => $data['received_at']
         ]);
 

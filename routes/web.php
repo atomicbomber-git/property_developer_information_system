@@ -26,6 +26,7 @@ Route::middleware(['auth'])->group(function() {
         Route::post('/update/{vendor}', 'VendorController@processUpdate')->name('vendor.update');
         Route::post('/delete/{vendor}', 'VendorController@delete')->name('vendor.delete');
         Route::get('/unbilled_delivery_orders/{vendor}', 'VendorController@unbilledDeliveryOrders')->name('vendor.unbilled_delivery_orders');
+        Route::get('/item/{vendor}', 'VendorController@item')->name('vendor.item');
     });
 
     Route::prefix('/storage')->group(function () {
