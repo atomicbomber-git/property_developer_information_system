@@ -3,10 +3,4 @@
     <i class="fa fa-check"> </i>
     {{ session('message.success') }}
 </div>
-
-<script>
-    $(document).ready(() => {
-        $('#notification').fadeOut(2500);
-    });
-</script>
 @endif

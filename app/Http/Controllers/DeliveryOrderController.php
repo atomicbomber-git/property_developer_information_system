@@ -52,9 +52,6 @@ class DeliveryOrderController extends Controller
 
         $first_validator = Validator::make(request()->all(), [
             'source_id' => ['required', Rule::in($vendor_ids)],
-            'target_id' => ['required', Rule::in($storage_ids)],
-            'receiver_id' => ['required', Rule::in($user_ids)],
-            'received_at' => ['required', 'date']
         ]);
 
         $data = $first_validator->validate();
@@ -65,6 +62,9 @@ class DeliveryOrderController extends Controller
             ->pluck('id');
 
         $second_validator = Validator::make(request()->all(), [
+            'target_id' => ['required', Rule::in($storage_ids)],
+            'receiver_id' => ['required', Rule::in($user_ids)],
+            'received_at' => ['required', 'date'],
             'delivery_items' => ['required', 'array'],
             'delivery_items.*.id' => ['required', Rule::in($vendor_item_ids)],
             'delivery_items.*.quantity' => ['required', 'integer', 'min:1']
@@ -92,9 +92,12 @@ class DeliveryOrderController extends Controller
             }
         });
 
-        return redirect()
-            ->route('delivery_order.index')
-            ->with('message.success', __('messages.create.success'));
+        session()->flash('message.success', __('messages.create.success'));
+        
+        return [
+            'status' => 'success',
+            'redirect' => route('delivery_order.index')
+        ];
     }
 
     public function update(DeliveryOrder $delivery_order)

@@ -11,11 +11,16 @@ class VendorController extends Controller
 {
     public function index()
     {
+        if (request()->ajax()) {
+            // return [];
+            return Vendor::select('id', 'name')->get();
+        }
+
         $vendors = Vendor::query()
             ->withCount('items', 'contact_people')
             ->with('contact_people:vendor_id,name,phone')
             ->get();
-
+        
         return view('vendor.index', compact('vendors'));
     }
 
@@ -104,7 +109,7 @@ class VendorController extends Controller
 
     public function item(Vendor $vendor)
     {
-        $vendor->load('items:id,name,vendor_id');
+        $vendor->load('items:id,name,vendor_id,unit');
         return $vendor->items;
     }
 }
