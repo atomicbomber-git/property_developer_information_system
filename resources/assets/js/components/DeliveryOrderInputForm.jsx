@@ -273,7 +273,7 @@ export default class DeliveryOrderInputForm extends Component {
                 <div className="form-group">
                     <label> Receivement Date: </label>
                     <InputFormControl
-                        dataType={"date"}
+                        type={"date"}
                         isInvalid={ get(this.state.errorData, 'errors.received_at[0]', false) }
                         invalidFeedback={ get(this.state.errorData, 'errors.received_at[0]', '') }
                         value={this.state.selected_date}

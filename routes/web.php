@@ -68,6 +68,9 @@ Route::middleware(['auth'])->group(function() {
         Route::post('/update/{delivery_order}', 'DeliveryOrderController@processUpdate')->name('delivery_order.update');
         Route::post('/delete/{delivery_order}', 'DeliveryOrderController@delete')->name('delivery_order.delete');
 
+        Route::get('/update_price/{delivery_order}', 'DeliveryOrderController@updatePrice')->name('delivery_order.update_price');
+        Route::post('/update_price/{delivery_order}', 'DeliveryOrderController@processUpdatePrice')->name('delivery_order.update_price');
+
         Route::prefix('/detail/{delivery_order}/')->group(function() {
             Route::get('/', 'DeliveryOrderController@detail')->name('delivery_order.detail');
             Route::post('/item/update', 'DeliveryOrderController@updateItems')->name('delivery_order.update_items');

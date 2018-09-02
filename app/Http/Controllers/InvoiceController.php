@@ -162,18 +162,13 @@ class InvoiceController extends Controller
 
     public function pay(Invoice $invoice)
     {
-        $delivery_order_ids = DeliveryOrder::select('id')
-            ->where('invoice_id', $invoice->id)
-            ->pluck('id');
-
-        $delivery_order_items = DeliveryOrderItem::query()
-            ->select('id', 'item_id', 'price', 'quantity', 'delivery_order_id')
-            ->whereIn('delivery_order_id', $delivery_order_ids)
-            ->with('item:id,name,unit')
-            ->orderBy('delivery_order_id')
+        $delivery_orders = DeliveryOrderItem::query()
+            ->select('delivery_orders.id', DB::raw('SUM(price * quantity) AS subtotal'))
+            ->join('delivery_orders', 'delivery_orders.id', '=', 'delivery_order_items.delivery_order_id')
+            ->join('items', 'items.id', '=', 'delivery_order_items.item_id')
+            ->where('delivery_orders.invoice_id', $invoice->id)
+            ->groupBy('delivery_orders.id')
             ->get();
-
-        // return $delivery_order_items;
         
         $latest_giro_ids = Giro::select('id')
             ->limit(10)
@@ -183,7 +178,7 @@ class InvoiceController extends Controller
             ->orderBy('created_at', 'desc')
             ->pluck('id');
 
-        return view('invoice.pay', compact('invoice', 'delivery_order_items', 'latest_giro_ids'));
+        return view('invoice.pay', compact('invoice', 'delivery_orders', 'latest_giro_ids'));
     }
 
     public function processPay(Invoice $invoice)
@@ -193,19 +188,9 @@ class InvoiceController extends Controller
             ->where('invoice_id', $invoice->id)
             ->pluck('id');
 
-        $delivery_order_item_ids = DeliveryOrderItem::query()
-            ->select('id')
-            ->whereIn('delivery_order_id', $delivery_order_ids)
-            ->pluck('id');
-
         $validation_rules = [
-            'delivery_order_items' => 'required',
             'payment_method' => ['required', Rule::in('cash', 'new_giro', 'giro')]
         ];
-
-        foreach ($delivery_order_item_ids as $id) {
-            $validation_rules["delivery_order_items.$id"] = ['required', 'min:0'];
-        }
 
         $validator = Validator::make(request()->all(), $validation_rules);
         
@@ -221,12 +206,6 @@ class InvoiceController extends Controller
         // ----- VALIDATION END ------
 
         DB::transaction(function() use($invoice, $data) {
-            
-            foreach ($data['delivery_order_items'] as $id => $price) {
-                DeliveryOrderItem::where('id', $id)
-                    ->update(['price' => $price]);
-            }
-            
             switch ($data['payment_method']) {
                 case 'cash':
                     

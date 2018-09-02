@@ -11,6 +11,7 @@ use App\Storage;
 use App\User;
 use Validator;
 use DB;
+use URL;
 
 class DeliveryOrderController extends Controller
 {
@@ -232,5 +233,40 @@ class DeliveryOrderController extends Controller
 
         return back()
             ->with('message.success', __('messages.update.success'));
+    }
+
+    public function updatePrice(DeliveryOrder $delivery_order)
+    {
+        if (request()->ajax()) {
+            $delivery_order->load([
+                'delivery_order_items:id,delivery_order_id,quantity,price,item_id',
+                'delivery_order_items.item:id,name,unit'
+            ]);
+            return $delivery_order->delivery_order_items;
+        }
+
+        return view('delivery_order.update_price', compact('delivery_order'));
+    }
+
+    public function processUpdatePrice(DeliveryOrder $delivery_order) {
+        $data = $this->validate(request(), [
+            'delivery_order_items' => 'required|array',
+            'delivery_order_items.*.id' => 'required|integer',
+            'delivery_order_items.*.price' => 'required|min:0' 
+        ]);
+        
+        DB::beginTransaction();
+
+        foreach ($data['delivery_order_items'] as $delivery_order_item) {
+            DeliveryOrderItem::where(['id' => $delivery_order_item['id'] ])
+                ->update(['price' => $delivery_order_item['price'] ]);
+        }
+
+        DB::commit();
+
+        return [
+            'status' => 'success',
+            'redirect' => URL::previous()
+        ];
     }
 }

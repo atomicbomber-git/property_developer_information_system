@@ -11,7 +11,7 @@ function InputFormControl({ isInvalid, invalidFeedback, dataType, ...props }) {
     
     return (
         <Fragment>
-            <input {...props} type={dataType} className={class_names}/>
+            <input {...props} className={class_names}/>
             { isInvalid && invalidFeedback && <div className="invalid-feedback">
                 <p>
                     { invalidFeedback }

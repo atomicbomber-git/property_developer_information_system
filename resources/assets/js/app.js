@@ -16,3 +16,4 @@ require('./bootstrap');
 require('./components/DeliveryOrderInputForm.jsx');
 require('./components/CreateVendorForm.jsx');
 require('./components/AddContactPersonsForm.jsx')
+require('./components/UpdateDeliveryOrderPricesForm')
