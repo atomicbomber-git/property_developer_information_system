@@ -12,13 +12,13 @@ class VendorController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            // return [];
             return Vendor::select('id', 'name')->get();
         }
 
         $vendors = Vendor::query()
-            ->withCount('items', 'contact_people')
+            ->withCount('items')
             ->with('contact_people:vendor_id,name,phone')
+            ->orderBy('created_at', 'desc')
             ->get();
         
         return view('vendor.index', compact('vendors'));
@@ -33,7 +33,7 @@ class VendorController extends Controller
     {
         $data = $this->validate(request(), [
             'name' => 'required|string',
-            'address' => 'nullable|string',
+            'address' => 'required|string',
             'contact_people' => 'required|array',
             'contact_people.*.name' => 'required|string',
             'contact_people.*.phone' => 'required|string',
@@ -51,9 +51,12 @@ class VendorController extends Controller
             }
         });
 
-        return redirect()
-            ->route('vendor.index')
-            ->with('message.success', __('messages.create.success'));
+        session()->flash('message.success', __('messages.create.success'));
+
+        return [
+            'status' => 'success',
+            'redirect' => route('vendor.index')
+        ];
     }
 
     public function update(Vendor $vendor)

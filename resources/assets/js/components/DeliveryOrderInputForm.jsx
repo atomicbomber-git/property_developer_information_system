@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import SelectFormControl from './SelectFormControl';
 import InputFormControl from './InputFormControl';
 
-export default class Example extends Component {
+export default class DeliveryOrderInputForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -309,6 +309,6 @@ export default class Example extends Component {
     }
 }
 
-if (document.getElementById('example')) {
-    ReactDOM.render(<Example />, document.getElementById('example'));
+if (document.getElementById('delivery-order-input-form')) {
+    ReactDOM.render(<DeliveryOrderInputForm />, document.getElementById('delivery-order-input-form'));
 }

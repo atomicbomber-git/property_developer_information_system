@@ -21,8 +21,8 @@
 
             <hr class="mt-2 mb-2">
 
-            <div id="example">
-                <Example> </Example>
+            <div id="delivery-order-input-form">
+                <DeliveryOrderInputForm/>
             </div>
         </div>
     </div>

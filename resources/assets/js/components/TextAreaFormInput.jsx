@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import classNames from 'classnames';
 
-function InputFormControl({ isInvalid, invalidFeedback, dataType, ...props }) {
+function TextAreaFormInput({ isInvalid, invalidFeedback, dataType, ...props }) {
 
     let class_names = classNames({
         'form-control': true,
@@ -11,8 +11,8 @@ function InputFormControl({ isInvalid, invalidFeedback, dataType, ...props }) {
     
     return (
         <Fragment>
-            <input {...props} type={dataType} className={class_names}/>
-            { isInvalid && invalidFeedback && <div className="invalid-feedback">
+            <textarea {...props} type={dataType} className={class_names}></textarea>
+            { isInvalid && <div className="invalid-feedback">
                 <p>
                     { invalidFeedback }
                 </p>
