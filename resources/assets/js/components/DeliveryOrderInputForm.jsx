@@ -124,7 +124,7 @@ export default class DeliveryOrderInputForm extends Component {
 
         let items = this.state.vendor_items.map(item => {
             if (item.id == this.state.selected_vendor_item) {
-                return {...item, picked: true};
+                return {...item, picked: true, quantity: 1};
             }
             return item;
         });
@@ -213,14 +213,20 @@ export default class DeliveryOrderInputForm extends Component {
 
                     return (
                         <Fragment key={item.id}>
-                            <div className="input-group mt-2">
-                                <input value={`${item.name} (${item.unit})`} readOnly={true} className={classNames('form-control', 'form-control-sm', {'is-invalid': quantityError} )}/>
+                            <div className="input-group input-group-sm mt-2">
+                                <div class="input-group-prepend">
+                                    <span style={{ width: '24rem' }} class="input-group-text">
+                                        {item.name} ({item.unit})
+                                    </span>
+                                </div>
 
-                                <div style={{width: "6rem"}} className="input-group-append">
-                                    <input
-                                        className={classNames('form-control', 'form-control-sm', {'is-invalid': quantityError} )}
-                                        onChange={(e) => { this.handleItemQuantityChange(item.id, e.target.value) }}
-                                        type="number" value={item.quantity} />
+                                <input
+                                    className={classNames('form-control', {'is-invalid': quantityError} )}
+                                    onChange={(e) => { this.handleItemQuantityChange(item.id, e.target.value) }}
+                                    type="number" value={item.quantity} />
+
+                                <div className="input-group-append">
+                                    
                                     <button onClick={() => { this.handleUnpickItem(item.id) }} className="btn btn-sm btn-outline-danger">
                                         <i className="fa fa-times"></i>
                                     </button>

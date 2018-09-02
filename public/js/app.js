@@ -36666,7 +36666,7 @@ var DeliveryOrderInputForm = function (_Component) {
 
             var items = this.state.vendor_items.map(function (item) {
                 if (item.id == _this5.state.selected_vendor_item) {
-                    return _extends({}, item, { picked: true });
+                    return _extends({}, item, { picked: true, quantity: 1 });
                 }
                 return item;
             });
@@ -36780,17 +36780,28 @@ var DeliveryOrderInputForm = function (_Component) {
                     { key: item.id },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
-                        { className: 'input-group mt-2' },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { value: item.name + ' (' + item.unit + ')', readOnly: true, className: __WEBPACK_IMPORTED_MODULE_4_classnames___default()('form-control', 'form-control-sm', { 'is-invalid': quantityError }) }),
+                        { className: 'input-group input-group-sm mt-2' },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'div',
-                            { style: { width: "6rem" }, className: 'input-group-append' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
-                                className: __WEBPACK_IMPORTED_MODULE_4_classnames___default()('form-control', 'form-control-sm', { 'is-invalid': quantityError }),
-                                onChange: function onChange(e) {
-                                    _this6.handleItemQuantityChange(item.id, e.target.value);
-                                },
-                                type: 'number', value: item.quantity }),
+                            { 'class': 'input-group-prepend' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'span',
+                                { style: { width: '24rem' }, 'class': 'input-group-text' },
+                                item.name,
+                                ' (',
+                                item.unit,
+                                ')'
+                            )
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
+                            className: __WEBPACK_IMPORTED_MODULE_4_classnames___default()('form-control', { 'is-invalid': quantityError }),
+                            onChange: function onChange(e) {
+                                _this6.handleItemQuantityChange(item.id, e.target.value);
+                            },
+                            type: 'number', value: item.quantity }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'div',
+                            { className: 'input-group-append' },
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'button',
                                 { onClick: function onClick() {
