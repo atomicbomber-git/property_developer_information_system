@@ -31383,6 +31383,7 @@ __webpack_require__(24);
 
 __webpack_require__(46);
 __webpack_require__(61);
+__webpack_require__(75);
 
 /***/ }),
 /* 24 */
@@ -56616,6 +56617,231 @@ if (rootElem) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */,
+/* 68 */,
+/* 69 */,
+/* 70 */,
+/* 71 */,
+/* 72 */,
+/* 73 */,
+/* 74 */,
+/* 75 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__InputFormControl__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lodash__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_lodash__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_axios__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_axios__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+var AddContactPersonsForm = function (_React$Component) {
+    _inherits(AddContactPersonsForm, _React$Component);
+
+    function AddContactPersonsForm(props) {
+        _classCallCheck(this, AddContactPersonsForm);
+
+        var _this = _possibleConstructorReturn(this, (AddContactPersonsForm.__proto__ || Object.getPrototypeOf(AddContactPersonsForm)).call(this, props));
+
+        _this.keyCounter = 0;
+
+        _this.state = {
+            contact_persons: [],
+            errorData: []
+        };
+
+        _this.mapStateToFormData = _this.mapStateToFormData.bind(_this);
+        _this.onClickAddContactPersonButton = _this.onClickAddContactPersonButton.bind(_this);
+        _this.onClickRemoveContactPersonButton = _this.onClickRemoveContactPersonButton.bind(_this);
+        _this.onFormSubmit = _this.onFormSubmit.bind(_this);
+        return _this;
+    }
+
+    _createClass(AddContactPersonsForm, [{
+        key: 'mapStateToFormData',
+        value: function mapStateToFormData() {
+            return {
+                contact_people: Object(__WEBPACK_IMPORTED_MODULE_3_lodash__["keyBy"])(this.state.contact_persons, 'key')
+            };
+        }
+    }, {
+        key: 'onFormSubmit',
+        value: function onFormSubmit(e) {
+            var _this2 = this;
+
+            e.preventDefault();
+            __WEBPACK_IMPORTED_MODULE_4_axios___default.a.post('/vendor/contact_persons/' + this.props.vendorId + '/create', this.mapStateToFormData()).then(function (response) {
+                _this2.setState({ errorData: {} });
+                window.location.replace(response.data.redirect);
+            }).catch(function (error) {
+                if (error.response.data) {
+                    _this2.setState({ errorData: error.response.data });
+                }
+            });
+        }
+    }, {
+        key: 'onClickAddContactPersonButton',
+        value: function onClickAddContactPersonButton() {
+            var _this3 = this;
+
+            this.setState(function (prevState) {
+                return { contact_persons: [].concat(_toConsumableArray(prevState.contact_persons), [{ key: _this3.keyCounter++, name: '', phone: '' }]) };
+            });
+        }
+    }, {
+        key: 'onClickRemoveContactPersonButton',
+        value: function onClickRemoveContactPersonButton(key) {
+            this.setState(function (prevState) {
+                return { contact_persons: prevState.contact_persons.filter(function (cp) {
+                        return cp.key != key;
+                    }) };
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this4 = this;
+
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'form',
+                { onSubmit: this.onFormSubmit },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'form-group' },
+                    Object(__WEBPACK_IMPORTED_MODULE_3_lodash__["get"])(this.state.errorData, 'errors.contact_people[0]', false) && this.state.contact_persons.length == 0 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'text-danger' },
+                        'At least one contact person must be added before submitting'
+                    ),
+                    this.state.contact_persons.map(function (contact_person) {
+                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'div',
+                            { key: contact_person.key },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'div',
+                                { className: 'input-group mt-2' },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__InputFormControl__["a" /* default */], {
+                                    isInvalid: Object(__WEBPACK_IMPORTED_MODULE_3_lodash__["get"])(_this4.state.errorData, ['errors', 'contact_people.' + contact_person.key + '.name', 0], false),
+                                    value: _this4.state.contact_persons.find(function (cp) {
+                                        return cp.key == contact_person.key;
+                                    }).name,
+                                    onChange: function onChange(e) {
+                                        var name = e.target.value;
+                                        _this4.setState(function (prevState) {
+                                            return { contact_persons: prevState.contact_persons.map(function (cp) {
+                                                    if (cp.key == contact_person.key) {
+                                                        return _extends({}, cp, { name: name });
+                                                    }
+                                                    return cp;
+                                                }) };
+                                        });
+                                    },
+                                    placeholder: 'Name' }),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__InputFormControl__["a" /* default */], {
+                                    isInvalid: Object(__WEBPACK_IMPORTED_MODULE_3_lodash__["get"])(_this4.state.errorData, ['errors', 'contact_people.' + contact_person.key + '.phone', 0], false),
+                                    value: _this4.state.contact_persons.find(function (cp) {
+                                        return cp.key == contact_person.key;
+                                    }).phone,
+                                    onChange: function onChange(e) {
+                                        var phone = e.target.value;
+                                        _this4.setState(function (prevState) {
+                                            return { contact_persons: prevState.contact_persons.map(function (cp) {
+                                                    if (cp.key == contact_person.key) {
+                                                        return _extends({}, cp, { phone: phone });
+                                                    }
+                                                    return cp;
+                                                }) };
+                                        });
+                                    },
+                                    placeholder: 'Phone' }),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'div',
+                                    { className: 'input-group-append' },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'button',
+                                        { onClick: function onClick() {
+                                                _this4.onClickRemoveContactPersonButton(contact_person.key);
+                                            }, type: 'button', className: 'btn btn-outline-danger btn-sm' },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-times' })
+                                    )
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'div',
+                                null,
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'div',
+                                    { className: 'text-danger' },
+                                    Object(__WEBPACK_IMPORTED_MODULE_3_lodash__["get"])(_this4.state.errorData, ['errors', 'contact_people.' + contact_person.key + '.name', 0], false) || ''
+                                ),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'div',
+                                    { className: 'text-danger' },
+                                    Object(__WEBPACK_IMPORTED_MODULE_3_lodash__["get"])(_this4.state.errorData, ['errors', 'contact_people.' + contact_person.key + '.phone', 0], false) || ''
+                                )
+                            )
+                        );
+                    }),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'text-right mt-2' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'button',
+                            { onClick: this.onClickAddContactPersonButton, type: 'button', className: 'btn btn-sm btn-default' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-plus' })
+                        )
+                    )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'text-right' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'button',
+                        { type: 'submit', className: 'btn btn-primary btn-sm' },
+                        'Add Contact Persons',
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-plus' })
+                    )
+                )
+            );
+        }
+    }]);
+
+    return AddContactPersonsForm;
+}(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Component);
+
+var rootElem = document.getElementById('add-contact-persons-form');
+var dataContainer = document.getElementById('vendor-id');
+if (rootElem) {
+    __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(AddContactPersonsForm, { vendorId: dataContainer.dataset.vendorId }), rootElem);
+}
 
 /***/ })
 /******/ ]);

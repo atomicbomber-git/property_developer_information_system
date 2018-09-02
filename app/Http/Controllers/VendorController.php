@@ -61,6 +61,7 @@ class VendorController extends Controller
 
     public function update(Vendor $vendor)
     {
+        $vendor->load('contact_people:id,vendor_id,name,phone');
         return view('vendor.update', [
             'vendor' => $vendor
         ]);
@@ -70,15 +71,13 @@ class VendorController extends Controller
     {
         $data = $this->validate(request(), [
             'name' => 'required|string',
-            'address' => 'nullable|string',
-            'contact_person' => 'nullable|string',
-            'contact_person_phone' => 'nullable|string'
+            'address' => 'nullable|string'
         ]);
 
         $vendor->update($data);
         
         return redirect()
-            ->route('vendor.index')
+            ->back()
             ->with('message.success', 'Data berhasil diperbarui.');
     }
 
