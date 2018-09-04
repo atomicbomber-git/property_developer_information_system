@@ -49,53 +49,55 @@ class UpdateDeliveryOrderPricesForm extends React.Component {
     render() {
         return (
             <form onSubmit={this.onFormSubmit}>
-                <table className="table table-sm table-striped">
-                    <thead className="thead-dark">
-                        <tr>
-                            <th> # </th>
-                            <th> Item </th>
-                            <th> Quantity </th>
-                            <th> Unit </th>
-                            <th className='text-right'> Price </th>
-                            <th className='text-right'> Subtotal </th>
-                        </tr>
-                    </thead>
+                <div className="table-responsive">
+                    <table className="table table-sm table-striped">
+                        <thead className="thead-dark">
+                            <tr>
+                                <th> # </th>
+                                <th> Item </th>
+                                <th> Quantity </th>
+                                <th> Unit </th>
+                                <th className='text-right'> Price </th>
+                                <th className='text-right'> Subtotal </th>
+                            </tr>
+                        </thead>
 
-                    <tbody>
-                        {Object.keys(this.state.delivery_order_items).map((key, i) => {
-                            let do_items = this.state.delivery_order_items;
-                            return(
-                                <tr key={i}>
-                                    <td> {i + 1}. </td>
-                                    <td> {do_items[key].item.name} </td>
-                                    <td> {do_items[key].quantity} </td>
-                                    <td> {do_items[key].item.unit} </td>
-                                    <td className='text-right'>
-                                        <InputFormControl
-                                            className={{'form-control-sm': true, 'text-right': true}}
-                                            type='number'
-                                            placeholder='Price'
-                                            isInvalid={get(this.state.errorData, ['errors', `delivery_order_items.${key}.price`, 0], false)}
-                                            invalidFeedback={get(this.state.errorData, ['errors', `delivery_order_items.${key}.price`, 0], '')}
-                                            value={do_items[key].price}
-                                            onChange={(e) => {
-                                                let newPrice = e.target.value
-                                                this.setState(prevState => {
-                                                    let updated = {}
-                                                    updated[key] = {...do_items[key], price: newPrice} 
-                                                    return {delivery_order_items: {...prevState.delivery_order_items, ...updated}}
-                                                })
-                                            }}
-                                            />
-                                    </td>
-                                    <td className='text-right'>
-                                        {(do_items[key].price * do_items[key].quantity).toLocaleString('id-ID') }
-                                    </td>
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </table>
+                        <tbody>
+                            {Object.keys(this.state.delivery_order_items).map((key, i) => {
+                                let do_items = this.state.delivery_order_items;
+                                return(
+                                    <tr key={i}>
+                                        <td> {i + 1}. </td>
+                                        <td> {do_items[key].item.name} </td>
+                                        <td> {do_items[key].quantity} </td>
+                                        <td> {do_items[key].item.unit} </td>
+                                        <td className='text-right'>
+                                            <InputFormControl
+                                                className={{'form-control-sm': true, 'text-right': true}}
+                                                type='number'
+                                                placeholder='Price'
+                                                isInvalid={get(this.state.errorData, ['errors', `delivery_order_items.${key}.price`, 0], false)}
+                                                invalidFeedback={get(this.state.errorData, ['errors', `delivery_order_items.${key}.price`, 0], '')}
+                                                value={do_items[key].price}
+                                                onChange={(e) => {
+                                                    let newPrice = e.target.value
+                                                    this.setState(prevState => {
+                                                        let updated = {}
+                                                        updated[key] = {...do_items[key], price: newPrice} 
+                                                        return {delivery_order_items: {...prevState.delivery_order_items, ...updated}}
+                                                    })
+                                                }}
+                                                />
+                                        </td>
+                                        <td className='text-right'>
+                                            {(do_items[key].price * do_items[key].quantity).toLocaleString('id-ID') }
+                                        </td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table>
+                    </div>
 
                 <div className="text-right">
                     <button className="btn btn-primary btn-sm">

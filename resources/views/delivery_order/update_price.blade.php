@@ -12,6 +12,8 @@
         </ol>
     </nav>
 
+    @include('shared.message-success')
+
     <div class="card">
         <div class="card-body">
             <h1 class="h5">

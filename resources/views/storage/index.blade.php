@@ -28,52 +28,53 @@
             </div>
 
             @include('shared.message-success')
+            <div class="table-responsive">
+                <table class="table table-sm table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th> # </th>
+                            <th> Storage </th>
+                            <th> Address </th>
+                            <th> Control </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($storages as $storage)
+                        <tr>
+                            <td> {{ $loop->iteration }}. </td>
+                            <td> {{ $storage->name }} </td>
+                            <td> {{ $storage->address }} </td>
+                            <td>
+                                <a href="{{ route('storage.stock', $storage) }}" class="btn btn-dark btn-sm mr-2">
+                                    Item Stocks
+                                    <i class="fa fa-list"></i>
+                                </a>
 
-            <table class="table table-sm table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th> # </th>
-                        <th> Storage </th>
-                        <th> Address </th>
-                        <th> Control </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($storages as $storage)
-                    <tr>
-                        <td> {{ $loop->iteration }}. </td>
-                        <td> {{ $storage->name }} </td>
-                        <td> {{ $storage->address }} </td>
-                        <td>
-                            <a href="{{ route('storage.stock', $storage) }}" class="btn btn-dark btn-sm mr-2">
-                                Item Stocks
-                                <i class="fa fa-list"></i>
-                            </a>
+                                <a href="{{ route('storage.update', $storage) }}" class="btn btn-dark btn-sm">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
 
-                            <a href="{{ route('storage.update', $storage) }}" class="btn btn-dark btn-sm">
-                                <i class="fa fa-pencil"></i>
-                            </a>
-
-                            @if($storage->delivery_orders_count == 0)
-                            <form method="POST" class="d-inline-block" action="{{ route('storage.delete', $storage) }}">
-                                @csrf
-                                <button class="btn btn-danger btn-sm">
+                                @if($storage->delivery_orders_count == 0)
+                                <form method="POST" class="d-inline-block" action="{{ route('storage.delete', $storage) }}">
+                                    @csrf
+                                    <button class="btn btn-danger btn-sm">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </form>
+                                @else
+                                <button
+                                    class="btn btn-danger btn-sm disabled"
+                                    data-toggle="tooltip"
+                                    title="Data ini tidak dapat dihapus karena masih terdapat item terkait dengan data ini.">
                                     <i class="fa fa-trash"></i>
                                 </button>
-                            </form>
-                            @else
-                            <button
-                                class="btn btn-danger btn-sm disabled"
-                                data-toggle="tooltip"
-                                title="Data ini tidak dapat dihapus karena masih terdapat item terkait dengan data ini.">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                            @endif
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

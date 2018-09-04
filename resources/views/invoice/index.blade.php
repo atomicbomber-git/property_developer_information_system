@@ -28,67 +28,68 @@
             </div>
 
             @include('shared.message-success')
+            <div class="table-responsive">
+                <table class="table table-sm table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th> # </th>
+                            <th> Invoice </th>
+                            <th> Status </th>
+                            <th> Receivement Date </th>
+                            <th> Control </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($invoices as $invoice)
+                        <tr>
+                            <td> {{ $invoices->firstItem() + $loop->index }}. </td>
+                            <td> Invoice {{ $invoice->id }} </td>
+                            <td>
+                                @switch($invoice->payment_method)
+                                    @case('cash')
+                                    <span class="badge badge-success">
+                                        Paid With Cash
+                                    </span>
+                                    @break
 
-            <table class="table table-sm table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th> # </th>
-                        <th> Invoice </th>
-                        <th> Status </th>
-                        <th> Receivement Date </th>
-                        <th> Control </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($invoices as $invoice)
-                    <tr>
-                        <td> {{ $invoices->firstItem() + $loop->index }}. </td>
-                        <td> Invoice {{ $invoice->id }} </td>
-                        <td>
-                            @switch($invoice->payment_method)
-                                @case('cash')
-                                <span class="badge badge-success">
-                                    Paid With Cash
-                                </span>
-                                @break
+                                    @case('giro')
+                                    <a href="{{ route('giro.update', $invoice->giro_id) }}" class="badge {{ $invoice->giro->transfered_at ? 'badge-success' : 'badge-primary' }}">
+                                        Paid With Giro {{ $invoice->giro_id }}
+                                    </a>
+                                    @break
 
-                                @case('giro')
-                                <a href="{{ route('giro.update', $invoice->giro_id) }}" class="badge {{ $invoice->giro->transfered_at ? 'badge-success' : 'badge-primary' }}">
-                                    Paid With Giro {{ $invoice->giro_id }}
+                                    @default
+                                    <span class="badge badge-danger"> Unpaid </span>
+                                @endswitch
+                            </td>
+
+                            <td>
+                                {{ $invoice->received_at->format('d-m-Y') }}
+                            </td>
+
+                            <td>
+                                <a href="{{ route('invoice.pay', $invoice) }}" class="btn btn-dark mr-2 btn-sm">
+                                    Payment
+                                    <i class="fa fa-usd"></i>
                                 </a>
-                                @break
 
-                                @default
-                                <span class="badge badge-danger"> Unpaid </span>
-                            @endswitch
-                        </td>
+                                <a href="{{ route('invoice.update', $invoice) }}" class="btn btn-dark btn-sm">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
 
-                        <td>
-                            {{ $invoice->received_at->format('d-m-Y') }}
-                        </td>
+                                <form method="POST" class="d-inline-block" action="{{ route('invoice.delete', $invoice) }}">
+                                    @csrf
+                                    <button class="btn btn-danger btn-sm">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
 
-                        <td>
-                            <a href="{{ route('invoice.pay', $invoice) }}" class="btn btn-dark mr-2 btn-sm">
-                                Payment
-                                <i class="fa fa-usd"></i>
-                            </a>
-
-                            <a href="{{ route('invoice.update', $invoice) }}" class="btn btn-dark btn-sm">
-                                <i class="fa fa-pencil"></i>
-                            </a>
-
-                            <form method="POST" class="d-inline-block" action="{{ route('invoice.delete', $invoice) }}">
-                                @csrf
-                                <button class="btn btn-danger btn-sm">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-
-                    @endforeach
-                </tbody>
-            </table>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
             <div class="text-center">
                 {{ $invoices->links() }}

@@ -264,6 +264,8 @@ class DeliveryOrderController extends Controller
 
         DB::commit();
 
+        session()->flash('message.success', __('messages.update.success'));
+
         return [
             'status' => 'success',
             'redirect' => URL::previous()

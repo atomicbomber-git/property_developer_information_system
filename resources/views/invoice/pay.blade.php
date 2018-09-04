@@ -46,33 +46,35 @@
                 @csrf
             </form>
 
-            <table class="table table-sm table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th> # </th>
-                        <th> Delivery Order </th>
-                        <th class="text-right"> Subtotal (Rp) </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($delivery_orders as $delivery_order)
-                    <tr>
-                        <td> {{ $loop->iteration }}. </td>
-                        <td>
-                            <a href="{{ route('delivery_order.update_price', $delivery_order->id) }}">
-                                Delivery Order {{ $delivery_order->id }}
-                            </a>
-                        </td>
-                        <td class="text-right"> @convert_money($delivery_order->subtotal) </td>
-                    </tr>
-                    @endforeach
-                    <tr>
-                        <td></td>
-                        <td class="text-right"> <strong> Total: </strong> </td>
-                        <td id="total" class="text-right"> @convert_money($delivery_orders->sum->subtotal) </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-sm table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th> # </th>
+                            <th> Delivery Order </th>
+                            <th class="text-right"> Subtotal (Rp) </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($delivery_orders as $delivery_order)
+                        <tr>
+                            <td> {{ $loop->iteration }}. </td>
+                            <td>
+                                <a href="{{ route('delivery_order.update_price', $delivery_order->id) }}">
+                                    Delivery Order {{ $delivery_order->id }}
+                                </a>
+                            </td>
+                            <td class="text-right"> @convert_money($delivery_order->subtotal) </td>
+                        </tr>
+                        @endforeach
+                        <tr>
+                            <td></td>
+                            <td class="text-right"> <strong> Total: </strong> </td>
+                            <td id="total" class="text-right"> @convert_money($delivery_orders->sum->subtotal) </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
             <div class="form-group text-right mt-3">
                 <div class="d-inline-block text-left mb-4" style="width: 15rem">
