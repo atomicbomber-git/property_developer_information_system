@@ -29,4 +29,9 @@ class Vendor extends Model
     {
         return strtoupper($value);
     }
+
+    public function getCodeAttribute($value)
+    {
+        return strtoupper($value);
+    }
 }

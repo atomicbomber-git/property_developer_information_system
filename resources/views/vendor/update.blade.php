@@ -31,7 +31,7 @@
                         @csrf
         
                         <div class='form-group'>
-                            <label for='name'> Nama: </label>
+                            <label for='name'> Name: </label>
                         
                             <input
                                 id='name' name='name' type='text'
@@ -44,7 +44,7 @@
                         </div>
         
                         <div class='form-group'>
-                            <label for='address'> Alamat: </label>
+                            <label for='address'> Address: </label>
                         
                             <textarea
                                 id='address' name='address'
@@ -57,9 +57,9 @@
                             </div>
                         </div>
 
-                        <div class="text-right mt-3">
-                            <button class="btn btn-primary btn-sm">
-                                Perbarui
+                        <div class="form-group text-right mt-3">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                Update
                                 <i class="fa fa-check"></i>
                             </button>
                         </div>
@@ -71,7 +71,8 @@
         </div>
 
         <div class="col">
-            <div class="card">
+            <div class="row">
+            <div class="card w-100">
                 <div class="card-body">
                     <h1 class="h5">
                         <i class="fa fa-pencil"></i>
@@ -80,23 +81,49 @@
 
                     <hr class="mt-2 mb-2">
 
-                    <div class="form-group">
-                        @forelse ($vendor->contact_people as $contact_person)
-                        <div class="input-group mt-2">
-                            <input type="text" value="{{ $contact_person->name }}" name="contact_people[{{ $contact_person->id }}][name]" placeholder="Name" class="form-control">
-                            <input type="text" value="{{ $contact_person->phone }}" name="contact_people[{{ $contact_person->id }}][phone]" placeholder="Phone" class="form-control">
-                            <div class="input-group-append">
-                                <button form="form-delete-{{ $contact_person->id }}" class="btn btn-danger">
-                                    <i class="fa fa-trash"></i>
-                                </button>
+                    <form action="{{ route('vendor_contact_person.update', $vendor) }}" method="POST">
+                        @csrf
+                        <div class="form-group">
+                            @forelse ($vendor->contact_people as $contact_person)
+                            <input type="hidden" name="contact_people[{{ $contact_person->id }}][id]" value="{{ $contact_person->id }}">
+                            <div class="input-group mt-2">
+                                
+                                <input
+                                    type="text"
+                                    value="{{ old("contact_people.$contact_person->id.name", $contact_person->name) }}"
+                                    name="contact_people[{{ $contact_person->id }}][name]" placeholder="Name"
+                                    class="form-control {{ $errors->first("contact_people.$contact_person->id.name", 'is-invalid') }}">
+
+                                <input type="text" value="{{ old("contact_people.$contact_person->id.phone", $contact_person->phone) }}"
+                                    name="contact_people[{{ $contact_person->id }}][phone]" placeholder="Phone"
+                                    class="form-control {{ $errors->first("contact_people.$contact_person->id.phone", 'is-invalid') }}">
+
+                                <div class="input-group-append">
+                                    <button form="form-delete-{{ $contact_person->id }}" class="btn btn-danger">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+
                             </div>
+                            <span class="d-block text-danger">
+                                {{ $errors->first("contact_people.$contact_person->id.name") }}
+                                {{ $errors->first("contact_people.$contact_person->id.phone")  }}
+                            </span>
+
+                            @empty
+                            <div class="alert alert-info">
+                                There's no any contact person at all.
+                            </div>
+                            @endforelse
                         </div>
-                        @empty
-                        <div class="alert alert-info">
-                            There's no any contact person at all.
+                    
+                        <div class="form-group text-right">
+                            <button class="btn btn-primary btn-sm">
+                                Update
+                                <i class="fa fa-check"></i>
+                            </button>
                         </div>
-                        @endforelse
-                    </div>
+                    </form>
 
                     @foreach ($vendor->contact_people as $contact_person)
                     <form id="form-delete-{{ $contact_person->id }}" method="POST" action="{{ route('vendor_contact_person.delete', [$vendor, $contact_person]) }}">
@@ -105,13 +132,17 @@
                     @endforeach
 
                     <div id="vendor-id" data-vendor-id="{{ $vendor->id }}"></div>
-
-                    <h1 class="h5 mt-5">
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="card w-100">
+                    <div class="card-body">
+                        <h1 class="h5">
                         <i class="fa fa-plus"></i>
                         Add New Contact Persons
                     </h1>
-
-                    <hr/>
+                    <hr class="mt-2 mb-2">
                     <div id="add-contact-persons-form">
                         <AddContactPersonsForm/>
                     </div>
@@ -119,5 +150,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 @endsection

@@ -12,6 +12,7 @@ class CreateVendorForm extends React.Component {
         this.state = {
             name: '',
             address: '',
+            code: '',
             contact_persons: [{key: this.keyCounter++, name: '', phone:'' }],
             errorData: {}
         }
@@ -27,6 +28,7 @@ class CreateVendorForm extends React.Component {
         return {
             name: this.state.name,
             address: this.state.address,
+            code: this.state.code,
             contact_people: keyBy(this.state.contact_persons, 'key')
         }
     }
@@ -73,6 +75,18 @@ class CreateVendorForm extends React.Component {
                         value={this.state.name}
                         onChange={(e) => { this.setState({ name: e.target.value }) }}
                         placeholder="Name of the vendor"
+                        />
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="name"> Vendor Code: </label>
+                    <InputFormControl
+                        id="name"
+                        isInvalid={get(this.state.errorData, 'errors.code[0]', false)}
+                        invalidFeedback={get(this.state.errorData, 'errors.code[0]', '')}
+                        value={this.state.code}
+                        onChange={(e) => { this.setState({ code: e.target.value }) }}
+                        placeholder="Code of the vendor"
                         />
                 </div>
 

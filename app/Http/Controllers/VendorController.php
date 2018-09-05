@@ -33,6 +33,7 @@ class VendorController extends Controller
     {
         $data = $this->validate(request(), [
             'name' => 'required|string',
+            'code' => 'required|string',
             'address' => 'required|string',
             'contact_people' => 'required|array',
             'contact_people.*.name' => 'required|string',
@@ -42,7 +43,8 @@ class VendorController extends Controller
         DB::transaction(function() use($data) {
             $vendor = Vendor::create([
                 'name' => $data['name'],
-                'address' => $data['address']
+                'address' => $data['address'],
+                'code' => $data['code']
             ]);
 
             foreach ($data['contact_people'] as $contact_person) {

@@ -27,8 +27,12 @@ Route::middleware(['auth'])->group(function() {
         Route::post('/delete/{vendor}', 'VendorController@delete')->name('vendor.delete');
         Route::get('/unbilled_delivery_orders/{vendor}', 'VendorController@unbilledDeliveryOrders')->name('vendor.unbilled_delivery_orders');
         Route::get('/item/{vendor}', 'VendorController@item')->name('vendor.item');
-        Route::post('/contact_persons/{vendor}/create', 'VendorContactPersonController@create')->name('vendor_contact_person.create');
-        Route::post('/contact_persons/{vendor}/delete/{contact_person}', 'VendorContactPersonController@delete')->name('vendor_contact_person.delete');
+
+        Route::prefix('/contact_persons')->group(function() {
+            Route::post('/{vendor}/create', 'VendorContactPersonController@create')->name('vendor_contact_person.create');
+            Route::post('/{vendor}/delete/{contact_person}', 'VendorContactPersonController@delete')->name('vendor_contact_person.delete');
+            Route::post('/{vendor}/update', 'VendorContactPersonController@update')->name('vendor_contact_person.update');
+        });
     });
 
     Route::prefix('/storage')->group(function () {

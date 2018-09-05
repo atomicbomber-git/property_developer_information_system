@@ -35,7 +35,8 @@
                         <tr>
                             <th> # </th>
                             <th> Nama Vendor </th>
-                            <th> Alamat </th>
+                            <th> Code </th>
+                            <th style="width: 14rem"> Alamat </th>
                             <th> Contact People </th>
                             <th> Kendali </th>
                         </tr>
@@ -45,6 +46,7 @@
                         <tr>
                             <td> {{ $loop->iteration }}. </td>
                             <td> {{ $vendor->name }} </td>
+                            <td> {{ $vendor->code }} </td>
                             <td> {{ $vendor->address }} </td>
                             <td>
                                 @foreach ($vendor->contact_people as $contact_person)
