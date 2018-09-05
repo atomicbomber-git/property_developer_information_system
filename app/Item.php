@@ -27,4 +27,9 @@ class Item extends Model
     {
         return $this->hasMany(DeliveryOrderItem::class);
     }
+
+    public function getNameAttribute($value)
+    {
+        return ucfirst($value);
+    }
 }

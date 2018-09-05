@@ -14,4 +14,9 @@ class Category extends Model
     {
         return $this->hasMany(Item::class);
     }
+
+    public function getNameAttribute($value)
+    {
+        return ucfirst($value);
+    }
 }
