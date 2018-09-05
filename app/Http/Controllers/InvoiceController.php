@@ -163,7 +163,7 @@ class InvoiceController extends Controller
     public function pay(Invoice $invoice)
     {
         $delivery_orders = DeliveryOrderItem::query()
-            ->select('delivery_orders.id', DB::raw('SUM(price * quantity) AS subtotal'))
+            ->select('delivery_orders.id', 'delivery_orders.received_at', DB::raw('SUM(price * quantity) AS subtotal'))
             ->join('delivery_orders', 'delivery_orders.id', '=', 'delivery_order_items.delivery_order_id')
             ->join('items', 'items.id', '=', 'delivery_order_items.item_id')
             ->where('delivery_orders.invoice_id', $invoice->id)

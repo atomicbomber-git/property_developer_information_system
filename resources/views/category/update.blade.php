@@ -23,7 +23,7 @@
 
             <form
                 method='POST'
-                action='{{ route('category.create') }}'>
+                action='{{ route('category.update', $category) }}'>
                 @csrf
 
                 <div class='form-group'>

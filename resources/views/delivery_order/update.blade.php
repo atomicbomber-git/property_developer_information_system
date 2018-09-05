@@ -30,7 +30,7 @@
                     <label for='receiver_id'> Penerima Delivery Order: </label>
                     <select name='receiver_id' id='receiver_id' class='form-control'>
                         @foreach($users as $user)
-                        <option {{ old('receiver_id', $delivery_order->receiver_id) !== $user->id ?: 'selected' }} value='{{ $user->id }}'> {{ $user->name }} </option>
+                        <option {{ old('receiver_id', $delivery_order->receiver_id) == $user->id ? 'selected' : '' }} value='{{ $user->id }}'> {{ $user->name }} </option>
                         @endforeach
                     </select>
                     <div class='invalid-feedback'>
@@ -42,7 +42,7 @@
                     <label for='source_id'> Vendor: </label>
                     <select name='source_id' id='source_id' class='form-control'>
                         @foreach($vendors as $vendor)
-                        <option {{ old('source_id', $delivery_order->source_id) !== $vendor->id ?: 'selected' }} value='{{ $vendor->id }}'> {{ $vendor->name }} </option>
+                        <option {{ old('source_id', $delivery_order->source_id) == $vendor->id ? 'selected' : '' }} value='{{ $vendor->id }}'> {{ $vendor->name }} </option>
                         @endforeach
                     </select>
                     <div class='invalid-feedback'>
@@ -54,7 +54,7 @@
                     <label for='target_id'> Storage: </label>
                     <select name='target_id' id='target_id' class='form-control'>
                         @foreach($storages as $storage)
-                        <option {{ old('target_id', $delivery_order->target_id) !== $storage->id ?: 'selected' }} value='{{ $storage->id }}'> {{ $storage->name }} </option>
+                        <option {{ old('target_id', $delivery_order->target_id) == $storage->id ? 'selected' : '' }} value='{{ $storage->id }}'> {{ $storage->name }} </option>
                         @endforeach
                     </select>
                     <div class='invalid-feedback'>

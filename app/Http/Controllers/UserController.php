@@ -79,11 +79,7 @@ class UserController extends Controller
 
     public function delete(User $user)
     {
-        if ($user->invoices_created()->count() > 0 || $user->invoices_received()->count() > 0)
-            abort(409);
-
-        $user->delete();
-        
+        $user->delete();   
         return back()
             ->with('message.success', __('messages.delete.success'));
     }

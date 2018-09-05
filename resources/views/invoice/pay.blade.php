@@ -62,6 +62,7 @@
                             <td>
                                 <a href="{{ route('delivery_order.update_price', $delivery_order->id) }}">
                                     Delivery Order {{ $delivery_order->id }}
+                                    ({{ ( new Date ($delivery_order->received_at) )->format('d-m-Y')  }})
                                 </a>
                             </td>
                             <td class="text-right"> @convert_money($delivery_order->subtotal) </td>
