@@ -17,6 +17,6 @@ class Category extends Model
 
     public function getNameAttribute($value)
     {
-        return ucfirst($value);
+        return strtoupper($value);
     }
 }

@@ -25,4 +25,9 @@ class Vendor extends Model
     {
         return $this->morphMany(DeliveryOrder::class, 'source');
     }
+
+    public function getNameAttribute($value)
+    {
+        return strtoupper($value);
+    }
 }
