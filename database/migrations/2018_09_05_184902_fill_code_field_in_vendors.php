@@ -15,7 +15,7 @@ class FillCodeFieldInVendors extends Migration
     public function up()
     {
         Schema::table('vendors', function (Blueprint $table) {
-            DB::update("UPDATE vendors SET code = (substring(upper(name) from 1 for 5) || '-' || id)");
+            DB::update("UPDATE vendors SET code = (substring(trim(upper(name)) from 1 for 3) || id)");
         });
     }
 
