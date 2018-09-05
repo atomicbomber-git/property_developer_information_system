@@ -51,7 +51,7 @@ class GiroController extends Controller
     public function processUpdate(Giro $giro)
     {
         $data = $this->validate(request(), [
-            'number' => 'nullable|numeric',
+            'number' => 'nullable|string',
             'amount' => 'nullable|min:0',
             'transfered_at' => 'nullable:date'
         ]);

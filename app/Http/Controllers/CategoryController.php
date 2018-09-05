@@ -11,7 +11,7 @@ class CategoryController extends Controller
     {
         $categories = Category::select('id', 'name')
             ->withCount('items')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('name')
             ->get();
 
         return view('category.index', compact('categories'));
@@ -37,7 +37,7 @@ class CategoryController extends Controller
 
     public function update(Category $category)
     {
-        return view('category.update', compact($category));
+        return view('category.update', compact('category'));
     }
 
     public function processUpdate(Category $category)
