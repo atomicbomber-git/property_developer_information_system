@@ -35,8 +35,8 @@
                         <tr>
                             <th> # </th>
                             <th> Item </th>
-                            <th> Unit </th>
                             <th> Stock </th>
+                            <th> Unit </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -44,8 +44,8 @@
                         <tr>
                             <td> {{ $loop->iteration }}. </td>
                             <td> {{ $item_stock->name }} </td>
-                            <td> {{ $item_stock->unit }} </td>
                             <td> {{ $item_stock->stock }} </td>
+                            <td> {{ $item_stock->unit }} </td>
                         </tr>
                         @endforeach
                     </tbody>
