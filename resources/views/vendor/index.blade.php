@@ -59,7 +59,7 @@
                                     <i class="fa fa-pencil"></i>
                                 </a>
 
-                                @if ($vendor->items_count == 0)
+                                @if ($vendor->items_count + $vendor->contact_people_count == 0)
 
                                 <form method="POST" class="d-inline-block" action="{{ route('vendor.delete', $vendor) }}">
                                     @csrf

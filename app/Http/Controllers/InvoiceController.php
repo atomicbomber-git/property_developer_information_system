@@ -17,10 +17,20 @@ class InvoiceController extends Controller
     public function index()
     {
         $invoices = Invoice::select('id', 'cash_amount', 'giro_id', 'received_at', 'transfered_at')
-            ->with('giro:id,amount,number,transfered_at')
+            ->with([
+                'delivery_orders' => function ($query) { $query->select('invoice_id', 'source_id', 'source_type'); },
+                'delivery_orders.source',
+                'giro:id,amount,number,transfered_at'
+            ])
             ->orderBy('received_at', 'desc')
             ->paginate(10);
 
+        $invoices->transform(function($invoice) {
+            $code = optional(optional($invoice->delivery_orders->first())->source)->code;
+            $invoice->code = $code ? $code . '-' . $invoice->id : null;
+            return $invoice;
+        });
+        
         return view('invoice.index', compact('invoices'));
     }
 
