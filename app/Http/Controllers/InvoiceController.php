@@ -18,7 +18,7 @@ class InvoiceController extends Controller
     {
         $invoices = Invoice::select('id', 'cash_amount', 'giro_id', 'received_at', 'transfered_at')
             ->with('giro:id,amount,number,transfered_at')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('received_at', 'desc')
             ->paginate(10);
 
         return view('invoice.index', compact('invoices'));
