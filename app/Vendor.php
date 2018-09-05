@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Vendor extends Model
 {
     public $fillable = [
-        'name',
-        'address'
+        'name', 'address', 'code'
     ];
 
     public function items()
