@@ -42,6 +42,19 @@
                                 {{ $errors->first('name') }}
                             </div>
                         </div>
+
+                        <div class='form-group'>
+                            <label for='code'> Code: </label>
+                        
+                            <input
+                                id='code' name='code' type='text'
+                                value='{{ old('code', $vendor->code) }}'
+                                class='form-control {{ !$errors->has('code') ?: 'is-invalid' }}'>
+                        
+                            <div class='invalid-feedback'>
+                                {{ $errors->first('code') }}
+                            </div>
+                        </div>
         
                         <div class='form-group'>
                             <label for='address'> Address: </label>

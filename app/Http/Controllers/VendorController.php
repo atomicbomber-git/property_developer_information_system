@@ -73,7 +73,8 @@ class VendorController extends Controller
     {
         $data = $this->validate(request(), [
             'name' => 'required|string',
-            'address' => 'nullable|string'
+            'address' => 'nullable|string',
+            'code' => 'nullable|string'
         ]);
 
         $vendor->update($data);

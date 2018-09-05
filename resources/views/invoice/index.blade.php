@@ -33,7 +33,7 @@
                     <thead class="thead-dark">
                         <tr>
                             <th> # </th>
-                            <th> Invoice </th>
+                            <th> Code </th>
                             <th> Status </th>
                             <th> Receivement Date </th>
                             <th> Control </th>
@@ -43,7 +43,7 @@
                         @foreach ($invoices as $invoice)
                         <tr>
                             <td> {{ $invoices->firstItem() + $loop->index }}. </td>
-                            <td> Invoice {{ $invoice->id }} </td>
+                            <td> {{ $invoice->code }} </td>
                             <td>
                                 @switch($invoice->payment_method)
                                     @case('cash')
