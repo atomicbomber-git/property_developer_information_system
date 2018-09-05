@@ -11,6 +11,9 @@ class StorageController extends Controller
 {
     public function index()
     {
+        if (request()->ajax())
+            return Storage::select('id', 'name')->get();
+
         $storages = Storage::query()
             ->select('id', 'name', 'address')
             ->withCount('inbound_delivery_orders')

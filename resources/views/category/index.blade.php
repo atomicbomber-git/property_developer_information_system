@@ -28,51 +28,52 @@
             </div>
 
             @include('shared.message-success')
+            <div class="table-responsive">
+                <table class="table table-sm table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th> # </th>
+                            <th> Nama </th>
+                            <th> Control </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($categories as $category)
+                        <tr>
+                            <td> {{ $loop->iteration }}. </td>
+                            <td> {{ $category->name }} </td>
+                            <td>
+                                <a href="{{ route('item.index', $category) }}" class="btn btn-dark btn-sm mr-2">
+                                    Items
+                                    <i class="fa fa-list"></i>
+                                </a>
 
-            <table class="table table-sm table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th> # </th>
-                        <th> Nama </th>
-                        <th> Control </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($categories as $category)
-                    <tr>
-                        <td> {{ $loop->iteration }}. </td>
-                        <td> {{ $category->name }} </td>
-                        <td>
-                            <a href="{{ route('item.index', $category) }}" class="btn btn-dark btn-sm mr-2">
-                                Items
-                                <i class="fa fa-list"></i>
-                            </a>
+                                <a href="{{ route('category.update', $category) }}" class="btn btn-dark btn-sm">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
 
-                            <a href="{{ route('category.update', $category) }}" class="btn btn-dark btn-sm">
-                                <i class="fa fa-pencil"></i>
-                            </a>
+                                @if ($category->items_count == 0)
 
-                            @if ($category->items_count == 0)
+                                <form method="POST" class="d-inline-block" action="{{ route('category.delete', $category) }}">
+                                    @csrf
+                                    <button class="btn btn-danger btn-sm">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </form>
 
-                            <form method="POST" class="d-inline-block" action="{{ route('category.delete', $category) }}">
-                                @csrf
-                                <button class="btn btn-danger btn-sm">
+                                @else
+
+                                <button class="btn btn-danger btn-sm disabled" data-toggle="tooltip" title="Data ini tidak dapat dihapus karena masih terdapat item terkait dengan data ini.">
                                     <i class="fa fa-trash"></i>
                                 </button>
-                            </form>
 
-                            @else
-
-                            <button class="btn btn-danger btn-sm disabled" data-toggle="tooltip" title="Data ini tidak dapat dihapus karena masih terdapat item terkait dengan data ini.">
-                                <i class="fa fa-trash"></i>
-                            </button>
-
-                            @endif
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

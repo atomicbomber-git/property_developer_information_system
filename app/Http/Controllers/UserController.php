@@ -11,6 +11,9 @@ class UserController extends Controller
 {
     public function index()
     {
+        if (request()->ajax())
+            return User::select('id', 'name')->get();
+
         $users = User::query()
             ->select('id', 'name', 'privilege', 'username')
             ->withCount(['invoices_received'])

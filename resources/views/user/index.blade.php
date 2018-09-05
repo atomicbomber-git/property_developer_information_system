@@ -28,53 +28,54 @@
             </div>
 
             @include('shared.message-success')
+            <div class="table-responsive">
+                <table class="table table-sm table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th> # </th>
+                            <th> Name </th>
+                            <th> Username </th>
+                            <th> Hak Akses </th>
+                            <th> Control </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($users as $user)
+                        <tr>
+                            <td> {{ $loop->iteration }}. </td>
+                            <td> {{ $user->name }} </td>
+                            <td> {{ $user->username }} </td>
+                            <td> {{ $user->privilege }} </td>
+                            <td>
+                                <a href="{{ route('user.update', $user) }}" class="btn btn-dark btn-sm">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
 
-            <table class="table table-sm table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th> # </th>
-                        <th> Name </th>
-                        <th> Username </th>
-                        <th> Hak Akses </th>
-                        <th> Control </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($users as $user)
-                    <tr>
-                        <td> {{ $loop->iteration }}. </td>
-                        <td> {{ $user->name }} </td>
-                        <td> {{ $user->username }} </td>
-                        <td> {{ $user->privilege }} </td>
-                        <td>
-                            <a href="{{ route('user.update', $user) }}" class="btn btn-dark btn-sm">
-                                <i class="fa fa-pencil"></i>
-                            </a>
+                                @if($user->invoices_created_count + $user->invoices_received_count == 0)
 
-                            @if($user->invoices_created_count + $user->invoices_received_count == 0)
+                                <form method="POST" class="d-inline-block" action="{{ route('user.delete', $user) }}">
+                                    @csrf
+                                    <button class="btn btn-danger btn-sm">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </form>
 
-                            <form method="POST" class="d-inline-block" action="{{ route('user.delete', $user) }}">
-                                @csrf
-                                <button class="btn btn-danger btn-sm">
+                                @else
+
+                                <button
+                                    class="btn btn-danger btn-sm disabled"
+                                    data-toggle="tooltip"
+                                    title="Data ini tidak dapat dihapus karena masih terdapat item terkait dengan data ini.">
                                     <i class="fa fa-trash"></i>
                                 </button>
-                            </form>
 
-                            @else
-
-                            <button
-                                class="btn btn-danger btn-sm disabled"
-                                data-toggle="tooltip"
-                                title="Data ini tidak dapat dihapus karena masih terdapat item terkait dengan data ini.">
-                                <i class="fa fa-trash"></i>
-                            </button>
-
-                            @endif
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

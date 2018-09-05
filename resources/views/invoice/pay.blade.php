@@ -46,59 +46,35 @@
                 @csrf
             </form>
 
-            <table class="table table-sm table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th> # </th>
-                        <th> Delivery Order </th>
-                        <th> Item </th>
-                        <th> Quantity </th>
-                        <th> Unit </th>
-                        <th class="text-right"> Price </th>
-                        <th class="text-right"> Subtotal (Rp) </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($delivery_order_items as $delivery_order_item)
-                    <tr>
-                        <td> {{ $loop->iteration }}. </td>
-                        <td> Delivery Order {{ $delivery_order_item->delivery_order_id }} </td>
-                        <td> {{ $delivery_order_item->item->name }} </td>
-                        <td>
-                            <span class="quantity"  data-item-id="{{ $delivery_order_item->id }}">
-                                {{ $delivery_order_item->quantity }}
-                            </span>
-                        </td>
-                        <td> {{ $delivery_order_item->item->unit }} </td>
-                        <td style="width: 10rem">
-                            <input
-                                form="pay-form"
-                                tabindex="100"
-                                data-item-id="{{ $delivery_order_item->id }}"
-                                class="pr-2 text-right form-control form-control-sm {{ $errors->first("delivery_order_items.$delivery_order_item->item_id", 'is-invalid') }}"
-                                name="delivery_order_items[{{ $delivery_order_item->id }}]" type="number"
-                                value="{{ old("delivery_order_items.$delivery_order_item->id", $delivery_order_item->price) }}">
-
-                            <div class='invalid-feedback'>
-                                {{ $errors->first("delivery_order_items.$delivery_order_item->id") }}
-                            </div>
-                        </td>
-                        <td style="width: 10rem" class="text-right subtotal" data-item-id="{{ $delivery_order_item->id }}">
-                            {{ $delivery_order_item->subtotal }}
-                        </td>
-                    </tr>
-                    @endforeach
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="text-right"> <strong> Total: </strong> </td>
-                        <td id="total" class="text-right"> </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-sm table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th> # </th>
+                            <th> Delivery Order </th>
+                            <th class="text-right"> Subtotal (Rp) </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($delivery_orders as $delivery_order)
+                        <tr>
+                            <td> {{ $loop->iteration }}. </td>
+                            <td>
+                                <a href="{{ route('delivery_order.update_price', $delivery_order->id) }}">
+                                    Delivery Order {{ $delivery_order->id }}
+                                </a>
+                            </td>
+                            <td class="text-right"> @convert_money($delivery_order->subtotal) </td>
+                        </tr>
+                        @endforeach
+                        <tr>
+                            <td></td>
+                            <td class="text-right"> <strong> Total: </strong> </td>
+                            <td id="total" class="text-right"> @convert_money($delivery_orders->sum->subtotal) </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
             <div class="form-group text-right mt-3">
                 <div class="d-inline-block text-left mb-4" style="width: 15rem">
@@ -159,41 +135,6 @@
 
 @section('script')
 <script>
-    //----------------------- SUBTOTAL AND TOTAL PRICE CALCULATION -------------------------------
-    setTotal();
-    $('input[data-item-id]').each((i, elem) => {
-        setSubtotal($(elem));
-
-        $(elem).change(() => {
-            setSubtotal($(elem));
-            setTotal();
-        });
-    });
-
-    function setSubtotal(input_elem)
-    {
-        let item_id = input_elem.data('item-id');
-        let price = input_elem.val();
-        let quantity = parseInt($(`.quantity[data-item-id=${item_id}]`).text());
-        let subtotal = (price * quantity).toLocaleString("id-ID");
-        $(`td.subtotal[data-item-id=${item_id}]`).text(subtotal);
-    }
-
-    function setTotal()
-    {
-        let total = 0;
-
-        $('input[data-item-id]').each((i, elem) => {
-            let price = $(elem).val();
-            let item_id = $(elem).data('item-id');
-            let quantity = parseInt($(`.quantity[data-item-id=${item_id}]`).text());
-            total = total + (price * quantity)
-        });
-
-        $('td#total').text(total.toLocaleString("id-ID"));
-    }
-    //--------------------------------------------------------------------------------------------
-
     // ---------------------- SHOW WARNING ON EXIT EXCEPT ON FORM SUBMIT -------------------------
     let is_submitting = false;
 

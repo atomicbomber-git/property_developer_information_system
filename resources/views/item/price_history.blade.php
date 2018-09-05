@@ -24,24 +24,26 @@
 
             @include('shared.message-success')
 
-            <table class="table table-sm table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th style="width: 1rem"> # </th>
-                        <th style="width: 10rem" class="text-right pr-5"> Price (Rp) </th>
-                        <th> Date </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($item_prices as $item_price)
-                    <tr>
-                        <td> {{ $loop->iteration }}. </td>
-                        <td class="text-right pr-5"> @convert_money($item_price->price) </td>
-                        <td> @format_date($item_price->received_at) </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-sm table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th style="width: 1rem"> # </th>
+                            <th style="width: 10rem" class="text-right pr-5"> Price (Rp) </th>
+                            <th> Date </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($item_prices as $item_price)
+                        <tr>
+                            <td> {{ $loop->iteration }}. </td>
+                            <td class="text-right pr-5"> @convert_money($item_price->price) </td>
+                            <td> @format_date($item_price->received_at) </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
             <div>
                 {{ $item_prices->links() }}

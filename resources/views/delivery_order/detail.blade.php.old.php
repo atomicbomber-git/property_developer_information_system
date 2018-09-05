@@ -118,64 +118,66 @@
                         </h1>
             
                         <hr class="mt-2 mb-2">
-            
-                        <table class="table table-sm">
-                            <thead class="thead thead-dark">
-                                <tr>
-                                    <th> # </th>
-                                    <th> Item </th>
-                                    <th> Qty. </th>
-                                    <th> Satuan </th>
-                                    <th> Harga per Satuan </th>
-                                    <th class="text-center"> <i class="fa fa-wrench"></i> </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($delivery_order->invoice_items as $invoice_item)
-                                <tr class="font-weight-bold table-active mb-3">
-                                    <td> {{ $loop->iteration }}. </td>
-                                    <td class="text-primary"> {{ $invoice_item->item->name }} </td>
-                                    <td> {{ $invoice_item->total_quantity }} </td>
-                                    <td> {{ $invoice_item->item->unit }} </td>
-                                    <td> {{ $invoice_item->price ?? '-' }} </td>
-                                    <td class="text-center">
-                                        <button class="btn btn-toggle-subitem btn-sm" data-delivery_order-item-id="{{ $invoice_item->id }}">
-                                            <i class="fa fa-chevron-up"></i>
-                                        </button>
-                                    </td>
-                                </tr>
 
-                                <tr class="d-none" data-delivery_order-item-id="{{ $invoice_item->id }}">
-                                    <td class="pt-2"></td>
-                                    <td class="pt-2"></td>
-                                    <td class="pt-2"></td>
-                                    <td class="pt-2"></td>
-                                    <td class="pt-2"></td>
-                                    <td class="pt-2"></td>
-                                </tr>
-
-                                @foreach ($invoice_item->allocations as $allocation)
-                                <tr class="d-none" data-delivery_order-item-id="{{ $invoice_item->id }}">
-                                    <td class="border-top-0 pt-1 {{ $loop->last ? 'pb-4' : 'pb-1' }}"> </td>
-                                    <td class="border-top-0 pt-1 align-middle {{ $loop->last ? 'pb-4' : 'pb-1' }}">
-                                        <form method="POST" class="d-inline-block" action="{{ route('allocation.delete', [$delivery_order, $allocation]) }}">
-                                            @csrf
-                                            <button class="btn btn-outline-danger btn-sm mr-2">
-                                                <i class="fa fa-trash"></i>
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead class="thead thead-dark">
+                                    <tr>
+                                        <th> # </th>
+                                        <th> Item </th>
+                                        <th> Qty. </th>
+                                        <th> Satuan </th>
+                                        <th> Harga per Satuan </th>
+                                        <th class="text-center"> <i class="fa fa-wrench"></i> </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($delivery_order->invoice_items as $invoice_item)
+                                    <tr class="font-weight-bold table-active mb-3">
+                                        <td> {{ $loop->iteration }}. </td>
+                                        <td class="text-primary"> {{ $invoice_item->item->name }} </td>
+                                        <td> {{ $invoice_item->total_quantity }} </td>
+                                        <td> {{ $invoice_item->item->unit }} </td>
+                                        <td> {{ $invoice_item->price ?? '-' }} </td>
+                                        <td class="text-center">
+                                            <button class="btn btn-toggle-subitem btn-sm" data-delivery_order-item-id="{{ $invoice_item->id }}">
+                                                <i class="fa fa-chevron-up"></i>
                                             </button>
-                                        </form>
-                                        {{ $allocation->storage->name }}
-                                    </td>
-                                    <td class="border-top-0 pt-1 {{ $loop->last ? 'pb-4' : 'pb-1' }}"> {{ $allocation->quantity }} </td>
-                                    <td class="border-top-0 pt-1 {{ $loop->last ? 'pb-4' : 'pb-1' }}"> </td>
-                                    <td class="border-top-0 pt-1 {{ $loop->last ? 'pb-4' : 'pb-1' }}"> </td>
-                                    <td class="border-top-0 pt-1 {{ $loop->last ? 'pb-4' : 'pb-1' }}"> </td>
-                                </tr>
-                                @endforeach
+                                        </td>
+                                    </tr>
 
-                                @endforeach
-                            </tbody>
-                        </table>
+                                    <tr class="d-none" data-delivery_order-item-id="{{ $invoice_item->id }}">
+                                        <td class="pt-2"></td>
+                                        <td class="pt-2"></td>
+                                        <td class="pt-2"></td>
+                                        <td class="pt-2"></td>
+                                        <td class="pt-2"></td>
+                                        <td class="pt-2"></td>
+                                    </tr>
+
+                                    @foreach ($invoice_item->allocations as $allocation)
+                                    <tr class="d-none" data-delivery_order-item-id="{{ $invoice_item->id }}">
+                                        <td class="border-top-0 pt-1 {{ $loop->last ? 'pb-4' : 'pb-1' }}"> </td>
+                                        <td class="border-top-0 pt-1 align-middle {{ $loop->last ? 'pb-4' : 'pb-1' }}">
+                                            <form method="POST" class="d-inline-block" action="{{ route('allocation.delete', [$delivery_order, $allocation]) }}">
+                                                @csrf
+                                                <button class="btn btn-outline-danger btn-sm mr-2">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </form>
+                                            {{ $allocation->storage->name }}
+                                        </td>
+                                        <td class="border-top-0 pt-1 {{ $loop->last ? 'pb-4' : 'pb-1' }}"> {{ $allocation->quantity }} </td>
+                                        <td class="border-top-0 pt-1 {{ $loop->last ? 'pb-4' : 'pb-1' }}"> </td>
+                                        <td class="border-top-0 pt-1 {{ $loop->last ? 'pb-4' : 'pb-1' }}"> </td>
+                                        <td class="border-top-0 pt-1 {{ $loop->last ? 'pb-4' : 'pb-1' }}"> </td>
+                                    </tr>
+                                    @endforeach
+
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 </div>

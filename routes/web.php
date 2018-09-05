@@ -27,6 +27,8 @@ Route::middleware(['auth'])->group(function() {
         Route::post('/delete/{vendor}', 'VendorController@delete')->name('vendor.delete');
         Route::get('/unbilled_delivery_orders/{vendor}', 'VendorController@unbilledDeliveryOrders')->name('vendor.unbilled_delivery_orders');
         Route::get('/item/{vendor}', 'VendorController@item')->name('vendor.item');
+        Route::post('/contact_persons/{vendor}/create', 'VendorContactPersonController@create')->name('vendor_contact_person.create');
+        Route::post('/contact_persons/{vendor}/delete/{contact_person}', 'VendorContactPersonController@delete')->name('vendor_contact_person.delete');
     });
 
     Route::prefix('/storage')->group(function () {
@@ -65,6 +67,9 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/update/{delivery_order}', 'DeliveryOrderController@update')->name('delivery_order.update');
         Route::post('/update/{delivery_order}', 'DeliveryOrderController@processUpdate')->name('delivery_order.update');
         Route::post('/delete/{delivery_order}', 'DeliveryOrderController@delete')->name('delivery_order.delete');
+
+        Route::get('/update_price/{delivery_order}', 'DeliveryOrderController@updatePrice')->name('delivery_order.update_price');
+        Route::post('/update_price/{delivery_order}', 'DeliveryOrderController@processUpdatePrice')->name('delivery_order.update_price');
 
         Route::prefix('/detail/{delivery_order}/')->group(function() {
             Route::get('/', 'DeliveryOrderController@detail')->name('delivery_order.detail');

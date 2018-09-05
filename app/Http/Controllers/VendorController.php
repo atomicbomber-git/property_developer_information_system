@@ -11,11 +11,16 @@ class VendorController extends Controller
 {
     public function index()
     {
-        $vendors = Vendor::query()
-            ->withCount('items', 'contact_people')
-            ->with('contact_people:vendor_id,name,phone')
-            ->get();
+        if (request()->ajax()) {
+            return Vendor::select('id', 'name')->get();
+        }
 
+        $vendors = Vendor::query()
+            ->withCount('items')
+            ->with('contact_people:vendor_id,name,phone')
+            ->orderBy('created_at', 'desc')
+            ->get();
+        
         return view('vendor.index', compact('vendors'));
     }
 
@@ -28,7 +33,7 @@ class VendorController extends Controller
     {
         $data = $this->validate(request(), [
             'name' => 'required|string',
-            'address' => 'nullable|string',
+            'address' => 'required|string',
             'contact_people' => 'required|array',
             'contact_people.*.name' => 'required|string',
             'contact_people.*.phone' => 'required|string',
@@ -46,13 +51,17 @@ class VendorController extends Controller
             }
         });
 
-        return redirect()
-            ->route('vendor.index')
-            ->with('message.success', __('messages.create.success'));
+        session()->flash('message.success', __('messages.create.success'));
+
+        return [
+            'status' => 'success',
+            'redirect' => route('vendor.index')
+        ];
     }
 
     public function update(Vendor $vendor)
     {
+        $vendor->load('contact_people:id,vendor_id,name,phone');
         return view('vendor.update', [
             'vendor' => $vendor
         ]);
@@ -62,15 +71,13 @@ class VendorController extends Controller
     {
         $data = $this->validate(request(), [
             'name' => 'required|string',
-            'address' => 'nullable|string',
-            'contact_person' => 'nullable|string',
-            'contact_person_phone' => 'nullable|string'
+            'address' => 'nullable|string'
         ]);
 
         $vendor->update($data);
         
         return redirect()
-            ->route('vendor.index')
+            ->back()
             ->with('message.success', 'Data berhasil diperbarui.');
     }
 
@@ -104,7 +111,7 @@ class VendorController extends Controller
 
     public function item(Vendor $vendor)
     {
-        $vendor->load('items:id,name,vendor_id');
+        $vendor->load('items:id,name,vendor_id,unit');
         return $vendor->items;
     }
 }

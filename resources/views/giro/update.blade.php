@@ -90,36 +90,38 @@
                 {{ $loop->iteration }}. Invoice {{ $invoice_id }}
             </a>
 
-            <table class="table table-sm table-striped">
-                <thead class="thead thead-dark">
-                    <tr>
-                        <th> # </th>
-                        <th> Item </th>
-                        <th> Unit </th>
-                        <th class="text-right"> Quantity </th>
-                        <th class="text-right"> Price (Rp) </th>
-                        <th class="text-right"> Subtotal (Rp) </th>
-                    </tr>
-                </thead>
+            <div class="table-responsive">
+                <table class="table table-sm table-striped">
+                    <thead class="thead thead-dark">
+                        <tr>
+                            <th> # </th>
+                            <th> Item </th>
+                            <th> Unit </th>
+                            <th class="text-right"> Quantity </th>
+                            <th class="text-right"> Price (Rp) </th>
+                            <th class="text-right"> Subtotal (Rp) </th>
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    @foreach ($invoice as $item)
-                    <tr>
-                        <td> {{ $loop->iteration }}. </td>
-                        <td> {{ $item->name }} </td>
-                        <td> {{ $item->unit }} </td>
-                        <td class="text-right"> {{ $item->quantity_subtotal }} </td>
-                        <td class="text-right"> @convert_money($item->price) </td>
-                        <td class="text-right"> @convert_money($item->price_subtotal) </td>
-                    </tr>
-                    @endforeach
-                    <tr>
-                        <td colspan="4"></td>
-                        <td colspan="1" class="text-right"> <strong> Total: </strong> </td>
-                        <td class="text-right"> @convert_money($price_sums->get($invoice_id)) </td>
-                    </tr>
-                </tbody>
-            </table>
+                    <tbody>
+                        @foreach ($invoice as $item)
+                        <tr>
+                            <td> {{ $loop->iteration }}. </td>
+                            <td> {{ $item->name }} </td>
+                            <td> {{ $item->unit }} </td>
+                            <td class="text-right"> {{ $item->quantity_subtotal }} </td>
+                            <td class="text-right"> @convert_money($item->price) </td>
+                            <td class="text-right"> @convert_money($item->price_subtotal) </td>
+                        </tr>
+                        @endforeach
+                        <tr>
+                            <td colspan="4"></td>
+                            <td colspan="1" class="text-right"> <strong> Total: </strong> </td>
+                            <td class="text-right"> @convert_money($price_sums->get($invoice_id)) </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             @endforeach
 
             <div class="text-right">

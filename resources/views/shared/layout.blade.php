@@ -8,7 +8,6 @@
         <title> @yield('title') </title>
 
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-        <script src="{{ asset('js/app.js') }}"></script>
 
         @yield('style')
     </head>
@@ -40,5 +39,12 @@
         @yield('content')
     </body>
 
+    <script src="{{ asset('js/app.js') }}"></script>
     @yield('script')
+
+    <script>
+        $(document).ready(() => {
+            $('#notification').fadeOut(2500);
+        });
+    </script>
 </html>

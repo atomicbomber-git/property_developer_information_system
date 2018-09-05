@@ -29,27 +29,28 @@
             </div>
 
             @include('shared.message-success')
-
-            <table class="table table-sm table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th> # </th>
-                        <th> Item </th>
-                        <th> Unit </th>
-                        <th> Stock </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($item_stocks as $item_stock)
-                    <tr>
-                        <td> {{ $loop->iteration }}. </td>
-                        <td> {{ $item_stock->name }} </td>
-                        <td> {{ $item_stock->unit }} </td>
-                        <td> {{ $item_stock->stock }} </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-sm table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th> # </th>
+                            <th> Item </th>
+                            <th> Unit </th>
+                            <th> Stock </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($item_stocks as $item_stock)
+                        <tr>
+                            <td> {{ $loop->iteration }}. </td>
+                            <td> {{ $item_stock->name }} </td>
+                            <td> {{ $item_stock->unit }} </td>
+                            <td> {{ $item_stock->stock }} </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
