@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import {get, keyBy, includes} from 'lodash';
+import {get, keyBy, includes, groupBy} from 'lodash';
 import classNames from 'classnames';
 import SelectFormControl from './SelectFormControl';
 import InputFormControl from './InputFormControl';
@@ -9,6 +9,9 @@ import InputFormControl from './InputFormControl';
 export default class DeliveryOrderInputForm extends Component {
     constructor(props) {
         super(props);
+
+        this.keyCounter = 0;
+
         this.state = {
             firstTimeLoadFinished: false,
             users: [],
@@ -16,6 +19,7 @@ export default class DeliveryOrderInputForm extends Component {
             storages: [],
             selected_vendor: "",
             vendor_items: [],
+            picked_vendor_items: [],
             selected_vendor_item: "",
             selected_receiver: "",
             selected_date: "",
@@ -60,7 +64,7 @@ export default class DeliveryOrderInputForm extends Component {
 
                 axios.get(`/vendor/item/${response.data[0].id}`)
                     .then(response => {
-                        let items = response.data.map(item => { return {...item, picked: false, quantity: 0 }})
+                        let items = response.data
                         this.setState({
                             vendor_items: items,
                             selected_vendor_item: response.data[0].id,
@@ -72,14 +76,25 @@ export default class DeliveryOrderInputForm extends Component {
     }
 
     getFormData() {
+        let grouped = groupBy(this.state.picked_vendor_items, 'id')
+        let delivery_items = Object.keys(grouped)
+            .map(key => {
+                let temp = {}
+                temp.id = key
+                temp.quantity = grouped[key]
+                    .map(item => item.quantity)
+                    .reduce((acc, val) => {
+                        return acc + parseInt(val)
+                    }, 0)
+                return temp
+            })
+
         return {
             received_at: this.state.selected_date,
             receiver_id: this.state.selected_receiver,
             source_id: this.state.selected_vendor,
             target_id: this.state.selected_storage,
-            delivery_items: keyBy(this.state.vendor_items
-                .filter(item => item.picked)
-                .map(item => {return {id: item.id, quantity: item.quantity}}), 'id')
+            delivery_items: keyBy(delivery_items, 'id')
         }
     }
 
@@ -104,15 +119,8 @@ export default class DeliveryOrderInputForm extends Component {
 
         axios.get(`/vendor/item/${e.target.value}`)
             .then(response => {
-                let items = response.data.map(item => { return {...item, picked: false, quantity: 0 }})
-                
-                let selected_item = items.find(item => item.picked == false);
-                    if (typeof selected_item === "undefined")
-                        selected_item = "";
-                    else
-                        selected_item = selected_item.id;
-
-                this.setState({ vendor_items: items, selected_vendor_item: selected_item });
+                let selected_vendor_item = response.data[0] ? response.data[0].id : ''
+                this.setState({ vendor_items: response.data, selected_vendor_item: selected_vendor_item })
             });
     }
 
@@ -121,46 +129,29 @@ export default class DeliveryOrderInputForm extends Component {
     }
 
     handleAddItem() {
-
-        let items = this.state.vendor_items.map(item => {
-            if (item.id == this.state.selected_vendor_item) {
-                return {...item, picked: true, quantity: 1};
-            }
-            return item;
-        });
+        let selected_item = this.state.vendor_items.find(item => item.id == this.state.selected_vendor_item)
+        let picked_vendor_item = {key: this.keyCounter++, ...selected_item, quantity: 1 }
+        let picked_vendor_items = [...this.state.picked_vendor_items, picked_vendor_item]
 
         this.setState({
-            vendor_items: items,
-            selected_vendor_item: get(items.find(item => item.picked == false), 'id', "")
+            picked_vendor_items: picked_vendor_items
         });
     }
 
-    handleItemQuantityChange(item_id, value) {
+    handleItemQuantityChange(key, value) {
         this.setState({
-            vendor_items: this.state.vendor_items.map(item => {
-                if (item_id == item.id) {
+            picked_vendor_items: this.state.picked_vendor_items.map(item => {
+                if (key == item.key) {
                     return {...item, quantity: value}
                 }
-
                 return item;
             })
         });
     }
 
     handleUnpickItem(item_id) {
-
-        let items = this.state.vendor_items.map(item => {
-            if (item_id == item.id) {
-                return {...item, picked: false}
-            }
-
-            return item;
-        });
-
-        this.setState({
-            vendor_items: items,
-            selected_vendor_item: get(items.find(item => item.picked == false), 'id', "")
-        });
+        let items = this.state.picked_vendor_items.filter(item => item.key != item_id);
+        this.setState({ picked_vendor_items: items });
     }
 
     renderItemSelections() {
@@ -181,7 +172,6 @@ export default class DeliveryOrderInputForm extends Component {
                     <select onChange={this.handleVendorItemSelectionChange} value={this.state.selected_vendor_item} className="custom-select">
                         {
                             this.state.vendor_items
-                                .filter(item => !item.picked)
                                 .map(item => (<option value={item.id} key={item.id}> {item.name} ({item.unit}) </option>))
                         }
                     </select>
@@ -205,29 +195,26 @@ export default class DeliveryOrderInputForm extends Component {
 
     renderSelectedItems() {
         return (
-            this.state.vendor_items
-                .filter(item => item.picked)
-                .map(item => {
-                    
+            this.state.picked_vendor_items
+                .map(item => {  
                     let quantityError = get(this.state.errorData, ['errors', `delivery_items.${item.id}.quantity`, '0'], false);
 
                     return (
-                        <Fragment key={item.id}>
+                        <Fragment key={item.key}>
                             <div className="input-group input-group-sm mt-2">
-                                <div class="input-group-prepend">
-                                    <span style={{ width: '24rem' }} class="input-group-text">
+                                <div className="input-group-prepend">
+                                    <span style={{ width: '24rem' }} className="input-group-text">
                                         {item.name} ({item.unit})
                                     </span>
                                 </div>
 
                                 <input
                                     className={classNames('form-control', {'is-invalid': quantityError} )}
-                                    onChange={(e) => { this.handleItemQuantityChange(item.id, e.target.value) }}
+                                    onChange={(e) => { this.handleItemQuantityChange(item.key, e.target.value) }}
                                     type="number" value={item.quantity} />
 
                                 <div className="input-group-append">
-                                    
-                                    <button onClick={() => { this.handleUnpickItem(item.id) }} className="btn btn-sm btn-outline-danger">
+                                    <button type="button" onClick={() => { this.handleUnpickItem(item.key) }} className="btn btn-sm btn-outline-danger">
                                         <i className="fa fa-times"></i>
                                     </button>
                                 </div>
@@ -285,7 +272,7 @@ export default class DeliveryOrderInputForm extends Component {
                     <label htmlFor=""> Vendor: </label>
                     <SelectFormControl
                         value={this.state.selected_vendor}
-                        disabled={ typeof this.state.vendor_items.find(item => item.picked) !== 'undefined'}
+                        disabled={this.state.picked_vendor_items.length != 0}
                         isInvalid={ get(this.state.errorData, 'errors.target_id[0]', false) }
                         invalidFeedback={ get(this.state.errorData, 'errors.target_id[0]', '') }
                         options={this.state.vendors.map(item => { return {value: item.id, key: item.id, name: item.name}})}
