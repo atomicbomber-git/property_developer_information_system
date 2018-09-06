@@ -19,7 +19,7 @@ class VendorController extends Controller
         $vendors = Vendor::query()
             ->withCount('items', 'contact_people')
             ->with('contact_people:vendor_id,name,phone')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('name')
             ->get();
         
         return view('vendor.index', compact('vendors'));
