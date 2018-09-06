@@ -18,19 +18,30 @@ class DeliveryOrderSeeder extends Seeder
         $user_ids = User::select('id')
             ->pluck('id');
 
-        $vendor_ids = Vendor::query()
-            ->select('id')
-            ->pluck('id');
+        
 
         $storage_ids = Storage::select('id')
             ->pluck('id');
 
-        $months = 1;
 
-        for ($i = 0; $i < $months; $i++) {
+
+        $do_per_month = $this->command->ask("How many delivery orders per vendor do you want for each month?");
+        $vendor_count = $this->command->ask("From how many vendors?");
+        $month_count = $this->command->ask("From how many months back from now?");
+
+        $vendor_ids = Vendor::query()
+            ->select('id')
+            ->limit($vendor_count)
+            ->pluck('id');
+
+        for ($i = 0; $i < $month_count; $i++) {
             foreach ($vendor_ids as $vendor_id) {
-                $this->createVendorDeliveryOrder($vendor_id, $storage_ids->random(), $user_ids->random(), now()->subMonth($i));
-                $this->createVendorDeliveryOrder($vendor_id, $storage_ids->random(), $user_ids->random(), now()->subMonth($i));
+                for ($j = 0; $j < $do_per_month; $j++) {
+                    $this->createVendorDeliveryOrder(
+                        $vendor_id, $storage_ids->random(),
+                        $user_ids->random(),
+                        now()->subMonth($i));
+                }
             }
         }
     }
