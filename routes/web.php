@@ -25,6 +25,7 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/update/{vendor}', 'VendorController@update')->name('vendor.update');
         Route::post('/update/{vendor}', 'VendorController@processUpdate')->name('vendor.update');
         Route::post('/delete/{vendor}', 'VendorController@delete')->name('vendor.delete');
+        Route::get('/transaction_history/{vendor}', 'VendorController@transactionHistory')->name('vendor.transaction_history');
         Route::get('/unbilled_delivery_orders/{vendor}', 'VendorController@unbilledDeliveryOrders')->name('vendor.unbilled_delivery_orders');
         Route::get('/item/{vendor}', 'VendorController@item')->name('vendor.item');
 

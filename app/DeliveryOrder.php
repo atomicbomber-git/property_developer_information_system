@@ -45,4 +45,15 @@ class DeliveryOrder extends Model
     {
         return new \Date($value);
     }
+
+    public function invoice()
+    {
+        return $this->belongsTo(Invoice::class);
+    }
+
+    public function scopeIsFromVendor($query, $vendor_id)
+    {
+        return $query->where('source_id', $vendor_id)
+            ->where('source_type', 'VENDOR');
+    }
 }

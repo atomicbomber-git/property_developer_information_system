@@ -55,6 +55,12 @@
                                 @endforeach
                             </td>
                             <td>
+
+                                <a href="{{ route('vendor.transaction_history', $vendor) }}" class="btn btn-dark btn-sm">
+                                    T. History
+                                    <i class="fa fa-money"></i>
+                                </a>
+
                                 <a href="{{ route('vendor.update', $vendor) }}" class="btn btn-dark btn-sm">
                                     <i class="fa fa-pencil"></i>
                                 </a>

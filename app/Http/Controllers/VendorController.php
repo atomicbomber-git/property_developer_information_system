@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Vendor;
 use App\VendorContactPerson;
+use App\DeliveryOrder;
 use DB;
 
 class VendorController extends Controller
@@ -67,6 +68,18 @@ class VendorController extends Controller
         return view('vendor.update', [
             'vendor' => $vendor
         ]);
+    }
+
+    public function transactionHistory(Vendor $vendor)
+    {
+        $invoices = DeliveryOrder::query()
+            ->select('invoice_id')
+            ->isFromVendor($vendor->id)
+            ->with('invoice:received_at,id')
+            ->groupBy('invoice_id')
+            ->paginate(10);
+
+        return view('vendor.transaction_history', compact('invoices', 'vendor'));
     }
 
     public function processUpdate(Vendor $vendor)

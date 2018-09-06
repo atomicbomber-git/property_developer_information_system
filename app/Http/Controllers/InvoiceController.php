@@ -188,7 +188,7 @@ class InvoiceController extends Controller
             ->orderBy('created_at', 'desc')
             ->pluck('id');
 
-        return view('invoice.pay', compact('invoice', 'delivery_orders', 'latest_giro_ids'));
+        return view('invoice.pay', compact('invoice', 'delivery_orders', 'latest_giro_ids', 'vendor_name'));
     }
 
     public function processPay(Invoice $invoice)
