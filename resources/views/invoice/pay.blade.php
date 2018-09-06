@@ -27,7 +27,7 @@
                     @break
 
                     @case('giro')
-                    <a href="{{ route('giro.update', $invoice->giro_id) }}" class="badge {{ $invoice->giro->transfered_at ? 'badge-success' : 'badge-primary' }}">
+                    <a target="_blank" href="{{ route('giro.update', $invoice->giro_id) }}" class="badge {{ $invoice->giro->transfered_at ? 'badge-success' : 'badge-primary' }}">
                         Paid With Giro {{ $invoice->giro_id }}
                     </a>
                     @break
@@ -60,7 +60,7 @@
                         <tr>
                             <td> {{ $loop->iteration }}. </td>
                             <td>
-                                <a href="{{ route('delivery_order.update_price', $delivery_order->id) }}">
+                                <a target="_blank" href="{{ route('delivery_order.update_price', $delivery_order->id) }}">
                                     Delivery Order {{ $delivery_order->id }}
                                     ({{ ( new Date ($delivery_order->received_at) )->format('d-m-Y')  }})
                                 </a>
