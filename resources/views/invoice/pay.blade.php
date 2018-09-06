@@ -17,7 +17,7 @@
             <h1 class="h5">
                 <i class="fa fa-usd"></i>
                 
-                Invoice {{ $invoice->id }} Payment
+                Invoice {{ $invoice->id }} From {{ $vendor_name }}
 
                 @switch($invoice->payment_method)
                     @case('cash')

@@ -172,6 +172,13 @@ class InvoiceController extends Controller
 
     public function pay(Invoice $invoice)
     {
+        $vendor_name = $invoice->delivery_orders()
+            ->with('source')
+            ->select('source_id', 'source_type')
+            ->distinct()
+            ->value('source')
+            ->name;
+
         $delivery_orders = DeliveryOrderItem::query()
             ->select('delivery_orders.id', 'delivery_orders.received_at', DB::raw('SUM(price * quantity) AS subtotal'))
             ->join('delivery_orders', 'delivery_orders.id', '=', 'delivery_order_items.delivery_order_id')
