@@ -21,13 +21,6 @@
 
             <hr class="mt-2 mb-2">
 
-            <div class="text-right mb-5 mt-3">
-                <a href="{{ route('storage.create') }}" class="btn btn-secondary btn-sm">
-                    Tambahkan Storage Baru
-                    <i class="fa fa-plus"></i>
-                </a>
-            </div>
-
             @include('shared.message-success')
             <div class="table-responsive">
                 <table class="table table-sm table-striped">
