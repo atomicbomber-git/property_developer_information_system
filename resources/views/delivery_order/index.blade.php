@@ -33,11 +33,11 @@
                     <thead class="thead-dark">
                         <tr>
                             <th> # </th>
-                            <th> Penerima </th>
-                            <th> Tanggal </th>
+                            <th> Receiver </th>
+                            <th> Date </th>
                             <th> Vendor (Source) </th>
                             <th> Storage (Target) </th>
-                            <th> Kendali </th>
+                            <th> Control </th>
                         </tr>
                     </thead>
                     <tbody>

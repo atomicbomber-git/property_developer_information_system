@@ -36,7 +36,7 @@
                             <th> # </th>
                             <th> Nama Vendor </th>
                             <th> Code </th>
-                            <th style="width: 14rem"> Alamat </th>
+                            <th style="width: 12rem"> Address </th>
                             <th> Contact People </th>
                             <th> Kendali </th>
                         </tr>
