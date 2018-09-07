@@ -138,13 +138,7 @@ class InvoiceController extends Controller
             ->pluck('id');
 
         $data = $this->validate(request(), [
-            'delivery_orders' => ['required', 'array',
-                function ($attribute, $value, $fail) {
-                    if (count($value) < 1) {
-                        return $fail("$attribute must have at least one member.");
-                    }
-                }
-            ],
+            'delivery_orders' => ['required', 'array'],
             'delivery_orders.*' => [Rule::in($delivery_order_ids)]
         ]);
 
