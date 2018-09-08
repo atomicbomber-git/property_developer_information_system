@@ -16,10 +16,19 @@
 
     <div class="card">
         <div class="card-body">
-            <h1 class="h5">
-                <i class="fa fa-usd"></i>
-                Update Prices in Delivery Order {{ $delivery_order->id }}
-            </h1>
+            <div class="row">
+                <div class="col">
+                    <h1 class="h5">
+                        <i class="fa fa-usd"></i>
+                        Update Prices in Delivery Order {{ $delivery_order->id }}
+                    </h1>
+                </div>
+                <div class="col text-right">
+                    <a href="{{ route('invoice.pay', $delivery_order->invoice_id) }}" class="btn btn-secondary btn-sm">
+                        Go to Invoice Payment <i class="fa fa-money"></i>
+                    </a>
+                </div>
+            </div>
 
             <hr class="mt-2 mb-2">
 
