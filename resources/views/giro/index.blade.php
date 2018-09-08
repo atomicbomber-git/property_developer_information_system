@@ -27,7 +27,6 @@
                     <thead class="thead-dark">
                         <tr>
                             <th> # </th>
-                            <th> Giro </th>
                             <th> Number </th>
                             <th class="text-right pr-3"> Amount (Rp) </th>
                             <th> Transfer Date </th>
@@ -38,7 +37,6 @@
                         @foreach ($giros as $giro)
                         <tr>
                             <td> {{ $giros->firstItem() - 1 + $loop->iteration }}. </td>
-                            <td> Giro {{ $giro->id }} </td>
                             <td> {{ $giro->number }} </td>
                             <td class="text-right pr-3"> @convert_money($giro->amount) </td>
                             <td> {{ optional($giro->transfered_at)->format('d-m-Y') }} </td>

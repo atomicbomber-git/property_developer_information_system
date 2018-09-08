@@ -11,6 +11,7 @@ use App\DeliveryOrderItem;
 use App\Vendor;
 use App\Giro;
 use DB;
+use URL;
 
 class InvoiceController extends Controller
 {
@@ -160,6 +161,8 @@ class InvoiceController extends Controller
 
     public function pay(Invoice $invoice)
     {
+        $invoice->load('giro:id,number');
+
         $vendor = $invoice->delivery_orders()
             ->with('source')
             ->select('source_id', 'source_type')
@@ -173,16 +176,8 @@ class InvoiceController extends Controller
             ->where('delivery_orders.invoice_id', $invoice->id)
             ->groupBy('delivery_orders.id')
             ->get();
-        
-        $latest_giro_ids = Giro::select('id')
-            ->limit(10)
-            ->when($invoice->giro_id, function ($query, $giro_id) {
-                return $query->where('id', '<>', $giro_id);
-            })
-            ->orderBy('created_at', 'desc')
-            ->pluck('id');
 
-        return view('invoice.pay', compact('invoice', 'delivery_orders', 'latest_giro_ids', 'vendor'));
+        return view('invoice.pay', compact('invoice', 'delivery_orders', 'vendor'));
     }
 
     public function processPay(Invoice $invoice)
@@ -200,6 +195,10 @@ class InvoiceController extends Controller
         
         $validator->sometimes('cash_amount', 'required|min:0', function ($input) {
             return $input->payment_method == 'cash';
+        });
+
+        $validator->sometimes('giro_number', 'required', function ($input) {
+            return $input->payment_method == 'new_giro';
         });
 
         $validator->sometimes('giro_id', 'required', function ($input) {
@@ -225,7 +224,7 @@ class InvoiceController extends Controller
                         $invoice->cash_amount = NULL;
 
                     // Creates a new giro and assigns this invoice to it
-                    $giro = Giro::create();
+                    $giro = Giro::create(['number' => $data['giro_number']]);
                     $giro->invoices()->save($invoice);
 
                     break;
@@ -244,8 +243,12 @@ class InvoiceController extends Controller
             $invoice->save();
         });
 
-        return back()
-            ->with('message.success', __('messages.update.success'));
+        session()->flash('message.success', __('messages.update.success'));
+
+        return [
+            'status' => 'success',
+            'redirect' => URL::previous()
+        ];
     }
 
     public function delete(Invoice $invoice)

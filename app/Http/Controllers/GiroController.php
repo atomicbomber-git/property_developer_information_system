@@ -19,14 +19,13 @@ class GiroController extends Controller
 
     public function search()
     {
-        return Giro::select('id')
+        return Giro::select('id', 'number')
             ->limit(10)
-            ->when(request('id'), function ($query) {
-                return $query->where('id', request('id'));
+            ->when(request('number'), function ($query) {
+                return $query->where('number', 'like', '%' . request('number') . '%');
             })
             ->orderBy('created_at', 'desc')
-            ->pluck('id');
-
+            ->get();
     }
 
     public function update(Giro $giro)
