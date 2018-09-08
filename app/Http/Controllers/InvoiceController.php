@@ -197,7 +197,7 @@ class InvoiceController extends Controller
             return $input->payment_method == 'cash';
         });
 
-        $validator->sometimes('giro_number', 'required', function ($input) {
+        $validator->sometimes('giro_number', 'required|unique:giros,number', function ($input) {
             return $input->payment_method == 'new_giro';
         });
 
