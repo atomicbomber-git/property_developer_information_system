@@ -91,7 +91,7 @@ class VendorController extends Controller
             })
             ->join('invoices', 'invoices.id', '=', 'invoice_id')
             ->groupBy('invoice_id', 'invoices.received_at')
-            ->orderBy('invoices.received_at', 'DESC')
+            ->orderBy('number', 'DESC')
             ->paginate(10);
 
         return view('vendor.transaction_history', compact('invoices', 'vendor'));
