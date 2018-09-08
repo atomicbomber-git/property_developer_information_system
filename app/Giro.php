@@ -9,8 +9,6 @@ class Giro extends Model
     public $fillable = [
         'amount',
         'number',
-        'paid_at',
-        'made_at',
         'transfered_at'
     ];
 

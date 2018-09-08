@@ -20,6 +20,13 @@
 
             <hr class="mt-2 mb-2">
 
+            <div class="text-right mb-5 mt-3">
+                <a href="{{ route('giro.create') }}" class="btn btn-secondary btn-sm">
+                    Tambahkan Giro Baru
+                    <i class="fa fa-plus"></i>
+                </a>
+            </div>
+
             @include('shared.message-success')
 
             <div class="table-responsive">

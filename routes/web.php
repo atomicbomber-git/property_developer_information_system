@@ -99,6 +99,8 @@ Route::middleware(['auth'])->group(function() {
 
     Route::prefix('/giro')->group(function() {
         Route::get('/index', 'GiroController@index')->name('giro.index');
+        Route::get('/create', 'GiroController@create')->name('giro.create');
+        Route::post('/create', 'GiroController@processCreate')->name('giro.create');
         Route::get('/update/{giro}', 'GiroController@update')->name('giro.update');
         Route::post('/update/{giro}', 'GiroController@processUpdate')->name('giro.update');
         Route::post('/delete/{giro}', 'GiroController@delete')->name('giro.delete');

@@ -17,6 +17,26 @@ class GiroController extends Controller
         return view('giro.index', compact('giros'));
     }
 
+    public function create()
+    {
+        return view('giro.create');
+    }
+
+    public function processCreate()
+    {
+        $data = $this->validate(request(), [
+            'number' => 'string|required',
+            'amount' => 'required|min:0',
+            'transfered_at' => 'string|required'
+        ]);
+
+        Giro::create($data);
+
+        return redirect()
+            ->route('giro.index')
+            ->with('message.success', __('messages.create.success'));
+    }
+
     public function search()
     {
         return Giro::select('id', 'number')
