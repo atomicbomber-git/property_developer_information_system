@@ -81,12 +81,17 @@ class VendorController extends Controller
 
     public function transactionHistory(Vendor $vendor)
     {
-        $invoices = DeliveryOrder::query()
-            ->select('invoice_id')
-            ->isFromVendor($vendor->id)
-            ->with('invoice:received_at,id')
-            ->groupBy('invoice_id')
-            ->whereNotNull('invoice_id')
+        $invoices = DB::table('vendors')
+            ->select('invoice_id AS id', 'invoices.received_at', DB::raw('ROW_NUMBER() OVER(ORDER BY invoices.received_at) AS number'))
+            ->join('delivery_orders', function ($join) {
+                $join
+                    ->on('source_id', '=', 'vendors.id')
+                    ->where('source_type', 'VENDOR')
+                    ->whereNotNull('invoice_id');
+            })
+            ->join('invoices', 'invoices.id', '=', 'invoice_id')
+            ->groupBy('invoice_id', 'invoices.received_at')
+            ->orderBy('invoices.received_at', 'DESC')
             ->paginate(10);
 
         return view('vendor.transaction_history', compact('invoices', 'vendor'));

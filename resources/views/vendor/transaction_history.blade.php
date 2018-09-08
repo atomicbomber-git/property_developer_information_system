@@ -36,12 +36,12 @@
                         <tr>
                             <td> {{ $loop->iteration }}. </td>
                             <td>
-                                <a target="_blank" href="{{ route('invoice.pay', $invoice->invoice_id) }}">
-                                    {{ $vendor->code . '-' . $invoice->invoice->id  }}
+                                <a target="_blank" href="{{ route('invoice.pay', $invoice->id) }}">
+                                    {{ $vendor->code . '-' . $invoice->number  }}
                                 </a>
                             </td>
                             <td>
-                                {{ $invoice->invoice->received_at->format('l, j F Y') }}
+                                {{ (new Date($invoice->received_at))->format('l, j F Y') }}
                             </td>
                         </tr>
                         @endforeach
