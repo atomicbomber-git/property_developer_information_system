@@ -160,12 +160,11 @@ class InvoiceController extends Controller
 
     public function pay(Invoice $invoice)
     {
-        $vendor_name = $invoice->delivery_orders()
+        $vendor = $invoice->delivery_orders()
             ->with('source')
             ->select('source_id', 'source_type')
             ->distinct()
-            ->value('source')
-            ->name;
+            ->value('source');
 
         $delivery_orders = DeliveryOrderItem::query()
             ->select('delivery_orders.id', 'delivery_orders.received_at', DB::raw('SUM(price * quantity) AS subtotal'))
@@ -183,7 +182,7 @@ class InvoiceController extends Controller
             ->orderBy('created_at', 'desc')
             ->pluck('id');
 
-        return view('invoice.pay', compact('invoice', 'delivery_orders', 'latest_giro_ids', 'vendor_name'));
+        return view('invoice.pay', compact('invoice', 'delivery_orders', 'latest_giro_ids', 'vendor'));
     }
 
     public function processPay(Invoice $invoice)

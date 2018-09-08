@@ -41,7 +41,7 @@
                                 </a>
                             </td>
                             <td>
-                                {{ $invoice->received_at->format('l, j F Y') }}
+                                {{ $invoice->invoice->received_at->format('l, j F Y') }}
                             </td>
                         </tr>
                         @endforeach

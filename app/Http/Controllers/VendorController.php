@@ -86,6 +86,7 @@ class VendorController extends Controller
             ->isFromVendor($vendor->id)
             ->with('invoice:received_at,id')
             ->groupBy('invoice_id')
+            ->whereNotNull('invoice_id')
             ->paginate(10);
 
         return view('vendor.transaction_history', compact('invoices', 'vendor'));
