@@ -13,7 +13,7 @@ class CreateVendorForm extends React.Component {
             name: '',
             address: '',
             code: '',
-            contact_persons: [{key: this.keyCounter++, name: '', phone:'' }],
+            contact_persons: [],
             errorData: {}
         }
 

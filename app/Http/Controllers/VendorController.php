@@ -7,6 +7,7 @@ use App\Vendor;
 use App\VendorContactPerson;
 use App\DeliveryOrder;
 use DB;
+use Validator;
 
 class VendorController extends Controller
 {
@@ -32,14 +33,22 @@ class VendorController extends Controller
 
     public function processCreate()
     {
-        $data = $this->validate(request(), [
+        $validator = Validator::make(request()->all(), [
             'name' => 'required|string',
             'code' => 'required|string',
-            'address' => 'required|string',
-            'contact_people' => 'required|array',
-            'contact_people.*.name' => 'required|string',
-            'contact_people.*.phone' => 'required|string',
+            'address' => 'nullable|string',
+            'contact_people' => 'nullable|array'
         ]);
+
+        $validator->sometimes('contact_people.*.name', 'required|string', function ($input) {
+            return filled($input->contact_people);
+        });
+
+        $validator->sometimes('contact_people.*.phone', 'required|string', function ($input) {
+            return filled($input->contact_people);
+        });
+
+        $data = $validator->validate();
 
         DB::transaction(function() use($data) {
             $vendor = Vendor::create([
