@@ -14,7 +14,7 @@ class ItemController extends Controller
 {
     public function index(Category $category)
     {
-        $items = Item::select('id', 'name', 'unit', 'vendor_id')
+        $items = Item::select('id', 'name', 'unit', 'vendor_id', 'note')
             ->withCount('delivery_order_items')
             ->with('vendor:id,name')
             ->where('category_id', $category->id)
@@ -52,7 +52,8 @@ class ItemController extends Controller
         $data = $this->validate(request(), [
             'name' => 'required|string',
             'unit' => 'required|string',
-            'vendor_id' => ['required', Rule::in($vendors)]
+            'vendor_id' => ['required', Rule::in($vendors)],
+            'note' => 'required|string'
         ]);
 
         Item::create(array_merge($data, ['category_id' => $category->id]));
@@ -77,7 +78,8 @@ class ItemController extends Controller
         $data = $this->validate(request(), [
             'name' => 'required|string',
             'unit' => 'required|string',
-            'vendor_id' => ['required', Rule::in($vendors)]
+            'vendor_id' => ['required', Rule::in($vendors)],
+            'note' => 'required|string'
         ]);
 
         $item->update($data);

@@ -10,7 +10,8 @@ class Item extends Model
         'category_id',
         'vendor_id',
         'name',
-        'unit'
+        'unit',
+        'note'
     ];
 
     public function vendor()

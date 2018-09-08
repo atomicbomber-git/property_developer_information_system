@@ -39,6 +39,7 @@
                             <th> Unit </th>
                             <th style="width: 7rem"> Vendor </th>
                             <th class="text-right pr-5"> Latest Price (Rp.) </th>
+                            <th style="width: 12rem"> Note </th>
                             <th> Control </th>
                         </tr>
                     </thead>
@@ -55,6 +56,9 @@
                                 @else
                                     -
                                 @endif
+                            </td>
+                            <td>
+                                {{ $item->note }}
                             </td>
                             <td>
                                 <a href="{{ route('item.price_history', [$category, $item]) }}" class="btn btn-dark btn-sm mr-2">

@@ -65,6 +65,21 @@
                         {{ $errors->first('vendor_id') }}
                     </div>
                 </div>
+
+                <div class='form-group'>
+                    <label for='note'> Note: </label>
+                
+                    <textarea
+                        id='note' name='note'
+                        class='form-control {{ !$errors->has('note') ?: 'is-invalid' }}'
+                        col='30' row='6'
+                        >{{ old('note') }}
+                    </textarea>
+
+                    <div class='invalid-feedback'>
+                        {{ $errors->first('note') }}
+                    </div>
+                </div>
                 
                 <div class="text-right mt-3">
                     <button class="btn btn-primary btn-sm">
