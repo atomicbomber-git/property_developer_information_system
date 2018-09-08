@@ -242,10 +242,26 @@ class DeliveryOrderController extends Controller
                 'delivery_order_items:id,delivery_order_id,quantity,price,item_id',
                 'delivery_order_items.item:id,name,unit'
             ]);
+
+            $item_ids = $delivery_order->delivery_order_items->pluck('item_id');
+
+            $item_prices = DB::table('delivery_order_items')
+                ->select('item_id', DB::raw('FIRST_VALUE(price) OVER(PARTITION BY item_id ORDER BY received_at) AS latest_price'))
+                ->whereIn('item_id', $item_ids)
+                ->join('delivery_orders', 'delivery_orders.id', '=', 'delivery_order_id')
+                ->distinct()
+                ->get()
+                ->mapWithKeys(function($item) { return [$item->item_id => $item->latest_price]; });
+
+            $delivery_order->delivery_order_items->transform(function ($item) use($item_prices) {
+                $item->latest_price =  $item_prices[$item->item_id] ?? 0;
+                return $item;
+            });
+
             return $delivery_order->delivery_order_items;
         }
 
-        return view('delivery_order.update_price', compact('delivery_order'));
+        return view('delivery_order.update_price', compact('delivery_order', 'item_prices'));
     }
 
     public function processUpdatePrice(DeliveryOrder $delivery_order) {

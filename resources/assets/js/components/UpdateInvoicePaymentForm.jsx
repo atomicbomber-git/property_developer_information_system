@@ -152,8 +152,8 @@ class UpdateInvoicePaymentForm extends Component {
     }
 }
 
-let invoiceId = document.getElementById('invoice-id').dataset.invoiceId;
 const rootElem = document.getElementById('update-invoice-payment-form')
 if (rootElem) {
+    let invoiceId = document.getElementById('invoice-id').dataset.invoiceId;
     ReactDOM.render(<UpdateInvoicePaymentForm invoiceId={invoiceId}/>, rootElem)
 }

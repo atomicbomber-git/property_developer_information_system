@@ -88,6 +88,18 @@ class UpdateDeliveryOrderPricesForm extends React.Component {
                                                     })
                                                 }}
                                                 />
+                                            <button type="button" onClick={(e) => {
+                                                    let copied = {...this.state.delivery_order_items};
+                                                    copied[key] = {...do_items[key], price: Math.trunc(do_items[key].latest_price)}
+
+                                                    this.setState({
+                                                        delivery_order_items: copied 
+                                                    }) 
+                                                }}
+                                                
+                                                className="btn btn-dark btn-sm d-inline-block mt-1">
+                                                Use Latest Price: { parseInt(do_items[key].latest_price).toLocaleString('id-ID')}
+                                            </button>
                                         </td>
                                         <td className='text-right'>
                                             {(do_items[key].price * do_items[key].quantity).toLocaleString('id-ID') }
