@@ -37,7 +37,7 @@
                             <th> # </th>
                             <th> Item </th>
                             <th> Unit </th>
-                            <th> Vendor </th>
+                            <th style="width: 7rem"> Vendor </th>
                             <th class="text-right pr-5"> Latest Price (Rp.) </th>
                             <th> Control </th>
                         </tr>
