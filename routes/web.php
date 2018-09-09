@@ -26,13 +26,18 @@ Route::middleware(['auth'])->group(function() {
         Route::post('/update/{vendor}', 'VendorController@processUpdate')->name('vendor.update');
         Route::post('/delete/{vendor}', 'VendorController@delete')->name('vendor.delete');
         Route::get('/transaction_history/{vendor}', 'VendorController@transactionHistory')->name('vendor.transaction_history');
-        Route::get('/unbilled_delivery_orders/{vendor}', 'VendorController@unbilledDeliveryOrders')->name('vendor.unbilled_delivery_orders');
         Route::get('/item/{vendor}', 'VendorController@item')->name('vendor.item');
 
         Route::prefix('/contact_persons')->group(function() {
             Route::post('/{vendor}/create', 'VendorContactPersonController@create')->name('vendor_contact_person.create');
             Route::post('/{vendor}/delete/{contact_person}', 'VendorContactPersonController@delete')->name('vendor_contact_person.delete');
             Route::post('/{vendor}/update', 'VendorContactPersonController@update')->name('vendor_contact_person.update');
+        });
+
+        Route::prefix('/api')->group(function() {
+            Route::get('/index', 'VendorApiController@index')->name('vendor.api.index');
+            Route::get('/unbilled', 'VendorController@unbilled')->name('vendor.unbilled');
+            Route::get('/unbilled_delivery_orders/{vendor}', 'VendorController@unbilledDeliveryOrders')->name('vendor.unbilled_delivery_orders');
         });
     });
 

@@ -77,18 +77,25 @@ class InvoiceController extends Controller
                 ->update(['invoice_id' => $invoice->id]);
         });
 
-        return redirect()
-            ->route('invoice.index')
-            ->with('message.success', __('messages.create.success'));
+        session()->flash('message.success', __('messages.create.success'));
+
+        return [
+            'status' => 'success',
+            'redirect' => route('invoice.index')
+        ];
     }
 
     public function update(Invoice $invoice)
     {
-        $vendors = Vendor::select('id', 'name')
+        $vendors = Vendor::query()
+            ->select('id', 'name')
+            ->whereHas('delivery_orders', function ($query) {
+                $query->whereNull('invoice_id');
+            })
             ->get();
 
         $invoice->load([
-            'delivery_orders:id,invoice_id,target_id,target_type',
+            'delivery_orders:id,invoice_id,target_id,target_type,received_at',
             'delivery_orders.target:id,name',
             'delivery_orders.delivery_order_items:delivery_order_id,item_id,quantity',
             'delivery_orders.delivery_order_items.item:id,name,unit'

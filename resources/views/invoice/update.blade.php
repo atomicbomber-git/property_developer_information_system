@@ -131,10 +131,17 @@
                     <h5>
                         Delivery Order {{ $delivery_order->id }}
 
-                        <span class="badge badge-dark">
+                        <strong>
                             To
                             {{ $delivery_order->target->name }}
-                        </span>
+                        </strong>
+
+                        On
+
+                        <strong>
+                            {{ $delivery_order->received_at->format('m-d-Y') }}
+                        </strong>
+
                     </h5>
 
                     <form
@@ -201,13 +208,13 @@
                 list_item.classList.add('list-group-item-action');
                 
                 let list_item_title = document.createElement('h5');
-                list_item_title.innerHTML = `Delivery Order ${delivery_order.id} <span class="badge badge-dark"> To ${delivery_order.target.name} </span>`;
+                list_item_title.innerHTML = `Delivery Order ${delivery_order.id} <strong> To ${delivery_order.target.name} </strong> On <strong> ${delivery_order.received_at} </strong>`;
                 list_item.appendChild(list_item_title);
 
                 let list_item_ol = document.createElement('ol');
                 delivery_order.delivery_order_items.forEach(delivery_order_item => {
                     let li = document.createElement('li');
-                    li.innerText = `${delivery_order_item.item.name} (${delivery_order_item.item.unit}) × ${delivery_order_item.quantity} `;
+                    li.innerHTML = `${delivery_order_item.item.name} (${delivery_order_item.item.unit}) <i class='fa fa-times'> </i> ${delivery_order_item.quantity} `;
                     list_item_ol.appendChild(li);
                 });
                 
@@ -225,7 +232,7 @@
                         selected_delivery_orders.push(delivery_order.id);
                     }
                     
-                    $(list_item).toggleClass('list-group-item-warning');
+                    $(list_item).toggleClass('list-group-item-info');
                     console.log(selected_delivery_orders);
                 })
             });
