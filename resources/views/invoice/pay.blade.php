@@ -17,7 +17,7 @@
             <h1 class="h5">
                 <i class="fa fa-usd"></i>
                 
-                Invoice {{ $invoice->id }} From <a href="{{ route('vendor.transaction_history', $vendor->id) }}"> {{ $vendor->name }} </a> at {{ $invoice->received_at->format('d-m-Y')  }}
+                Invoice From <a href="{{ route('vendor.transaction_history', $vendor->id) }}"> {{ $vendor->name }} </a> at {{ $invoice->received_at->format('d-m-Y')  }}
 
                 @switch($invoice->payment_method)
                     @case('cash')
