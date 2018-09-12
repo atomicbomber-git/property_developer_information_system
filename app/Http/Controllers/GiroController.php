@@ -58,7 +58,6 @@ class GiroController extends Controller
             ->join('items', 'items.id', '=', 'dori.item_id')
             ->where('giro_id', $giro->id)
             ->orderBy('dor.id')
-            // ->groupBy('invoice_id', 'item_id', 'items.name', 'items.unit', 'price')
             ->get()
             ->groupBy('invoice_id');
 
