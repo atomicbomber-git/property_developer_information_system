@@ -79,7 +79,8 @@ class StorageController extends Controller
             ->pertaining('STORAGE', $storage->id)
             ->with('item:id,unit,name')
             ->groupBy('item_id')
-            ->get();
+            ->get()
+            ->sortBy(function($item_stock) { return $item_stock->item->name; });
 
         return view('storage.stock', compact('item_stocks', 'storage'));
     }
