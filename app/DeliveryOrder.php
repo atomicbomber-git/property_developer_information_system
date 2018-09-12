@@ -52,7 +52,8 @@ class DeliveryOrder extends Model
 
     public function scopeIsFromVendor($query, $vendor_id)
     {
-        return $query->where('source_id', $vendor_id)
+        return $query
+            ->where('source_id', $vendor_id)
             ->where('source_type', 'VENDOR');
     }
 }
