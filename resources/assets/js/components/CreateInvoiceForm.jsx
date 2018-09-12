@@ -61,7 +61,13 @@ class CreateInvoiceForm extends Component  {
         
         axios.get(this.urls.unbilled_delivery_orders(e.target.value))
             .then(response => {
-                console.log(response.data)
+                let delivery_orders = response.data.map(delivery_order => {
+                    return {...delivery_order, is_selected: false}
+                })
+
+                this.setState({
+                    delivery_order_options: delivery_orders
+                })
             })
             .catch(error => {
                 console.log(error)
