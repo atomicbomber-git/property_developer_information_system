@@ -56,4 +56,11 @@ class DeliveryOrder extends Model
             ->where('source_id', $vendor_id)
             ->where('source_type', 'VENDOR');
     }
+
+    public function scopeInternal($query)
+    {
+        return $query
+            ->where('source_type', 'STORAGE')
+            ->where('target_type', 'STORAGE');
+    }
 }
