@@ -246,9 +246,10 @@ class DeliveryOrderController extends Controller
             $item_ids = $delivery_order->delivery_order_items->pluck('item_id');
 
             $item_prices = DB::table('delivery_order_items')
-                ->select('item_id', DB::raw('FIRST_VALUE(price) OVER(PARTITION BY item_id ORDER BY received_at) AS latest_price'))
+                ->select('item_id', DB::raw('FIRST_VALUE(price) OVER(PARTITION BY item_id ORDER BY invoices.received_at DESC) AS latest_price'))
                 ->whereIn('item_id', $item_ids)
                 ->join('delivery_orders', 'delivery_orders.id', '=', 'delivery_order_id')
+                ->join('invoices', 'invoices.id', '=', 'delivery_orders.invoice_id')
                 ->distinct()
                 ->get()
                 ->mapWithKeys(function($item) { return [$item->item_id => $item->latest_price]; });

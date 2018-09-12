@@ -21,15 +21,16 @@ class ItemController extends Controller
             ->orderBy('name')
             ->paginate(20);
         
-        $latest_prices = DeliveryOrderItem::select(
-                'item_id',
-                DB::raw("FIRST_VALUE(price) OVER(PARTITION BY item_id ORDER BY created_at) AS latest_price")
+        $latest_prices = DB::table('delivery_order_items')
+            ->select('item_id', 'price', 'invoices.received_at',
+                DB::raw('FIRST_VALUE(price) OVER (PARTITION BY item_id ORDER BY invoices.received_at DESC) AS latest_price')
             )
+            ->join('delivery_orders', 'delivery_orders.id', '=', 'delivery_order_items.delivery_order_id')
+            ->join('invoices', 'invoices.id', '=', 'delivery_orders.invoice_id')
             ->whereIn('item_id', $items->pluck('id'))
-            ->groupBy('item_id', 'price', 'created_at')
             ->get()
             ->mapWithKeys(function($item) { return [$item->item_id => $item->latest_price]; });
-        
+
         return view('item.index', compact('items', 'category', 'latest_prices'));
     }
 
@@ -99,8 +100,9 @@ class ItemController extends Controller
     public function priceHistory(Category $category, Item $item)
     {
         $item_prices = DB::table('delivery_order_items')
-            ->select('price', 'received_at')
+            ->select('price', 'invoices.received_at')
             ->join('delivery_orders', 'delivery_orders.id', '=', 'delivery_order_items.delivery_order_id')
+            ->join('invoices', 'invoices.id', '=', 'delivery_orders.invoice_id')
             ->where('item_id', $item->id)
             ->whereNotNull('price')
             ->orderBy('received_at', 'desc')

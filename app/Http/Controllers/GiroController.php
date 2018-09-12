@@ -12,6 +12,7 @@ class GiroController extends Controller
     {
         $giros = Giro::select('id', 'number', 'amount', 'transfered_at')
             ->withCount('invoices')
+            ->orderBy('transfered_at', 'desc')
             ->paginate(10);
         
         return view('giro.index', compact('giros'));
