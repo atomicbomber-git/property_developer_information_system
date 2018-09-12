@@ -27,4 +27,9 @@ class Giro extends Model
     {
         return number_format($value, 0, '', '');
     }
+
+    public function getNumberAttribute($value)
+    {
+        return strtoupper($value);
+    }
 }
