@@ -52,14 +52,16 @@ class GiroController extends Controller
     public function update(Giro $giro)
     {
         $invoices = DB::table('invoices AS i')
-            ->select('invoice_id', 'item_id', 'items.name', 'items.unit', 'price', 'quantity AS quantity_subtotal', DB::raw('quantity * price AS price_subtotal'))
+            ->select('invoice_id', 'i.number', 'item_id', 'items.name', 'items.unit', 'price', 'quantity AS quantity_subtotal', DB::raw('quantity * price AS price_subtotal'))
             ->join('delivery_orders AS dor', 'dor.invoice_id', '=', 'i.id')
             ->join('delivery_order_items AS dori', 'dori.delivery_order_id', '=', 'dor.id')
             ->join('items', 'items.id', '=', 'dori.item_id')
             ->where('giro_id', $giro->id)
             ->orderBy('dor.id')
             ->get()
-            ->groupBy('invoice_id');
+            ->groupBy(function($invoice) {
+                return $invoice->invoice_id . '-' . $invoice->number;
+            });
 
         $price_sums = $invoices
             ->map(function ($invoice) { return $invoice->sum('price_subtotal'); });

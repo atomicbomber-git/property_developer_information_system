@@ -84,10 +84,16 @@
 
             <hr class="mt-2 mb-2">
             
-            @foreach ($invoices as $invoice_id => $invoice)
+            @foreach ($invoices as $id => $invoice)
+
+            @php
+                $temp = explode('-', $id);
+                $invoice_id = $temp[0];
+                $invoice_number = $temp[1];
+            @endphp
             
             <a class="h5 d-block mb-2" href="{{ route('invoice.pay', $invoice_id) }}">
-                {{ $loop->iteration }}. Invoice {{ $invoice_id }}
+                {{ $loop->iteration }}. Invoice {{ $invoice_number }}
             </a>
 
             <div class="table-responsive">
