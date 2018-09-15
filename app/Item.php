@@ -33,4 +33,9 @@ class Item extends Model
     {
         return strtoupper($value);
     }
+
+    public function getUnitAttribute($value)
+    {
+        return strtoupper($value);
+    }
 }
