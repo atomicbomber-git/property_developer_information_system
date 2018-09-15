@@ -57120,7 +57120,7 @@ var UpdateInvoicePaymentForm = function (_Component) {
         _this.payment_methods = [{ name: 'cash', label: 'Cash' }, { name: 'new_giro', label: 'New Giro' }, { name: 'giro', label: 'Old Giro' }];
 
         _this.state = {
-            selected_payment_method: 'new_giro',
+            selected_payment_method: 'cash',
             giro_options: [],
             cash_amount: '',
             giro_number: '',
@@ -57224,24 +57224,6 @@ var UpdateInvoicePaymentForm = function (_Component) {
                             );
                         })
                     )
-                ),
-                this.state.selected_payment_method == 'cash' && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'div',
-                    { className: 'form-group' },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'label',
-                        { htmlFor: 'cash_amount' },
-                        ' Cash Amount: '
-                    ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__InputFormControl__["a" /* default */], {
-                        isInvalid: Object(__WEBPACK_IMPORTED_MODULE_3_lodash__["get"])(this.state.errorData, 'errors.cash_amount[0]', false),
-                        invalidFeedback: Object(__WEBPACK_IMPORTED_MODULE_3_lodash__["get"])(this.state.errorData, 'errors.cash_amount[0]', ''),
-                        type: 'number',
-                        value: this.state.cash_amount,
-                        onChange: function onChange(e) {
-                            _this4.setState({ cash_amount: e.target.value });
-                        },
-                        className: { 'form-control-sm': true }, placeholder: 'Cash amount' })
                 ),
                 this.state.selected_payment_method == 'new_giro' && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',

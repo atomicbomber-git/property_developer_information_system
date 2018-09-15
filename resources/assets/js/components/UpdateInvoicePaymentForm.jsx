@@ -11,11 +11,11 @@ class UpdateInvoicePaymentForm extends Component {
         this.payment_methods = [
             { name: 'cash', label: 'Cash' },
             { name: 'new_giro', label: 'New Giro' },
-            { name: 'giro', label: 'Old Giro' }    
+            { name: 'giro', label: 'Old Giro' }
         ];
 
         this.state = {
-            selected_payment_method: 'new_giro',
+            selected_payment_method: 'cash',
             giro_options: [],
             cash_amount: '',
             giro_number: '',
@@ -96,7 +96,7 @@ class UpdateInvoicePaymentForm extends Component {
                     </select>
                 </div>
 
-                {this.state.selected_payment_method == 'cash' &&
+                {/* {this.state.selected_payment_method == 'cash' &&
                     <div className="form-group">
                         <label htmlFor="cash_amount"> Cash Amount: </label>
                         <InputFormControl
@@ -107,7 +107,7 @@ class UpdateInvoicePaymentForm extends Component {
                             onChange={(e) => { this.setState({ cash_amount: e.target.value })}}
                             className={{'form-control-sm' : true}} placeholder="Cash amount"/>
                     </div>
-                }
+                } */}
 
                 {this.state.selected_payment_method == 'new_giro' &&
                     <div className="form-group">

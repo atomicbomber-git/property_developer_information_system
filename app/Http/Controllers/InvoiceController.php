@@ -191,6 +191,13 @@ class InvoiceController extends Controller
 
     public function processPay(Invoice $invoice)
     {
+        $cash_amount = DeliveryOrderItem::query()
+            ->select(DB::raw('SUM(price * quantity) AS total'))
+            ->join('delivery_orders', 'delivery_orders.id', '=', 'delivery_order_items.delivery_order_id')
+            ->join('items', 'items.id', '=', 'delivery_order_items.item_id')
+            ->where('delivery_orders.invoice_id', $invoice->id)
+            ->value('total');
+
         // ----- VALIDATION START ------
         $delivery_order_ids = DeliveryOrder::select('id')
             ->where('invoice_id', $invoice->id)
@@ -201,10 +208,6 @@ class InvoiceController extends Controller
         ];
 
         $validator = Validator::make(request()->all(), $validation_rules);
-        
-        $validator->sometimes('cash_amount', 'required|min:0', function ($input) {
-            return $input->payment_method == 'cash';
-        });
 
         $validator->sometimes('giro_number', 'required|unique:giros,number', function ($input) {
             return $input->payment_method == 'new_giro';
@@ -217,14 +220,14 @@ class InvoiceController extends Controller
         $data = $validator->validate();
         // ----- VALIDATION END ------
 
-        DB::transaction(function() use($invoice, $data) {
+        DB::transaction(function() use($invoice, $data, $cash_amount) {
             switch ($data['payment_method']) {
                 case 'cash':
                     
                     if ($invoice->payment_method == 'giro')
                         $invoice->giro_id = NULL;
 
-                    $invoice->cash_amount = $data['cash_amount'];
+                    $invoice->cash_amount = $cash_amount;
                     break;
 
                 case 'new_giro':
