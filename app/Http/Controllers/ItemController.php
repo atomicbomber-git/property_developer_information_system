@@ -28,6 +28,7 @@ class ItemController extends Controller
             ->join('delivery_orders', 'delivery_orders.id', '=', 'delivery_order_items.delivery_order_id')
             ->join('invoices', 'invoices.id', '=', 'delivery_orders.invoice_id')
             ->whereIn('item_id', $items->pluck('id'))
+            ->whereNotNull('price')
             ->get()
             ->mapWithKeys(function($item) { return [$item->item_id => $item->latest_price]; });
 

@@ -250,6 +250,7 @@ class DeliveryOrderController extends Controller
                 ->whereIn('item_id', $item_ids)
                 ->join('delivery_orders', 'delivery_orders.id', '=', 'delivery_order_id')
                 ->join('invoices', 'invoices.id', '=', 'delivery_orders.invoice_id')
+                ->whereNotNull('price')
                 ->distinct()
                 ->get()
                 ->mapWithKeys(function($item) { return [$item->item_id => $item->latest_price]; });
