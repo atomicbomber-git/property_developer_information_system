@@ -81,7 +81,7 @@ class ItemController extends Controller
             'name' => 'required|string',
             'unit' => 'required|string',
             'vendor_id' => ['required', Rule::in($vendors)],
-            'note' => 'required|string'
+            'note' => 'nullable|string'
         ]);
 
         $item->update($data);
