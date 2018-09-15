@@ -55,7 +55,7 @@ class ItemController extends Controller
             'name' => 'required|string',
             'unit' => 'required|string',
             'vendor_id' => ['required', Rule::in($vendors)],
-            'note' => 'required|string'
+            'note' => 'nullable|string'
         ]);
 
         Item::create(array_merge($data, ['category_id' => $category->id]));
