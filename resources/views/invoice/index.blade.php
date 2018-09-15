@@ -56,7 +56,7 @@
 
                                     @case('giro')
                                     <a href="{{ route('giro.update', $invoice->giro_id) }}" class="badge {{ $invoice->giro->transfered_at ? 'badge-success' : 'badge-primary' }}">
-                                        Paid With Giro {{ $invoice->giro_id }}
+                                        Paid With Giro {{ $invoice->giro->number }}
                                     </a>
                                     @break
 
