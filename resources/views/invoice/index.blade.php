@@ -34,6 +34,7 @@
                         <tr>
                             <th> # </th>
                             <th> Code </th>
+                            <th> Number </th>
                             <th> Status </th>
                             <th> Receivement Date </th>
                             <th> Control </th>
@@ -44,6 +45,7 @@
                         <tr>
                             <td> {{ $invoices->firstItem() + $loop->index }}. </td>
                             <td> {{ $invoice->code }} </td>
+                            <td> {{ $invoice->number }} </td>
                             <td>
                                 @switch($invoice->payment_method)
                                     @case('cash')

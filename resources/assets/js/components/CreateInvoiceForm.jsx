@@ -16,6 +16,7 @@ class CreateInvoiceForm extends Component  {
 
         this.state = {
             received_at: '',
+            number: '',
             vendor_options: [],
             selected_vendor_option: '',
             delivery_order_options: [],
@@ -32,6 +33,7 @@ class CreateInvoiceForm extends Component  {
     getFormData() {
         return {
             received_at: this.state.received_at,
+            number: this.state.number,
             vendor_id: this.state.selected_vendor_option,
             delivery_orders: this.state.delivery_order_options
                 .filter(delivery_order => delivery_order.is_selected)
@@ -120,6 +122,17 @@ class CreateInvoiceForm extends Component  {
                         type='date'
                         isInvalid={get(this.state.error_data, 'errors.received_at[0]', false)}
                         invalidFeedback={get(this.state.error_data, 'errors.received_at[0]', '')}
+                        />
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="number"> Number: </label>
+                    <InputFormControl
+                        value={this.state.number}
+                        onChange={(e) => { this.setState({ number: e.target.value }) }}
+                        type='text'
+                        isInvalid={get(this.state.error_data, 'errors.number[0]', false)}
+                        invalidFeedback={get(this.state.error_data, 'errors.number[0]', '')}
                         />
                 </div>
 

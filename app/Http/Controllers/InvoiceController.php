@@ -17,7 +17,7 @@ class InvoiceController extends Controller
 {
     public function index()
     {
-        $invoices = Invoice::select('id', 'cash_amount', 'giro_id', 'received_at', 'transfered_at')
+        $invoices = Invoice::select('id', 'cash_amount', 'giro_id', 'received_at', 'transfered_at', 'number')
             ->with([
                 'delivery_orders' => function ($query) { $query->select('invoice_id', 'source_id', 'source_type'); },
                 'delivery_orders.source',
@@ -45,13 +45,13 @@ class InvoiceController extends Controller
 
     public function processCreate()
     {
-
         $vendor_ids = Vendor::select('id')
             ->pluck('id');
 
         $temp = $this->validate(request(), [
             'vendor_id' => ['required', Rule::in($vendor_ids)],
-            'received_at' => ['required', 'date']
+            'received_at' => ['required', 'date'],
+            'number' => ['nullable', 'string']
         ]);
 
         $delivery_order_ids = DeliveryOrder::select('id')
@@ -70,9 +70,10 @@ class InvoiceController extends Controller
 
         DB::transaction(function () use($temp, $data) {
             $invoice = Invoice::create([
+                'number' => $temp['number'],
                 'received_at' => $temp['received_at']
             ]);
-        
+
             DeliveryOrder::whereIn('id', $data['delivery_orders'])
                 ->update(['invoice_id' => $invoice->id]);
         });
@@ -112,7 +113,8 @@ class InvoiceController extends Controller
     public function processUpdate(Invoice $invoice)
     {
         $data = $this->validate(request(), [
-            'received_at' => ['required', 'date']
+            'received_at' => ['required', 'date'],
+            'number' => ['nullable', 'string']
         ]);
 
         $invoice->update($data);

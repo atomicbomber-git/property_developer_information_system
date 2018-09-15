@@ -9,7 +9,8 @@ class Invoice extends Model
     public $fillable = [
         'received_at',
         'transfered_at',
-        'cash_amount'
+        'cash_amount',
+        'number'
     ];
 
     public $dates = [

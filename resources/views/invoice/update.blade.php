@@ -103,6 +103,19 @@
                             </div>
                         </div>
 
+                        <div class='form-group'>
+                            <label for='number'> Number: </label>
+                        
+                            <input
+                                id='number' name='number' type='text'
+                                value='{{ old('number', $invoice->number) }}'
+                                class='form-control {{ !$errors->has('number') ?: 'is-invalid' }}'>
+                        
+                            <div class='invalid-feedback'>
+                                {{ $errors->first('number') }}
+                            </div>
+                        </div>
+
                         <div class="text-right">
                             <button class="btn btn-primary btn-sm">
                                 Update
