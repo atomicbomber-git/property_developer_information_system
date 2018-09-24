@@ -37,7 +37,7 @@
                             <td> {{ $loop->iteration }}. </td>
                             <td>
                                 <a target="_blank" href="{{ route('invoice.pay', $invoice->id) }}">
-                                    {{ $vendor->code . '-' . $invoice->number  }}
+                                    {{ $invoice->number  }}
                                 </a>
                             </td>
                             <td>

@@ -82,7 +82,7 @@ class VendorController extends Controller
     public function transactionHistory(Vendor $vendor)
     {
         $invoices = DB::table('vendors')
-            ->select('invoice_id AS id', 'invoices.received_at', DB::raw('ROW_NUMBER() OVER(ORDER BY invoices.received_at) AS number'))
+            ->select('invoice_id AS id', 'invoices.received_at', 'invoices.number')
             ->join('delivery_orders', function ($join) {
                 $join
                     ->on('source_id', '=', 'vendors.id')
@@ -90,7 +90,7 @@ class VendorController extends Controller
                     ->whereNotNull('invoice_id');
             })
             ->join('invoices', 'invoices.id', '=', 'invoice_id')
-            ->groupBy('invoice_id', 'invoices.received_at')
+            ->groupBy('invoice_id', 'invoices.received_at', 'invoices.number')
             ->orderBy('number', 'DESC')
             ->where('vendors.id', $vendor->id)
             ->paginate(10);
