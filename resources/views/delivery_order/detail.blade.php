@@ -42,7 +42,7 @@
                     <label for='quantity'> Quantity: </label>
                 
                     <input
-                        id='quantity' name='quantity' type='number'
+                        id='quantity' name='quantity' type='number' step="0.001"
                         value='{{ old('quantity') }}'
                         class='form-control {{ !$errors->has('quantity') ?: 'is-invalid' }}'>
                 

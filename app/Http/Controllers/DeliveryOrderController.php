@@ -68,7 +68,7 @@ class DeliveryOrderController extends Controller
             'received_at' => ['required', 'date'],
             'delivery_items' => ['required', 'array'],
             'delivery_items.*.id' => ['required', Rule::in($vendor_item_ids)],
-            'delivery_items.*.quantity' => ['required', 'integer', 'min:1']
+            'delivery_items.*.quantity' => ['required', 'min:0']
         ]);
 
         $data = array_merge($data, $second_validator->validate());
@@ -181,7 +181,7 @@ class DeliveryOrderController extends Controller
 
         $data = $this->validate(request(), [
             'item_id' => ['required', 'integer', Rule::in($item_ids)],
-            'quantity' => ['required', 'integer', 'min:1']
+            'quantity' => ['required', 'min:0']
         ]);
 
         $delivery_order_item = DeliveryOrderItem::where([
