@@ -14,7 +14,7 @@ class VendorController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            return Vendor::select('id', 'name')->get();
+            return Vendor::select('id', 'name')->orderBy('name')->get();
         }
 
         $vendors = Vendor::query()
@@ -143,7 +143,10 @@ class VendorController extends Controller
 
     public function item(Vendor $vendor)
     {
-        $vendor->load('items:id,name,vendor_id,unit');
+        $vendor->load(['items' => function($query) {
+            $query->select('id', 'name', 'vendor_id', 'unit');
+            $query->orderBy('name');
+        }]);
         return $vendor->items;
     }
 

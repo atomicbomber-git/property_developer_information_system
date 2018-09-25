@@ -12,7 +12,7 @@ class StorageController extends Controller
     public function index()
     {
         if (request()->ajax())
-            return Storage::select('id', 'name')->get();
+            return Storage::select('id', 'name')->orderBy('name')->get();
 
         $storages = Storage::query()
             ->select('id', 'name', 'address')

@@ -64,6 +64,10 @@ export default class DeliveryOrderInputForm extends Component {
 
                 axios.get(`/vendor/item/${response.data[0].id}`)
                     .then(response => {
+
+                        response.data = response.data
+                            .sort((a, b) => { return a.name.localeCompare(b); })
+
                         let items = response.data
                         this.setState({
                             vendor_items: items,
