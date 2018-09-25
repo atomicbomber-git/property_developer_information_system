@@ -91,7 +91,7 @@ class VendorController extends Controller
             })
             ->join('invoices', 'invoices.id', '=', 'invoice_id')
             ->groupBy('invoice_id', 'invoices.received_at', 'invoices.number')
-            ->orderBy('number', 'DESC')
+            ->orderBy('invoices.received_at', 'DESC')
             ->where('vendors.id', $vendor->id)
             ->paginate(10);
 

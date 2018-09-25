@@ -40,7 +40,7 @@ class UpdateDeliveryOrderPricesForm extends React.Component {
         e.preventDefault();
 
         axios.post(window.location.href, this.mapStateToFormData())
-            .then(response => { window.location.replace(response.data.redirect) })
+            .then(response => { if (response.data.redirect) { window.location.replace(response.data.redirect); } })
             .catch(error => {
                 this.setState({ errorData: error.response.data })
             })
@@ -75,10 +75,11 @@ class UpdateDeliveryOrderPricesForm extends React.Component {
                                             <InputFormControl
                                                 className={{'form-control-sm': true, 'text-right': true}}
                                                 type='number'
+                                                step='0.001'
                                                 placeholder='Price'
                                                 isInvalid={get(this.state.errorData, ['errors', `delivery_order_items.${key}.price`, 0], false)}
                                                 invalidFeedback={get(this.state.errorData, ['errors', `delivery_order_items.${key}.price`, 0], '')}
-                                                value={do_items[key].price}
+                                                value={parseFloat(do_items[key].price)}
                                                 onChange={(e) => {
                                                     let newPrice = e.target.value
                                                     this.setState(prevState => {
@@ -90,7 +91,7 @@ class UpdateDeliveryOrderPricesForm extends React.Component {
                                                 />
                                             <button type="button" onClick={(e) => {
                                                     let copied = {...this.state.delivery_order_items};
-                                                    copied[key] = {...do_items[key], price: Math.trunc(do_items[key].latest_price)}
+                                                    copied[key] = {...do_items[key], price: do_items[key].latest_price}
 
                                                     this.setState({
                                                         delivery_order_items: copied 
@@ -98,7 +99,7 @@ class UpdateDeliveryOrderPricesForm extends React.Component {
                                                 }}
                                                 
                                                 className="btn btn-dark btn-sm d-inline-block mt-1">
-                                                Use Latest Price: { parseInt(do_items[key].latest_price).toLocaleString('id-ID')}
+                                                Use Latest Price: { parseFloat(do_items[key].latest_price).toLocaleString('id-ID')}
                                             </button>
                                         </td>
                                         <td className='text-right'>

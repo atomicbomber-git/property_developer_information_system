@@ -36617,7 +36617,7 @@ var DeliveryOrderInputForm = function (_Component) {
                 temp.quantity = grouped[key].map(function (item) {
                     return item.quantity;
                 }).reduce(function (acc, val) {
-                    return acc + parseInt(val);
+                    return acc + parseFloat(val);
                 }, 0);
                 return temp;
             });
@@ -36783,7 +36783,7 @@ var DeliveryOrderInputForm = function (_Component) {
                             onChange: function onChange(e) {
                                 _this6.handleItemQuantityChange(item.key, e.target.value);
                             },
-                            type: 'number', value: item.quantity }),
+                            type: 'number', step: '0.001', value: item.quantity }),
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'div',
                             { className: 'input-group-append' },
@@ -56920,7 +56920,9 @@ var UpdateDeliveryOrderPricesForm = function (_React$Component) {
             e.preventDefault();
 
             __WEBPACK_IMPORTED_MODULE_4_axios___default.a.post(window.location.href, this.mapStateToFormData()).then(function (response) {
-                window.location.replace(response.data.redirect);
+                if (response.data.redirect) {
+                    window.location.replace(response.data.redirect);
+                }
             }).catch(function (error) {
                 _this4.setState({ errorData: error.response.data });
             });
@@ -57019,10 +57021,11 @@ var UpdateDeliveryOrderPricesForm = function (_React$Component) {
                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__InputFormControl__["a" /* default */], {
                                             className: { 'form-control-sm': true, 'text-right': true },
                                             type: 'number',
+                                            step: '0.001',
                                             placeholder: 'Price',
                                             isInvalid: Object(__WEBPACK_IMPORTED_MODULE_3_lodash__["get"])(_this5.state.errorData, ['errors', 'delivery_order_items.' + key + '.price', 0], false),
                                             invalidFeedback: Object(__WEBPACK_IMPORTED_MODULE_3_lodash__["get"])(_this5.state.errorData, ['errors', 'delivery_order_items.' + key + '.price', 0], ''),
-                                            value: do_items[key].price,
+                                            value: parseFloat(do_items[key].price),
                                             onChange: function onChange(e) {
                                                 var newPrice = e.target.value;
                                                 _this5.setState(function (prevState) {
@@ -57036,7 +57039,7 @@ var UpdateDeliveryOrderPricesForm = function (_React$Component) {
                                             'button',
                                             { type: 'button', onClick: function onClick(e) {
                                                     var copied = _extends({}, _this5.state.delivery_order_items);
-                                                    copied[key] = _extends({}, do_items[key], { price: Math.trunc(do_items[key].latest_price) });
+                                                    copied[key] = _extends({}, do_items[key], { price: do_items[key].latest_price });
 
                                                     _this5.setState({
                                                         delivery_order_items: copied
@@ -57045,7 +57048,7 @@ var UpdateDeliveryOrderPricesForm = function (_React$Component) {
 
                                                 className: 'btn btn-dark btn-sm d-inline-block mt-1' },
                                             'Use Latest Price: ',
-                                            parseInt(do_items[key].latest_price).toLocaleString('id-ID')
+                                            parseFloat(do_items[key].latest_price).toLocaleString('id-ID')
                                         )
                                     ),
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(

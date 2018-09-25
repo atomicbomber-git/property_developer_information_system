@@ -219,7 +219,7 @@ class DeliveryOrderController extends Controller
         ];
 
         foreach ($delivery_order_item_ids as $id) {
-            $validation_rules["quantities.$id"] = "required|integer|min:1";
+            $validation_rules["quantities.$id"] = "required|min:0";
         }
 
         $data = $this->validate(request(), $validation_rules);

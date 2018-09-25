@@ -92,6 +92,7 @@
                         <td>
                             <input
                                 form="form-update"
+                                step="0.001"
                                 value="{{ old("quantities.$delivery_order_item->id", $delivery_order_item->quantity) }}"
                                 class="form-control form-control-sm {{ $errors->first("quantities.$delivery_order_item->id", 'is-invalid') }}"
                                 name="quantities[{{ $delivery_order_item->id }}]"

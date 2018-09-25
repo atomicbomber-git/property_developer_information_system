@@ -84,7 +84,7 @@ export default class DeliveryOrderInputForm extends Component {
                 temp.quantity = grouped[key]
                     .map(item => item.quantity)
                     .reduce((acc, val) => {
-                        return acc + parseInt(val)
+                        return acc + parseFloat(val)
                     }, 0)
                 return temp
             })
@@ -211,7 +211,7 @@ export default class DeliveryOrderInputForm extends Component {
                                 <input
                                     className={classNames('form-control', {'is-invalid': quantityError} )}
                                     onChange={(e) => { this.handleItemQuantityChange(item.key, e.target.value) }}
-                                    type="number" value={item.quantity} />
+                                    type="number" step="0.001" value={item.quantity} />
 
                                 <div className="input-group-append">
                                     <button type="button" onClick={() => { this.handleUnpickItem(item.key) }} className="btn btn-sm btn-outline-danger">
