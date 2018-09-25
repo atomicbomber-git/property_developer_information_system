@@ -23,6 +23,7 @@ class InvoiceController extends Controller
                 'delivery_orders.source',
                 'giro:id,amount,number,transfered_at'
             ])
+            ->orderBy(DB::raw('giro_id IS NOT NULL OR cash_amount IS NOT NULL'))
             ->orderBy('received_at', 'desc')
             ->paginate(10);
 
