@@ -25,7 +25,7 @@
                 </div>
                 <div class="col text-right">
                     <a href="{{ route('invoice.pay', $delivery_order->invoice_id) }}" class="btn btn-secondary btn-sm">
-                        Go to Invoice Payment <i class="fa fa-money"></i>
+                        Go to Invoice Payment ({{ $delivery_order->invoice->number }} On {{ $delivery_order->invoice->received_at->format('d-m-Y') }}) <i class="fa fa-money"></i>
                     </a>
                 </div>
             </div>
