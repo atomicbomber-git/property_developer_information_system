@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Item;
 use App\Vendor;
 use App\VendorContactPerson;
 use App\DeliveryOrder;
@@ -143,11 +144,11 @@ class VendorController extends Controller
 
     public function item(Vendor $vendor)
     {
-        $vendor->load(['items' => function($query) {
-            $query->select('id', 'name', 'vendor_id', 'unit');
-            $query->orderBy('name');
-        }]);
-        return $vendor->items;
+        return Item::query()
+            ->select('id', 'name', 'vendor_id', 'unit')
+            ->where('vendor_id', $vendor->id)
+            ->orderBy('name')
+            ->get();
     }
 
     public function unbilled() {
