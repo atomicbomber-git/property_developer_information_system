@@ -147,7 +147,7 @@ class VendorController extends Controller
         return Item::query()
             ->select('id', 'name', 'vendor_id', 'unit')
             ->where('vendor_id', $vendor->id)
-            ->orderBy('name')
+            ->orderBy(DB::raw('LOWER(name)'))
             ->get();
     }
 
