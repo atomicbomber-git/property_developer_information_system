@@ -18,7 +18,7 @@ class ItemController extends Controller
             ->withCount('delivery_order_items')
             ->with('vendor:id,name')
             ->where('category_id', $category->id)
-            ->orderBy('name')
+            ->orderBy(DB::raw('LOWER(name)'))
             ->paginate(20);
         
         $latest_prices = DB::table('delivery_order_items')

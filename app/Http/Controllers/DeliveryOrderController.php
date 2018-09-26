@@ -171,7 +171,20 @@ class DeliveryOrderController extends Controller
             'delivery_order_items:id,delivery_order_id,item_id,quantity',
             'delivery_order_items.item:id,name,unit'
         ]);
-        
+
+        // TEMPORARY SOLUTION. TODO: USE DATABASE ORDERING
+        $delivery_order->source->items = $delivery_order->source->items
+            ->sortBy(function ($item) {
+                return $item->name;
+            })
+            ->values();
+
+        $delivery_order->delivery_order_items = $delivery_order->delivery_order_items
+            ->sortBy(function ($item) {
+                return strtolower($item->item->name);
+            })
+            ->values();
+    
         return view('delivery_order.detail', compact('delivery_order'));
     }
 

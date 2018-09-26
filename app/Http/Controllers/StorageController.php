@@ -102,9 +102,9 @@ class StorageController extends Controller
 
         $item_stocks = DB::table(DB::raw("($subquery_sql) AS subtable"))
             ->mergeBindings($subquery)
-            ->select('items.id', 'items.name', 'items.unit', DB::raw('SUM(transfer_quantity) AS stock'))
+            ->select('items.id', DB::raw('UPPER(items.name) AS name'), DB::raw('UPPER(items.unit) AS unit'), DB::raw('SUM(transfer_quantity) AS stock'))
             ->join('items', 'items.id', '=', 'subtable.item_id')
-            ->orderBy('item_id')
+            ->orderBy(DB::raw('LOWER(items.name)'))
             ->groupBy('items.id', 'item_id')
             ->get();
         
