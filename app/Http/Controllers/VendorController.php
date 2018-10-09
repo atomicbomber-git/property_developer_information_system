@@ -15,7 +15,7 @@ class VendorController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            return Vendor::select('id', 'name')->orderBy('name')->get();
+            return Vendor::select('id', 'name')->orderBy(DB::raw('LOWER(name)'))->get();
         }
 
         $vendors = Vendor::query()

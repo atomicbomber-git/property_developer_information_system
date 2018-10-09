@@ -32,17 +32,17 @@ class DeliveryOrderController extends Controller
     {
         $vendors = Vendor::query()
             ->select('id', 'name')
-            ->orderBy('name')
+            ->orderBy(DB::raw('LOWER(name)'))
             ->get();
 
         $storages = Storage::query()
             ->select('id', 'name')
-            ->orderBy('name')
+            ->orderBy(DB::raw('LOWER(name)'))
             ->get();
 
         $users = User::query()
             ->select('id', 'name')
-            ->orderBy('name')
+            ->orderBy(DB::raw('LOWER(name)'))
             ->get();
 
         return view('delivery_order.create', compact('vendors', 'storages', 'users'));
