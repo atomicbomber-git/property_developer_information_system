@@ -38,9 +38,11 @@ class ItemController extends Controller
     public function create(Category $category)
     {
         $vendors = Vendor::select('id', 'name')
+            ->orderBy('name')
             ->get();
 
         $categories = Category::select('id', 'name')
+            ->orderBy('name')
             ->get();
 
         return view('item.create', compact('vendors', 'categories', 'category'));
