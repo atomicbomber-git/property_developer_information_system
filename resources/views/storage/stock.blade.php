@@ -28,7 +28,7 @@
                         <tr>
                             <th> # </th>
                             <th> Item </th>
-                            <th> Stock </th>
+                            <th class="text-right"> Stock </th>
                             <th> Unit </th>
                         </tr>
                     </thead>
@@ -37,7 +37,7 @@
                         <tr>
                             <td> {{ $loop->iteration }}. </td>
                             <td> {{ $item_stock->name }} </td>
-                            <td> {{ $item_stock->stock }} </td>
+                            <td class="text-right"> {{ str_replace(".0000", "", number_format($item_stock->stock, 4)) }} </td>
                             <td> {{ $item_stock->unit }} </td>
                         </tr>
                         @endforeach
