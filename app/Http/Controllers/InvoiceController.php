@@ -180,14 +180,37 @@ class InvoiceController extends Controller
             ->value('source');
 
         $delivery_orders = DeliveryOrderItem::query()
-            ->select('delivery_orders.id', 'delivery_orders.received_at', DB::raw('SUM(price * quantity) AS subtotal'))
+            ->select(
+                'delivery_orders.id', 'delivery_orders.received_at', DB::raw('SUM(price * quantity) AS subtotal'),
+                'source.name AS source_name', 'target.name AS target_name', 'target_id'
+            )
             ->join('delivery_orders', 'delivery_orders.id', '=', 'delivery_order_items.delivery_order_id')
+            ->join("vendors AS source", 'delivery_orders.source_id', '=', 'source.id')
+            ->join("storages AS target", 'delivery_orders.target_id', '=', 'target.id')
             ->join('items', 'items.id', '=', 'delivery_order_items.item_id')
             ->where('delivery_orders.invoice_id', $invoice->id)
-            ->groupBy('delivery_orders.id')
-            ->get();
+            ->groupBy('delivery_orders.id', 'source_name', 'target_name', 'target_id')
+            ->get()
+            ->keyBy('id');
 
-        return view('invoice.pay', compact('invoice', 'delivery_orders', 'vendor'));
+        // return $delivery_orders;
+
+        $detailed_delivery_orders = DB::table('delivery_order_items')
+            ->select('delivery_orders.id', 'delivery_orders.received_at', 'quantity', 'price', 'delivery_order_id', 'name')
+            ->join('items', 'items.id', '=', 'delivery_order_items.item_id')
+            ->join('delivery_orders', 'delivery_orders.id', '=', 'delivery_order_items.delivery_order_id')
+
+            ->where('invoice_id', $invoice->id)
+            ->get()
+            ->transform(function($record) {
+                $record->subtotal = $record->price * $record->quantity;
+                return $record;
+            })
+            ->groupBy('delivery_order_id');
+
+        // return $delivery_order_items;
+
+        return view('invoice.pay', compact('invoice', 'delivery_orders', 'vendor', 'detailed_delivery_orders'));
     }
 
     public function processPay(Invoice $invoice)

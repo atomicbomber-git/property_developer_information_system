@@ -52,6 +52,8 @@
                         <tr>
                             <th> # </th>
                             <th> Delivery Order </th>
+                            <th> Source </th>
+                            <th> Target </th>
                             <th class="text-right"> Subtotal (Rp) </th>
                         </tr>
                     </thead>
@@ -65,10 +67,14 @@
                                     ({{ ( new Date ($delivery_order->received_at) )->format('d-m-Y')  }})
                                 </a>
                             </td>
+                            <td> {{ $delivery_order->source_name }} </td>
+                            <td> <a href="{{ route('storage.stock', $delivery_order->target_id) }}"> {{ $delivery_order->target_name }} </a> </td>
                             <td class="text-right"> @convert_money($delivery_order->subtotal) </td>
                         </tr>
                         @endforeach
                         <tr>
+                            <td></td>
+                            <td></td>
                             <td></td>
                             <td class="text-right"> <strong> Total: </strong> </td>
                             <td id="total" class="text-right"> @convert_money($delivery_orders->sum->subtotal) </td>
@@ -83,6 +89,45 @@
                     <UpdateInvoicePaymentForm/>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-body">
+           <div class='table-responsive'>
+                @foreach ($detailed_delivery_orders as $id => $delivery_order_items)
+
+                <h4> {{ $loop->iteration }}. <a href="{{ route('delivery_order.update_price', $id)}}"> Delivery Order {{ $id }} </a> </h2>
+                <p class="lead"> Delivered to <a href="{{ route('storage.stock', $delivery_orders[$id]->target_id) }}"> {{ $delivery_orders[$id]->target_name }} </a> </p>
+
+                <table class='table table-sm table-striped mb-5'>
+                    <thead class="thead-dark">
+                        <tr>
+                            <th> Name </th>
+                            <th class="text-right"> Quantity </th>
+                            <th class="text-right"> Price (Rp.) </th>
+                            <th class="text-right"> Subtotal (Rp.) </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($delivery_order_items as $item)
+                            <tr>
+                                <td> {{ $item->name }} </td>
+                                <td class="text-right"> {{ number_format($item->quantity, 0, ",", ".") }} </td>
+                                <td class="text-right"> {{ number_format($item->price, 0, ",", ".") }} </td>
+                                <td class="text-right"> {{ number_format($item->subtotal, 0, ",", ".") }} </td>
+                            </tr>
+                        @endforeach
+                        <tr class="font-weight-bold">
+                            <td></td>
+                            <td></td>
+                            <td class="text-right"> Total: </td>
+                            <td class="text-right"> {{ number_format($delivery_order_items->sum("subtotal"), 0, ",", ".") }} </td>
+                        </tr>
+                    </tbody>
+                    </table>
+                @endforeach
+           </div>
         </div>
     </div>
 </div>
