@@ -75,7 +75,7 @@ class DeliveryOrderController extends Controller
         ]);
 
         $data = array_merge($data, $second_validator->validate());
-        
+
         DB::transaction(function() use($data) {
             $delivery_order = DeliveryOrder::create([
                 'creator_id' => auth()->user()->id,
@@ -97,7 +97,7 @@ class DeliveryOrderController extends Controller
         });
 
         session()->flash('message.success', __('messages.create.success'));
-        
+
         return [
             'status' => 'success',
             'redirect' => route('delivery_order.index')
@@ -187,7 +187,7 @@ class DeliveryOrderController extends Controller
                 return strtolower($item->item->name);
             })
             ->values();
-    
+
         return view('delivery_order.detail', compact('delivery_order'));
     }
 
@@ -279,16 +279,16 @@ class DeliveryOrderController extends Controller
             return $delivery_order->delivery_order_items;
         }
 
-        return view('delivery_order.update_price', compact('delivery_order', 'item_prices'));
+        return view('delivery_order.update_price', compact('delivery_order'));
     }
 
     public function processUpdatePrice(DeliveryOrder $delivery_order) {
         $data = $this->validate(request(), [
             'delivery_order_items' => 'required|array',
             'delivery_order_items.*.id' => 'required|integer',
-            'delivery_order_items.*.price' => 'required|min:0' 
+            'delivery_order_items.*.price' => 'required|min:0'
         ]);
-        
+
         DB::beginTransaction();
 
         foreach ($data['delivery_order_items'] as $delivery_order_item) {
