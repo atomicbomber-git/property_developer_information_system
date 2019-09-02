@@ -69,9 +69,9 @@ class UserController extends Controller
         $data = $validator->validate();
         if (isset($data['password']))
             bcrypt($data['password']);
-        
+
         $user->update($data);
-        
+
         return redirect()
             ->route('user.index')
             ->with('message.success', __('messages.create.success'));
@@ -79,7 +79,7 @@ class UserController extends Controller
 
     public function delete(User $user)
     {
-        $user->delete();   
+        $user->delete();
         return back()
             ->with('message.success', __('messages.delete.success'));
     }

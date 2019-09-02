@@ -15,7 +15,7 @@
 Auth::routes();
 
 Route::middleware(['auth'])->group(function() {
-    
+
     Route::view('/', 'dashboard')->name('dashboard');
 
     Route::prefix('/vendor')->group(function () {
