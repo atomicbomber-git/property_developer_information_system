@@ -8,6 +8,10 @@ use App\DeliveryOrder;
 
 class DeliveryOrderSeeder extends Seeder
 {
+    const DELIVERY_ORDER_COUNT_PER_MONTH = 20;
+    const VENDOR_COUNT = 20;
+    const MONTH_COUNT = 20;
+
     /**
      * Run the database seeds.
      *
@@ -15,35 +19,24 @@ class DeliveryOrderSeeder extends Seeder
      */
     public function run()
     {
-        $user_ids = User::select('id')
-            ->pluck('id');
+        DB::transaction(function() {
+            $user_ids = User::select('id')->pluck('id');
+            $storage_ids = Storage::select('id')->pluck('id');
+            $vendor_ids = Vendor::select('id')
+                ->limit(self::VENDOR_COUNT)
+                ->pluck('id');
 
-        
-
-        $storage_ids = Storage::select('id')
-            ->pluck('id');
-
-
-
-        $do_per_month = $this->command->ask("How many delivery orders per vendor do you want for each month?");
-        $vendor_count = $this->command->ask("From how many vendors?");
-        $month_count = $this->command->ask("From how many months back from now?");
-
-        $vendor_ids = Vendor::query()
-            ->select('id')
-            ->limit($vendor_count)
-            ->pluck('id');
-
-        for ($i = 0; $i < $month_count; $i++) {
-            foreach ($vendor_ids as $vendor_id) {
-                for ($j = 0; $j < $do_per_month; $j++) {
-                    $this->createVendorDeliveryOrder(
-                        $vendor_id, $storage_ids->random(),
-                        $user_ids->random(),
-                        now()->subMonth($i));
+            for ($i = 0; $i < self::MONTH_COUNT; $i++) {
+                foreach ($vendor_ids as $vendor_id) {
+                    for ($j = 0; $j < self::DELIVERY_ORDER_COUNT_PER_MONTH; $j++) {
+                        $this->createVendorDeliveryOrder(
+                            $vendor_id, $storage_ids->random(),
+                            $user_ids->random(),
+                            now()->subMonth($i));
+                    }
                 }
             }
-        }
+        });
     }
 
     private function createVendorDeliveryOrder($vendor_id, $storage_id, $receiver_id, $received_at)
