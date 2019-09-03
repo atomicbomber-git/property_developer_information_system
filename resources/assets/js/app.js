@@ -19,3 +19,9 @@ require('./components/AddContactPersonsForm.jsx')
 require('./components/UpdateDeliveryOrderPricesForm')
 require('./components/UpdateInvoicePaymentForm')
 require('./components/CreateInvoiceForm')
+
+
+window.Vue = require('vue');
+const app = new Vue({
+    el: '#app'
+});
