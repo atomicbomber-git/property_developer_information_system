@@ -21,6 +21,15 @@
 
             <hr class="mt-2 mb-2">
 
+            <div id="app">
+                <delivery-order-create
+                    :storages='{{ json_encode($storages) }}'
+                    :vendors='{{ json_encode($vendors) }}'
+                    :users='{{ json_encode($users) }}'
+                >
+                </delivery-order-create>
+            </div>
+
             <div id="delivery-order-input-form">
                 <DeliveryOrderInputForm/>
             </div>

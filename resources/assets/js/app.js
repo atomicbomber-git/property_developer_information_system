@@ -22,9 +22,12 @@ require('./components/CreateInvoiceForm')
 
 /* Initialize Vue */
 window.Vue = require('vue');
+
+/* Register all vue components */
+Vue.component('delivery-order-create', () => import(/* webpackChunkName:"/js/components/delivery-order-create" */ './vue-components/DeliveryOrderCreate.vue'));
+
 const app = new Vue({
     el: '#app'
 });
 
-/* Register all vue components */
-Vue.component('delivery-order-create', () => import(/* webpackChunkName:"/js/components/delivery-order-create" */ './vue-components/DeliveryOrderCreate.vue'));
+window.publicpath = __webpack_public_path__

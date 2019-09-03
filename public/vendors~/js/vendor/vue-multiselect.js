@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[0],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["vendors~/js/vendor/vue-multiselect"],{
 
 /***/ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js":
 /*!******************************************************************!*\
