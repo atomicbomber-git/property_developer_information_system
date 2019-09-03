@@ -14,7 +14,7 @@
     <body>
         <nav class="navbar navbar-dark bg-dark justify-content-between mb-3">
             <div class="container">
-                <a href="{{ route('dashboard') }}" class="navbar-brand">
+                <a href="{{ route('dashboard.show') }}" class="navbar-brand">
                     {{ config('app.name') }}
                 </a>
 

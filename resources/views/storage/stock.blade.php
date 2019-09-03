@@ -6,7 +6,7 @@
 <div class="container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"> <a href="{{ route('dashboard') }}"> Dashboard </a> </li>
+            <li class="breadcrumb-item"> <a href="{{ route('dashboard.show') }}"> Dashboard </a> </li>
             <li class="breadcrumb-item"> <a href="{{ route('storage.index') }}"> Storage </a> </li>
             <li class="breadcrumb-item"> Stocks </li>
         </ol>
@@ -16,7 +16,7 @@
         <div class="card-body">
             <h1 class="h5">
                 <i class="fa fa-truck"></i>
-                Item Stocks of Storage {{ $storage->name }} 
+                Item Stocks of Storage {{ $storage->name }}
             </h1>
 
             <hr class="mt-2 mb-2">

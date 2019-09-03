@@ -13,12 +13,12 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-// require('./components/DeliveryOrderInputForm.jsx');
-// require('./components/CreateVendorForm.jsx');
-// require('./components/AddContactPersonsForm.jsx')
-// require('./components/UpdateDeliveryOrderPricesForm')
-// require('./components/UpdateInvoicePaymentForm')
-// require('./components/CreateInvoiceForm')
+require('./components/DeliveryOrderInputForm.jsx');
+require('./components/CreateVendorForm.jsx');
+require('./components/AddContactPersonsForm.jsx')
+require('./components/UpdateDeliveryOrderPricesForm')
+require('./components/UpdateInvoicePaymentForm')
+require('./components/CreateInvoiceForm')
 
 /* Initialize Vue */
 window.Vue = require('vue');

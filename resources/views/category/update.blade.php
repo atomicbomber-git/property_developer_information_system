@@ -6,7 +6,7 @@
 <div class="container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"> <a href="{{ route('dashboard') }}"> Dashboard </a> </li>
+            <li class="breadcrumb-item"> <a href="{{ route('dashboard.show') }}"> Dashboard </a> </li>
             <li class="breadcrumb-item"> <a href="{{ route('category.index') }}"> Category </a> </li>
             <li class="breadcrumb-item active"> Update Category '{{ $category->name }}' </li>
         </ol>
@@ -28,12 +28,12 @@
 
                 <div class='form-group'>
                     <label for='name'> Nama: </label>
-                
+
                     <input
                         id='name' name='name' type='text'
                         value='{{ old('name', $category->name) }}'
                         class='form-control {{ !$errors->has('name') ?: 'is-invalid' }}'>
-                
+
                     <div class='invalid-feedback'>
                         {{ $errors->first('name') }}
                     </div>

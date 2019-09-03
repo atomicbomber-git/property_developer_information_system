@@ -6,7 +6,7 @@
 <div class="container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"> <a href="{{ route('dashboard') }}"> Dashboard </a> </li>
+            <li class="breadcrumb-item"> <a href="{{ route('dashboard.show') }}"> Dashboard </a> </li>
             <li class="breadcrumb-item active"> <a href="{{ route('vendor.index') }}"> Vendor </a> </li>
             <li class="breadcrumb-item active"> Update Vendor '{{ $vendor->name }}' </li>
         </ol>
@@ -22,22 +22,22 @@
                         <i class="fa fa-pencil"></i>
                         Update Vendor '{{ $vendor->name }}'
                     </h1>
-        
+
                     <hr class="mt-2 mb-2">
 
                     <form
                         method='POST'
                         action='{{ route('vendor.update', $vendor) }}'>
                         @csrf
-        
+
                         <div class='form-group'>
                             <label for='name'> Name: </label>
-                        
+
                             <input
                                 id='name' name='name' type='text'
                                 value='{{ old('name', $vendor->name) }}'
                                 class='form-control {{ !$errors->has('name') ?: 'is-invalid' }}'>
-                        
+
                             <div class='invalid-feedback'>
                                 {{ $errors->first('name') }}
                             </div>
@@ -45,26 +45,26 @@
 
                         <div class='form-group'>
                             <label for='code'> Code: </label>
-                        
+
                             <input
                                 id='code' name='code' type='text'
                                 value='{{ old('code', $vendor->code) }}'
                                 class='form-control {{ !$errors->has('code') ?: 'is-invalid' }}'>
-                        
+
                             <div class='invalid-feedback'>
                                 {{ $errors->first('code') }}
                             </div>
                         </div>
-        
+
                         <div class='form-group'>
                             <label for='address'> Address: </label>
-                        
+
                             <textarea
                                 id='address' name='address'
                                 class='form-control {{ !$errors->has('address') ?: 'is-invalid' }}'
                                 col='30' row='6'
                                 >{{ old('address', $vendor->address) }}</textarea>
-                        
+
                             <div class='invalid-feedback'>
                                 {{ $errors->first('address') }}
                             </div>
@@ -76,9 +76,9 @@
                                 <i class="fa fa-check"></i>
                             </button>
                         </div>
-        
+
                     </form>
-        
+
                 </div>
             </div>
         </div>
@@ -100,7 +100,7 @@
                             @forelse ($vendor->contact_people as $contact_person)
                             <input type="hidden" name="contact_people[{{ $contact_person->id }}][id]" value="{{ $contact_person->id }}">
                             <div class="input-group mt-2">
-                                
+
                                 <input
                                     type="text"
                                     value="{{ old("contact_people.$contact_person->id.name", $contact_person->name) }}"
@@ -129,7 +129,7 @@
                             </div>
                             @endforelse
                         </div>
-                    
+
                         <div class="form-group text-right">
                             <button class="btn btn-primary btn-sm">
                                 Update

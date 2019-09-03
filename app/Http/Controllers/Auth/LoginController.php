@@ -22,7 +22,7 @@ class LoginController extends Controller
 
     public function redirectTo()
     {
-        return route('dashboard');
+        return route("dashboard.show");
     }
 
     public function username()

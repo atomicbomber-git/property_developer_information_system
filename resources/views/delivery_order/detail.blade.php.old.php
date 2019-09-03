@@ -6,7 +6,7 @@
 <div class="container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"> <a href="{{ route('dashboard') }}"> Dashboard </a> </li>
+            <li class="breadcrumb-item"> <a href="{{ route('dashboard.show') }}"> Dashboard </a> </li>
             <li class="breadcrumb-item"> <a href="{{ route('delivery_order.index') }}"> DeliveryOrder </a> </li>
             <li class="breadcrumb-item active"> <a href="{{ route('delivery_order.detail', $delivery_order) }}"> {{ $delivery_order->id }} </a> </li>
         </ol>
@@ -29,12 +29,12 @@
                         <div class="d-block"> Nama Pemesan: </div>
                         <strong> {{ $delivery_order->creator->name }} </strong>
                     </div>
-        
+
                     <div class="mb-2">
                         <div class="d-block"> Nama Vendor: </div>
                         <strong> {{ $delivery_order->vendor->name }} </strong>
                     </div>
-        
+
                     <div class="mb-2">
                         <div class="d-block"> Tanggal Pemesanan: </div>
                         <strong> {{ $delivery_order->created_at->format('d-m-Y') }} </strong>
@@ -71,13 +71,13 @@
 
                                 <div class='form-group'>
                                     <label for='quantity'> Quantity: </label>
-                                
+
                                     <input
                                         min="1"
                                         id='quantity' name='quantity' type='number'
                                         value='{{ old('quantity') }}'
                                         class='form-control {{ !$errors->has('quantity') ?: 'is-invalid' }}'>
-                                
+
                                     <div class='invalid-feedback'>
                                         {{ $errors->first('quantity') }}
                                     </div>
@@ -116,7 +116,7 @@
                             <i class="fa fa-list-alt"></i>
                             Daftar Item Pesanan
                         </h1>
-            
+
                         <hr class="mt-2 mb-2">
 
                         <div class="table-responsive">
@@ -201,7 +201,7 @@
                 console.log(id);
                 $(`tr[data-delivery_order-item-id=${id}]`)
                     .toggleClass('d-none');
-                
+
                 icon.toggleClass(toggle_active_class);
                 icon.toggleClass(toggle_inactive_class);
             })

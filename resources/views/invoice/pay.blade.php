@@ -6,7 +6,7 @@
 <div class="container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"> <a href="{{ route('dashboard') }}"> Dashboard </a> </li>
+            <li class="breadcrumb-item"> <a href="{{ route('dashboard.show') }}"> Dashboard </a> </li>
             <li class="breadcrumb-item"> <a href="{{ route('invoice.index') }}"> Invoice </a> </li>
             <li class="breadcrumb-item active"> Pay Invoice {{ $invoice->id }} </li>
         </ol>
@@ -16,7 +16,7 @@
         <div class="card-body">
             <h1 class="h5">
                 <i class="fa fa-usd"></i>
-                
+
                 Invoice <strong> {{ $invoice->number }} </strong> From <a href="{{ route('vendor.transaction_history', $vendor->id) }}"> {{ $vendor->name }} </a> at {{ $invoice->received_at->format('d-m-Y')  }}
 
                 @switch($invoice->payment_method)

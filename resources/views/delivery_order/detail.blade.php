@@ -6,7 +6,7 @@
 <div class="container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"> <a href="{{ route('dashboard') }}"> Dashboard </a> </li>
+            <li class="breadcrumb-item"> <a href="{{ route('dashboard.show') }}"> Dashboard </a> </li>
             <li class="breadcrumb-item"> <a href="{{ route('delivery_order.index') }}"> Delivery Order (From Vendor) </a> </li>
             <li class="breadcrumb-item active"> {{ $delivery_order->id }} </li>
         </ol>
@@ -37,20 +37,20 @@
                         {{ $errors->first('item_id') }}
                     </div>
                 </div>
-    
+
                 <div class='form-group'>
                     <label for='quantity'> Quantity: </label>
-                
+
                     <input
                         id='quantity' name='quantity' type='number' step="0.001"
                         value='{{ old('quantity') }}'
                         class='form-control {{ !$errors->has('quantity') ?: 'is-invalid' }}'>
-                
+
                     <div class='invalid-feedback'>
                         {{ $errors->first('quantity') }}
                     </div>
                 </div>
-    
+
                 <div class="text-right mt-3">
                     <button class="btn btn-primary btn-sm">
                         Tambahkan Item
@@ -97,13 +97,13 @@
                                 class="form-control form-control-sm {{ $errors->first("quantities.$delivery_order_item->id", 'is-invalid') }}"
                                 name="quantities[{{ $delivery_order_item->id }}]"
                                 type="number">
-                            
+
                             <div class='invalid-feedback'>
                                 {{ $errors->first("quantities.$delivery_order_item->id") }}
                             </div>
                         </td>
                         <td> {{ $delivery_order_item->item->unit }} </td>
-                        
+
                         <td>
                             <form action="{{ route('delivery_order.delete_item', [$delivery_order, $delivery_order_item]) }}" method="POST">
                                 @csrf

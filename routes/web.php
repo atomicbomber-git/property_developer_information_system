@@ -11,13 +11,15 @@
 |
 */
 
+use App\Http\Controllers\DashboardController;
 
 Auth::routes();
 
+Route::group(['prefix' => '/dashboard', 'as' => 'dashboard.'], function() {
+    Route::get('/show', [DashboardController::class, 'show'])->name('show');
+});
+
 Route::middleware(['auth'])->group(function() {
-
-    Route::view('/', 'dashboard')->name('dashboard');
-
     Route::prefix('/vendor')->group(function () {
         Route::get('/index', 'VendorController@index')->name('vendor.index');
         Route::get('/create', 'VendorController@create')->name('vendor.create');
@@ -121,4 +123,9 @@ Route::middleware(['auth'])->group(function() {
         Route::post('/update/{user}', 'UserController@processUpdate')->name('user.update');
         Route::post('/delete/{user}', 'UserController@delete')->name('user.delete');
     });
+});
+
+Route::fallback(function() {
+    return redirect()
+        ->route("dashboard.show");
 });
