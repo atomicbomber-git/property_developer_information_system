@@ -7,7 +7,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"> <a href="{{ route('dashboard.show') }}"> Dashboard </a> </li>
-            <li class="breadcrumb-item"> <a href="{{ route('delivery_order.index') }}"> Delivery Order (From Vendor) </a> </li>
+            <li class="breadcrumb-item"> <a href="{{ route('delivery-order.index') }}"> Delivery Order (From Vendor) </a> </li>
             <li class="breadcrumb-item active"> {{ $delivery_order->id }} </li>
         </ol>
     </nav>
@@ -23,7 +23,7 @@
 
             <hr class="mt-2 mb-2">
 
-            <form action="{{ route('delivery_order.create_item', $delivery_order) }}" method="POST">
+            <form action="{{ route('delivery-order.create_item', $delivery_order) }}" method="POST">
                 @csrf
 
                 <div class='form-group'>
@@ -105,7 +105,7 @@
                         <td> {{ $delivery_order_item->item->unit }} </td>
 
                         <td>
-                            <form action="{{ route('delivery_order.delete_item', [$delivery_order, $delivery_order_item]) }}" method="POST">
+                            <form action="{{ route('delivery-order.delete_item', [$delivery_order, $delivery_order_item]) }}" method="POST">
                                 @csrf
                                 <button class="btn btn-danger btn-sm">
                                     <i class="fa fa-trash"></i>
@@ -117,7 +117,7 @@
                 </tbody>
             </table>
 
-            <form method="POST" id="form-update" action="{{ route('delivery_order.update_items', $delivery_order) }}">
+            <form method="POST" id="form-update" action="{{ route('delivery-order.update_items', $delivery_order) }}">
                 @csrf
             </form>
 

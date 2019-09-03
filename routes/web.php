@@ -73,21 +73,22 @@ Route::middleware(['auth'])->group(function() {
     });
 
     Route::prefix('/delivery_order')->group(function () {
-        Route::get('/index', 'DeliveryOrderController@index')->name('delivery_order.index');
-        Route::get('/create', 'DeliveryOrderController@create')->name('delivery_order.create');
-        Route::post('/create', 'DeliveryOrderController@processCreate')->name('delivery_order.create');
-        Route::get('/update/{delivery_order}', 'DeliveryOrderController@update')->name('delivery_order.update');
-        Route::post('/update/{delivery_order}', 'DeliveryOrderController@processUpdate')->name('delivery_order.update');
-        Route::post('/delete/{delivery_order}', 'DeliveryOrderController@delete')->name('delivery_order.delete');
+        Route::get('/index', 'DeliveryOrderController@index')->name('delivery-order.index');
+        Route::get('/create', 'DeliveryOrderController@create')->name('delivery-order.create');
+        Route::post('/store', 'DeliveryOrderController@store')->name('delivery-order.store');
+        
+        Route::get('/update/{delivery_order}', 'DeliveryOrderController@update')->name('delivery-order.update');
+        Route::post('/update/{delivery_order}', 'DeliveryOrderController@processUpdate')->name('delivery-order.update');
+        Route::post('/delete/{delivery_order}', 'DeliveryOrderController@delete')->name('delivery-order.delete');
 
-        Route::get('/update_price/{delivery_order}', 'DeliveryOrderController@updatePrice')->name('delivery_order.update_price');
-        Route::post('/update_price/{delivery_order}', 'DeliveryOrderController@processUpdatePrice')->name('delivery_order.update_price');
+        Route::get('/update_price/{delivery_order}', 'DeliveryOrderController@updatePrice')->name('delivery-order.update_price');
+        Route::post('/update_price/{delivery_order}', 'DeliveryOrderController@processUpdatePrice')->name('delivery-order.update_price');
 
         Route::prefix('/detail/{delivery_order}/')->group(function() {
-            Route::get('/', 'DeliveryOrderController@detail')->name('delivery_order.detail');
-            Route::post('/item/update', 'DeliveryOrderController@updateItems')->name('delivery_order.update_items');
-            Route::post('/item/create', 'DeliveryOrderController@createItem')->name('delivery_order.create_item');
-            Route::post('/item/delete/{delivery_order_item}', 'DeliveryOrderController@deleteItem')->name('delivery_order.delete_item');
+            Route::get('/', 'DeliveryOrderController@detail')->name('delivery-order.detail');
+            Route::post('/item/update', 'DeliveryOrderController@updateItems')->name('delivery-order.update_items');
+            Route::post('/item/create', 'DeliveryOrderController@createItem')->name('delivery-order.create_item');
+            Route::post('/item/delete/{delivery_order_item}', 'DeliveryOrderController@deleteItem')->name('delivery-order.delete_item');
         });
     });
 

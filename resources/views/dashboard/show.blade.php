@@ -41,7 +41,7 @@
                     Storages
                 </a>
 
-                <a href="{{ route('delivery_order.index') }}" class="my-1 mr-2 btn btn-info btn-lg">
+                <a href="{{ route('delivery-order.index') }}" class="my-1 mr-2 btn btn-info btn-lg">
                     <i class="fa fa-credit-card"></i>
                     Delivery Orders (From Vendor)
                 </a>

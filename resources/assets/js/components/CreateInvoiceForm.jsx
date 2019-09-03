@@ -36,8 +36,8 @@ class CreateInvoiceForm extends Component  {
             number: this.state.number,
             vendor_id: this.state.selected_vendor_option,
             delivery_orders: this.state.delivery_order_options
-                .filter(delivery_order => delivery_order.is_selected)
-                .map(delivery_order => delivery_order.id)
+                .filter(delivery_order => delivery-order.is_selected)
+                .map(delivery_order => delivery-order.id)
         }
     }
 
@@ -78,8 +78,8 @@ class CreateInvoiceForm extends Component  {
 
     onSelectDeliveryOrder(delivery_order_id) {
         let updated = this.state.delivery_order_options.map(delivery_order => {
-            if (delivery_order.id == delivery_order_id) {
-                return {...delivery_order, is_selected: !delivery_order.is_selected}
+            if (delivery-order.id == delivery_order_id) {
+                return {...delivery_order, is_selected: !delivery-order.is_selected}
             }
             return delivery_order
         })
@@ -160,16 +160,16 @@ class CreateInvoiceForm extends Component  {
                     <div className="list-group" style={{height: '30rem', overflow: 'scroll'}}>
                         {this.state.delivery_order_options.map(delivery_order => 
                             <div
-                                key={delivery_order.id}
-                                onClick={() => { this.onSelectDeliveryOrder(delivery_order.id) }} key={delivery_order.id}
-                                className={classNames(['list-group-item', {'list-group-item-info': delivery_order.is_selected}])}>
+                                key={delivery-order.id}
+                                onClick={() => { this.onSelectDeliveryOrder(delivery-order.id) }} key={delivery-order.id}
+                                className={classNames(['list-group-item', {'list-group-item-info': delivery-order.is_selected}])}>
 
                                 <h5>
-                                    To <strong> {delivery_order.target.name} </strong> on <strong> {delivery_order.received_at} </strong>
+                                    To <strong> {delivery-order.target.name} </strong> on <strong> {delivery-order.received_at} </strong>
                                 </h5>
 
                                 <ol>
-                                   {delivery_order.delivery_order_items.map(do_item => 
+                                   {delivery-order.delivery_order_items.map(do_item => 
                                         <li key={do_item.item_id}>
                                             {do_item.item.name} <i className="fa fa-times"></i> {do_item.quantity} {do_item.item.unit}
                                         </li>

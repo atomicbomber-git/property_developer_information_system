@@ -18,9 +18,9 @@ class CreateDeliveryOrderTest extends TestCase
             ->states('admin')
             ->create();
 
-        echo route('delivery_order.create');
+        echo route('delivery-order.create');
         $response = $this->actingAs($user)
-            ->get(route('delivery_order.create'));
+            ->get(route('delivery-order.create'));
 
         $response->assertStatus(200);
     }

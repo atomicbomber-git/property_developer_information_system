@@ -221,11 +221,11 @@
                 list_item.classList.add('list-group-item-action');
 
                 let list_item_title = document.createElement('h5');
-                list_item_title.innerHTML = `Delivery Order ${delivery_order.id} <strong> To ${delivery_order.target.name} </strong> On <strong> ${delivery_order.received_at} </strong>`;
+                list_item_title.innerHTML = `Delivery Order ${delivery-order.id} <strong> To ${delivery-order.target.name} </strong> On <strong> ${delivery-order.received_at} </strong>`;
                 list_item.appendChild(list_item_title);
 
                 let list_item_ol = document.createElement('ol');
-                delivery_order.delivery_order_items.forEach(delivery_order_item => {
+                delivery-order.delivery_order_items.forEach(delivery_order_item => {
                     let li = document.createElement('li');
                     li.innerHTML = `${delivery_order_item.item.name} (${delivery_order_item.item.unit}) <i class='fa fa-times'> </i> ${delivery_order_item.quantity} `;
                     list_item_ol.appendChild(li);
@@ -236,13 +236,13 @@
 
                 $(list_item).click(() => {
 
-                    if (selected_delivery_orders.includes(delivery_order.id)) {
+                    if (selected_delivery_orders.includes(delivery-order.id)) {
                         selected_delivery_orders = selected_delivery_orders.filter(order_id => {
-                            return order_id !== delivery_order.id;
+                            return order_id !== delivery-order.id;
                         });
                     }
                     else {
-                        selected_delivery_orders.push(delivery_order.id);
+                        selected_delivery_orders.push(delivery-order.id);
                     }
 
                     $(list_item).toggleClass('list-group-item-info');

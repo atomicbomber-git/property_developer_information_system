@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Enums\EntityType;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -16,11 +17,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Schema::defaultStringLength(191);
-
         Relation::morphMap([
-            'VENDOR' => \App\Vendor::class,
-            'STORAGE' => \App\Storage::class
+            EntityType::VENDOR => \App\Vendor::class,
+            EntityType::STORAGE => \App\Storage::class
         ]);
 
         Blade::directive('convert_money', function ($money) {

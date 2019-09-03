@@ -39,13 +39,16 @@
         </div>
 
         <div class='form-group'>
-            <label for='receivement_date'> Receivement Date: </label>
+            <label for='received_at'> Receivement Date: </label>
             <input
-                v-model='receivement_date'
+                type="date"
+                v-model='received_at'
                 class='form-control'
-                :class="{'is-invalid': get(this.error_data, 'errors.receivement_date[0]', false)}"
-                type='text' id='receivement_date' placeholder='Receivement Date'>
-            <div class='invalid-feedback'>{{ get(this.error_data, 'errors.receivement_date[0]', false) }}</div>
+                :class="{'is-invalid': get(this.error_data, 'errors.received_at[0]', false)}"
+                id='received_at'
+                placeholder='Receivement Date'
+                >
+            <div class='invalid-feedback'>{{ get(this.error_data, 'errors.received_at[0]', false) }}</div>
         </div>
 
         <div class="form-group">
@@ -86,10 +89,12 @@
         <div class="form-group">
             <label> Item List: </label>
 
-            <table v-if="picked_items.length > 0" class="table table-sm table-striped">
+            <table v-if="picked_items.length > 0" class="table table-sm table-striped table-bordered">
                 <thead class="thead thead-dark">
                     <tr>
                         <th> Item </th>
+                        <th> Unit </th>
+                        <th> Quantity </th>
                         <th class="text-center"> Controls </th>
                     </tr>
                 </thead>
@@ -97,6 +102,19 @@
                 <tbody>
                     <tr :key="picked_item.id" v-for="picked_item in picked_items">
                         <td> {{ picked_item.name }} </td>
+                        <td> {{ picked_item.unit }} </td>
+                        <td>
+                            <input
+                                v-model.number='picked_item.quantity'
+                                class='form-control'
+                                :class="{'is-invalid': get(this.error_data, 'errors.picked_item.quantity[0]', false)}"
+                                type='number'
+                                id='picked_item.quantity'
+                                placeholder='Quantity'>
+                            <div class='invalid-feedback'>
+                                 {{ get(this.error_data, 'errors.picked_item.quantity[0]', false) }}
+                            </div>
+                        </td>
                         <td class="text-center">
                             <button
                                 @click="picked_item.picked = false"
@@ -148,6 +166,7 @@ export default {
                         return {
                             ...item,
                             picked: false,
+                            quantity: 0,
                         }
                     })
                 }
@@ -156,7 +175,7 @@ export default {
             receiver: null,
             storage: null,
             vendor: null,
-            receivement_date: null,
+            received_at: null,
             selected_item: null,
             error_data: null,
         }
@@ -166,7 +185,15 @@ export default {
         get,
 
         onFormSubmit() {
-
+            axios.post(this.submit_url, this.form_data)
+               .then(response => {
+                   console.log(response)
+                    // window.location.replace(this.redirect_url)
+               })
+               .catch(error => {
+                   console.log(error)
+                   this.error_data = error.response.data
+               })
         }
     },
 
@@ -185,8 +212,11 @@ export default {
                 receiver_id: this.receiver ? this.receiver.id : null,
                 storage_id: this.storage ? this.storage.id : null,
                 vendor_id: this.vendor ? this.vendor.id : null,
-                receivement_date: this.receivement_date,
-                items: this.picked_items.map(picked_items => picked_items.id)
+                received_at: this.received_at,
+                items: this.picked_items.map(picked_items => { return {
+                    item_id: picked_items.id,
+                    quantity: picked_items.quantity,
+                }})
             }
         },
 

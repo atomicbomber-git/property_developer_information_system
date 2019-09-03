@@ -6,11 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\DeliveryOrder;
 use App\DeliveryOrderItem;
+use App\Enums\EntityType;
 use App\Vendor;
 use App\Storage;
 use App\User;
 use Validator;
 use DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use URL;
 
 class DeliveryOrderController extends Controller
@@ -32,7 +35,7 @@ class DeliveryOrderController extends Controller
     {
         $vendors = Vendor::query()
             ->select('id', 'name')
-            ->with("items:id,vendor_id,name")
+            ->with("items:id,vendor_id,name,unit")
             ->orderBy('name')
             ->get();
 
@@ -49,60 +52,39 @@ class DeliveryOrderController extends Controller
         return view('delivery_order.create', compact('vendors', 'storages', 'users'));
     }
 
-    public function processCreate()
+    public function store()
     {
-        $vendor_ids = Vendor::select('id')->pluck('id');
-        $storage_ids = Storage::select('id')->pluck('id');
-        $user_ids = User::select('id')->pluck('id');
-
-        $first_validator = Validator::make(request()->all(), [
-            'source_id' => ['required', Rule::in($vendor_ids)],
+        $data = $this->validate(request(), [
+            "vendor_id" => "required|exists:vendors,id",
+            "storage_id" => "required|exists:storages,id",
+            "receiver_id" => "required|exists:users,id",
+            "received_at" => "required|date",
+            "items" => "required|array",
+            "items.*.item_id" => "required|exists:items,id",
+            "items.*.quantity" => "required|numeric|gte:0",
         ]);
-
-        $data = $first_validator->validate();
-
-        $vendor_item_ids = Vendor::find($data['source_id'])
-            ->items()
-            ->select('id')
-            ->pluck('id');
-
-        $second_validator = Validator::make(request()->all(), [
-            'target_id' => ['required', Rule::in($storage_ids)],
-            'receiver_id' => ['required', Rule::in($user_ids)],
-            'received_at' => ['required', 'date'],
-            'delivery_items' => ['required', 'array'],
-            'delivery_items.*.id' => ['required', Rule::in($vendor_item_ids)],
-            'delivery_items.*.quantity' => ['required', 'min:0']
-        ]);
-
-        $data = array_merge($data, $second_validator->validate());
-
-        DB::transaction(function() use($data) {
+        
+        $delivery_order = null;
+        DB::transaction(function() use($data, &$delivery_order) {
             $delivery_order = DeliveryOrder::create([
-                'creator_id' => auth()->user()->id,
-                'source_type' => 'VENDOR',
-                'source_id' => $data['source_id'],
-                'target_type' => 'STORAGE',
-                'target_id' => $data['target_id'],
+                'creator_id' => Auth::user()->id,
+                'source_type' => EntityType::VENDOR,
+                'source_id' => $data['vendor_id'],
+                'target_type' => EntityType::STORAGE,
+                'target_id' => $data['storage_id'],
                 'receiver_id' => $data['receiver_id'],
                 'received_at' => $data['received_at']
             ]);
 
-            foreach ($data['delivery_items'] as $delivery_item) {
-                DeliveryOrderItem::create([
-                    'delivery_order_id' => $delivery_order->id,
-                    'item_id' => $delivery_item['id'],
-                    'quantity' => $delivery_item['quantity']
-                ]);
+            foreach ($data['items'] as $item) {
+                $delivery_order->delivery_order_items()
+                    ->create($item);
             }
         });
 
-        session()->flash('message.success', __('messages.create.success'));
+        return $delivery_order->load("delivery_order_items");
 
-        return [
-            'status' => 'success',
-            'redirect' => route('delivery_order.index')
-        ];
+        session()->flash('message.success', __('messages.create.success'));
     }
 
     public function update(DeliveryOrder $delivery_order)
@@ -153,7 +135,7 @@ class DeliveryOrderController extends Controller
         ]);
 
         return redirect()
-            ->route('delivery_order.index')
+            ->route('delivery-order.index')
             ->with('message.success', __('messages.update.success'));
     }
 

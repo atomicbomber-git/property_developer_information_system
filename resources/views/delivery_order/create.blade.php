@@ -7,7 +7,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"> <a href="{{ route('dashboard.show') }}"> Dashboard </a> </li>
-            <li class="breadcrumb-item"> <a href="{{ route('delivery_order.index') }}"> Delivery Order (From Vendor) </a> </li>
+            <li class="breadcrumb-item"> <a href="{{ route('delivery-order.index') }}"> Delivery Order (From Vendor) </a> </li>
             <li class="breadcrumb-item active"> Tambahkan Delivery Order Baru </li>
         </ol>
     </nav>
@@ -23,6 +23,8 @@
 
             <div id="app">
                 <delivery-order-create
+                    submit_url='{{ route('delivery-order.store') }}'
+                    redirect_url='{{ route('delivery-order.index') }}'
                     :storages='{{ json_encode($storages) }}'
                     :vendors='{{ json_encode($vendors) }}'
                     :users='{{ json_encode($users) }}'

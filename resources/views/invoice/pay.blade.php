@@ -62,7 +62,7 @@
                         <tr>
                             <td> {{ $loop->iteration }}. </td>
                             <td>
-                                <a target="_blank" href="{{ route('delivery_order.update_price', $delivery_order->id) }}">
+                                <a target="_blank" href="{{ route('delivery-order.update_price', $delivery_order->id) }}">
                                     Delivery Order {{ $delivery_order->id }}
                                     ({{ ( new Date ($delivery_order->received_at) )->format('d-m-Y')  }})
                                 </a>
@@ -97,7 +97,7 @@
            <div class='table-responsive'>
                 @foreach ($detailed_delivery_orders as $id => $delivery_order_items)
 
-                <h4> {{ $loop->iteration }}. <a href="{{ route('delivery_order.update_price', $id)}}"> Delivery Order {{ $id }} </a> </h2>
+                <h4> {{ $loop->iteration }}. <a href="{{ route('delivery-order.update_price', $id)}}"> Delivery Order {{ $id }} </a> </h2>
                 <p class="lead"> Delivered to <a href="{{ route('storage.stock', $delivery_orders[$id]->target_id) }}"> {{ $delivery_orders[$id]->target_name }} </a> </p>
 
                 <table class='table table-sm table-striped mb-5'>
