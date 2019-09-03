@@ -23,7 +23,7 @@ class DeliveryOrderController extends Controller
             ->with(['receiver:id,name', 'source:id,name', 'target:id,name'])
             ->withCount('delivery_order_items')
             ->orderBy('received_at', 'desc')
-            ->paginate(10);
+            ->paginate();
 
         return view('delivery_order.index', compact('delivery_orders'));
     }

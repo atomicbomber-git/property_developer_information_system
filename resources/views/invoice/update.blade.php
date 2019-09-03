@@ -6,7 +6,7 @@
 <div class="container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"> <a href="{{ route('dashboard') }}"> Dashboard </a> </li>
+            <li class="breadcrumb-item"> <a href="{{ route('dashboard.show') }}"> Dashboard </a> </li>
             <li class="breadcrumb-item"> <a href="{{ route('invoice.index') }}"> Invoice </a> </li>
             <li class="breadcrumb-item active"> Update Invoice {{ $invoice->id }} </li>
         </ol>
@@ -20,21 +20,21 @@
                         <i class="fa fa-plus"></i>
                         Add Delivery Order To Invoice
                     </h1>
-        
+
                     <hr class="mt-2 mb-2">
-        
+
                     @if($errors->has('delivery_orders'))
                     <div class="alert alert-danger">
                         Pembuatan Invoice gagal! Anda wajib memilih minimal satu (1) Delivery Order!
                     </div>
                     @endif
-        
+
                     <form
                         id="delivery-order-form"
                         method='POST'
                         action='{{ route('invoice.attach_delivery_order', $invoice) }}'>
                         @csrf
-        
+
                         <div class='form-group'>
                             <label for='vendor'> Vendor: </label>
                             <select name="vendor_id" id='vendor' class='form-control' {{ $invoice->delivery_orders()->count() > 0 ? 'disabled' : '' }}>
@@ -44,35 +44,35 @@
                                 </option>
                                 @endforeach
                             </select>
-        
+
                             @if($invoice->delivery_orders()->count() > 0)
                             <input type="hidden" name="vendor_id" value="{{ $current_vendor_id }}">
                             @endif
-        
+
                             <div class='invalid-feedback'>
                                 {{ $errors->first('vendor_id') }}
                             </div>
                         </div>
-        
+
                         <div class="form-group">
                             <label for="delivery_orders">
                                 Delivery Orders (Click to Pick):
                             </label>
-        
+
                             <div id="delivery-order-list" class="list-group">
                             </div>
-        
+
                         </div>
-        
+
                         <div class="text-right mt-3">
                             <button class="btn btn-primary btn-sm">
                                 Tambahkan
                                 <i class="fa fa-plus"></i>
                             </button>
                         </div>
-        
+
                     </form>
-        
+
                 </div>
             </div>
         </div>
@@ -84,7 +84,7 @@
                         <i class="fa fa-plus"></i>
                         Update Invoice
                     </h1>
-        
+
                     <hr class="mt-2 mb-2">
 
                     <form method="POST" action="{{ route('invoice.update', $invoice) }}">
@@ -92,12 +92,12 @@
 
                         <div class='form-group'>
                             <label for='received_at'> Receivement Date: </label>
-                        
+
                             <input
                                 id='received_at' name='received_at' type='date'
                                 value='{{ old('received_at', $invoice->received_at->format('Y-m-d')) }}'
                                 class='form-control {{ !$errors->has('received_at') ?: 'is-invalid' }}'>
-                        
+
                             <div class='invalid-feedback'>
                                 {{ $errors->first('received_at') }}
                             </div>
@@ -105,12 +105,12 @@
 
                         <div class='form-group'>
                             <label for='number'> Number: </label>
-                        
+
                             <input
                                 id='number' name='number' type='text'
                                 value='{{ old('number', $invoice->number) }}'
                                 class='form-control {{ !$errors->has('number') ?: 'is-invalid' }}'>
-                        
+
                             <div class='invalid-feedback'>
                                 {{ $errors->first('number') }}
                             </div>
@@ -127,7 +127,7 @@
             </div>
         </div>
     </div>
-    
+
 
     <div class="card mt-3" style="max-width: 40rem">
         <div class="card-body">
@@ -135,7 +135,7 @@
                 <i class="fa fa-list"></i>
                 Delivery Orders in this Invoice
             </h1>
-        
+
             <hr class="mt-2 mb-2">
 
             <div class="list-group">
@@ -215,11 +215,11 @@
             }
 
             delivery_orders.forEach(delivery_order => {
-                
+
                 let list_item = document.createElement('div');
                 list_item.classList.add('list-group-item');
                 list_item.classList.add('list-group-item-action');
-                
+
                 let list_item_title = document.createElement('h5');
                 list_item_title.innerHTML = `Delivery Order ${delivery_order.id} <strong> To ${delivery_order.target.name} </strong> On <strong> ${delivery_order.received_at} </strong>`;
                 list_item.appendChild(list_item_title);
@@ -230,7 +230,7 @@
                     li.innerHTML = `${delivery_order_item.item.name} (${delivery_order_item.item.unit}) <i class='fa fa-times'> </i> ${delivery_order_item.quantity} `;
                     list_item_ol.appendChild(li);
                 });
-                
+
                 list_item.appendChild(list_item_ol);
                 list.appendChild(list_item);
 
@@ -244,7 +244,7 @@
                     else {
                         selected_delivery_orders.push(delivery_order.id);
                     }
-                    
+
                     $(list_item).toggleClass('list-group-item-info');
                     console.log(selected_delivery_orders);
                 })
@@ -270,7 +270,7 @@
 
         $('#delivery-order-form').submit(function (e) {
             e.preventDefault();
-            
+
             selected_delivery_orders.forEach(id => {
                 $(this).append($(`<input type='hidden' name='delivery_orders[]' value=${id}>`));
             })

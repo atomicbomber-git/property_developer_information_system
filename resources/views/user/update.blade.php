@@ -6,7 +6,7 @@
 <div class="container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"> <a href="{{ route('dashboard') }}"> Dashboard </a> </li>
+            <li class="breadcrumb-item"> <a href="{{ route('dashboard.show') }}"> Dashboard </a> </li>
             <li class="breadcrumb-item"> <a href="{{ route('user.index') }}"> User </a> </li>
             <li class="breadcrumb-item active"> Update User '{{ $user->name }}' </li>
         </ol>
@@ -28,12 +28,12 @@
 
                 <div class='form-group'>
                     <label for='name'> Name: </label>
-                
+
                     <input
                         id='name' name='name' type='text'
                         value='{{ old('name', $user->name) }}'
                         class='form-control {{ !$errors->has('name') ?: 'is-invalid' }}'>
-                
+
                     <div class='invalid-feedback'>
                         {{ $errors->first('name') }}
                     </div>
@@ -41,12 +41,12 @@
 
                 <div class='form-group'>
                     <label for='username'> Username: </label>
-                
+
                     <input
                         id='username' name='username' type='text'
                         value='{{ old('username', $user->username) }}'
                         class='form-control {{ !$errors->has('username') ?: 'is-invalid' }}'>
-                
+
                     <div class='invalid-feedback'>
                         {{ $errors->first('username') }}
                     </div>
@@ -71,12 +71,12 @@
 
                 <div class='form-group'>
                     <label for='password'> Password: </label>
-                
+
                     <input
                         id='password' name='password' type='password'
                         value='{{ old('password') }}'
                         class='form-control {{ !$errors->has('password') ?: 'is-invalid' }}'>
-                
+
                     <div class='invalid-feedback'>
                         {{ $errors->first('password') }}
                     </div>
@@ -89,7 +89,7 @@
                         id='password_confirmation' name='password_confirmation' type='password'
                         value='{{ old('password_confirmation') }}'
                         class='form-control {{ !$errors->has('password_confirmation') ?: 'is-invalid' }}'>
-                
+
                     <div class='invalid-feedback'>
                         {{ $errors->first('password_confirmation') }}
                     </div>

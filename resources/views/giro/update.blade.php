@@ -6,7 +6,7 @@
 <div class="container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"> <a href="{{ route('dashboard') }}"> Dashboard </a> </li>
+            <li class="breadcrumb-item"> <a href="{{ route('dashboard.show') }}"> Dashboard </a> </li>
             <li class="breadcrumb-item"> <a href="{{ route('giro.index') }}"> Giros </a> </li>
             <li class="breadcrumb-item active"> Update Giro {{ $giro->id }} </li>
         </ol>
@@ -22,18 +22,18 @@
             <hr class="mt-2 mb-2">
 
             @include('shared.message-success')
-            
+
             <form method="POST" action="{{ route('giro.update', $giro) }}">
                 @csrf
 
                 <div class='form-group'>
                     <label for='number'> Number: </label>
-                
+
                     <input
                         id='number' name='number' type='text'
                         value='{{ old('number', $giro->number) }}'
                         class='form-control {{ !$errors->has('number') ?: 'is-invalid' }}'>
-                
+
                     <div class='invalid-feedback'>
                         {{ $errors->first('number') }}
                     </div>
@@ -41,12 +41,12 @@
 
                 <div class='form-group'>
                     <label for='amount'> Amount (Rp): </label>
-                
+
                     <input
                         id='amount' name='amount' type='number'
                         value='{{ old('amount', $giro->amount) }}'
                         class='form-control {{ !$errors->has('amount') ?: 'is-invalid' }}'>
-                
+
                     <div class='invalid-feedback'>
                         {{ $errors->first('amount') }}
                     </div>
@@ -54,12 +54,12 @@
 
                 <div class='form-group'>
                     <label for='transfered_at'> Transfer Date: </label>
-                
+
                     <input
                         id='transfered_at' name='transfered_at' type='date'
                         value='{{ old('transfered_at', optional($giro->transfered_at)->format('Y-m-d')) }}'
                         class='form-control {{ !$errors->has('transfered_at') ?: 'is-invalid' }}'>
-                
+
                     <div class='invalid-feedback'>
                         {{ $errors->first('transfered_at') }}
                     </div>
@@ -83,7 +83,7 @@
             </h1>
 
             <hr class="mt-2 mb-2">
-            
+
             @foreach ($invoices as $id => $invoice)
 
             @php
@@ -91,7 +91,7 @@
                 $invoice_id = $temp[0];
                 $invoice_number = $temp[1];
             @endphp
-            
+
             <a class="h5 d-block mb-2" href="{{ route('invoice.pay', $invoice_id) }}">
                 {{ $loop->iteration }}. Invoice {{ $invoice_number }}
             </a>

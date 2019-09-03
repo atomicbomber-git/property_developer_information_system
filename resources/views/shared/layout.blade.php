@@ -8,14 +8,13 @@
         <title> @yield('title') </title>
 
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-
         @yield('style')
     </head>
 
     <body>
         <nav class="navbar navbar-dark bg-dark justify-content-between mb-3">
             <div class="container">
-                <a href="{{ route('dashboard') }}" class="navbar-brand">
+                <a href="{{ route('dashboard.show') }}" class="navbar-brand">
                     {{ config('app.name') }}
                 </a>
 
@@ -40,6 +39,7 @@
     </body>
 
     <script src="{{ asset('js/app.js') }}"></script>
+
     @yield('script')
 
     <script>

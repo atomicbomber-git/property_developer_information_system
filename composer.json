@@ -1,6 +1,6 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
+    "name": "atomicbomber/property-developer-information-system",
+    "description": "A property developer information system",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",

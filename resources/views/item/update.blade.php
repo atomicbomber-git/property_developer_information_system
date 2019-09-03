@@ -6,7 +6,7 @@
 <div class="container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"> <a href="{{ route('dashboard') }}"> Dashboard </a> </li>
+            <li class="breadcrumb-item"> <a href="{{ route('dashboard.show') }}"> Dashboard </a> </li>
             <li class="breadcrumb-item"> <a href="{{ route('category.index') }}"> Category </a> </li>
             <li class="breadcrumb-item"> {{ $category->name }} </li>
             <li class="breadcrumb-item"> <a href="{{ route('item.index', $category) }}"> Items </a> </li>
@@ -30,30 +30,30 @@
 
                 <div class='form-group'>
                     <label for='name'> Nama: </label>
-                
+
                     <input
                         id='name' name='name' type='text'
                         value='{{ old('name', $item->name) }}'
                         class='form-control {{ !$errors->has('name') ?: 'is-invalid' }}'>
-                
+
                     <div class='invalid-feedback'>
                         {{ $errors->first('name') }}
                     </div>
                 </div>
-    
+
                 <div class='form-group'>
                     <label for='unit'> Satuan: </label>
-                
+
                     <input
                         id='unit' name='unit' type='text'
                         value='{{ old('unit', $item->unit) }}'
                         class='form-control {{ !$errors->has('unit') ?: 'is-invalid' }}'>
-                
+
                     <div class='invalid-feedback'>
                         {{ $errors->first('unit') }}
                     </div>
                 </div>
-                
+
                 <div class='form-group'>
                     <label for='vendor_id'> Vendor: </label>
                     <select name='vendor_id' id='vendor_id' class='form-control'>
@@ -68,7 +68,7 @@
 
                 <div class='form-group'>
                     <label for='note'> Note: </label>
-                
+
                     <textarea
                         id='note' name='note'
                         class='form-control {{ !$errors->has('note') ?: 'is-invalid' }}'

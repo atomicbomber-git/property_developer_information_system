@@ -6,7 +6,7 @@
 <div class="container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"> <a href="{{ route('dashboard') }}"> Dashboard </a> </li>
+            <li class="breadcrumb-item"> <a href="{{ route('dashboard.show') }}"> Dashboard </a> </li>
             <li class="breadcrumb-item"> <a href="{{ route('delivery_order.index') }}"> Delivery Order (From Vendor) </a> </li>
             <li class="breadcrumb-item active"> Tambahkan Delivery Order Baru </li>
         </ol>
@@ -20,6 +20,15 @@
             </h1>
 
             <hr class="mt-2 mb-2">
+
+            <div id="app">
+                <delivery-order-create
+                    :storages='{{ json_encode($storages) }}'
+                    :vendors='{{ json_encode($vendors) }}'
+                    :users='{{ json_encode($users) }}'
+                >
+                </delivery-order-create>
+            </div>
 
             <div id="delivery-order-input-form">
                 <DeliveryOrderInputForm/>

@@ -6,7 +6,7 @@
 <div class="container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"> <a href="{{ route('dashboard') }}"> Dashboard </a> </li>
+            <li class="breadcrumb-item"> <a href="{{ route('dashboard.show') }}"> Dashboard </a> </li>
             <li class="breadcrumb-item active"> Delivery Order (From Vendor) </li>
         </ol>
     </nav>
@@ -84,7 +84,7 @@
                     </tbody>
                 </table>
             </div>
-            
+
             {{ $delivery_orders->links() }}
         </div>
     </div>
