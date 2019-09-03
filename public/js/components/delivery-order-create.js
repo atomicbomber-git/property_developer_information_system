@@ -284,6 +284,18 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -332,6 +344,17 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     },
 
     computed: {
+        form_data: function form_data() {
+            return {
+                receiver_id: this.receiver ? this.receiver.id : null,
+                storage_id: this.storage ? this.storage.id : null,
+                vendor_id: this.vendor ? this.vendor.id : null,
+                receivement_date: this.receivement_date,
+                items: this.picked_items.map(function (picked_items) {
+                    return picked_items.id;
+                })
+            };
+        },
         item_options: function item_options() {
             if (this.vendor === null) {
                 return [];
@@ -586,35 +609,42 @@ var render = function() {
       _c("div", { staticClass: "form-group" }, [
         _c("label", [_vm._v(" Item List: ")]),
         _vm._v(" "),
-        _c("table", { staticClass: "table table-sm table-striped" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c(
-            "tbody",
-            _vm._l(_vm.picked_items, function(picked_item) {
-              return _c("tr", { key: picked_item.id }, [
-                _c("td", [_vm._v(" " + _vm._s(picked_item.name) + " ")]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-center" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-sm btn-danger",
-                      on: {
-                        click: function($event) {
-                          picked_item.picked = false
-                        }
-                      }
-                    },
-                    [_c("i", { staticClass: "fa fa-trash" })]
-                  )
-                ])
-              ])
-            }),
-            0
-          )
-        ])
-      ])
+        _vm.picked_items.length > 0
+          ? _c("table", { staticClass: "table table-sm table-striped" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.picked_items, function(picked_item) {
+                  return _c("tr", { key: picked_item.id }, [
+                    _c("td", [_vm._v(" " + _vm._s(picked_item.name) + " ")]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-center" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-danger",
+                          on: {
+                            click: function($event) {
+                              picked_item.picked = false
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fa fa-trash" })]
+                      )
+                    ])
+                  ])
+                }),
+                0
+              )
+            ])
+          : _c("div", { staticClass: "alert alert-warning" }, [
+              _c("i", { staticClass: "fa fa-warning" }),
+              _vm._v("\n            You haven't picked any item\n        ")
+            ])
+      ]),
+      _vm._v(" "),
+      _vm._m(1)
     ]
   )
 }
@@ -628,6 +658,16 @@ var staticRenderFns = [
         _c("th", [_vm._v(" Item ")]),
         _vm._v(" "),
         _c("th", { staticClass: "text-center" }, [_vm._v(" Controls ")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group d-flex justify-content-end" }, [
+      _c("button", { staticClass: "btn btn-primary" }, [
+        _vm._v("\n            Store Delivery Order\n        ")
       ])
     ])
   }

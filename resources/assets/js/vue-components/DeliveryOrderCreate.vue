@@ -85,7 +85,8 @@
 
         <div class="form-group">
             <label> Item List: </label>
-            <table class="table table-sm table-striped">
+
+            <table v-if="picked_items.length > 0" class="table table-sm table-striped">
                 <thead class="thead thead-dark">
                     <tr>
                         <th> Item </th>
@@ -107,6 +108,17 @@
                     </tr>
                 </tbody>
             </table>
+
+            <div v-else class="alert alert-warning">
+                <i class="fa fa-warning"></i>
+                You haven't picked any item
+            </div>
+        </div>
+
+        <div class="form-group d-flex justify-content-end">
+            <button class="btn btn-primary">
+                Store Delivery Order
+            </button>
         </div>
     </form>
 </template>
@@ -168,6 +180,16 @@ export default {
     },
 
     computed: {
+        form_data() {
+            return {
+                receiver_id: this.receiver ? this.receiver.id : null,
+                storage_id: this.storage ? this.storage.id : null,
+                vendor_id: this.vendor ? this.vendor.id : null,
+                receivement_date: this.receivement_date,
+                items: this.picked_items.map(picked_items => picked_items.id)
+            }
+        },
+
         item_options() {
             if (this.vendor === null) {
                 return []
