@@ -29,10 +29,6 @@
                 >
                 </delivery-order-create>
             </div>
-
-            <div id="delivery-order-input-form">
-                <DeliveryOrderInputForm/>
-            </div>
         </div>
     </div>
 </div>
