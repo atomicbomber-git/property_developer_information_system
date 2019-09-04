@@ -15,7 +15,7 @@
         <div class="card-body">
             <h1 class="h5">
                 <i class="fa fa-shopping-cart"></i>
-                Kelola Vendor
+                Vendor
             </h1>
 
             <hr class="mt-2 mb-2">

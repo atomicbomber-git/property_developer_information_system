@@ -15,7 +15,7 @@
         <div class="card-body">
             <h1 class="h5">
                 <i class="fa fa-credit-card"></i>
-                Kelola Delivery Order (From Vendor)
+                Delivery Order (From Vendor)
             </h1>
 
             <hr class="mt-2 mb-2">

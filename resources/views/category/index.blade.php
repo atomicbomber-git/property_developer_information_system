@@ -15,7 +15,7 @@
         <div class="card-body">
             <h1 class="h5">
                 <i class="fa fa-folder"></i>
-                Kelola Category
+                Category
             </h1>
 
             <hr class="mt-2 mb-2">
@@ -43,7 +43,7 @@
                             <td> {{ $loop->iteration }}. </td>
                             <td> {{ $category->name }} </td>
                             <td>
-                                <a href="{{ route('item.index', $category) }}" class="btn btn-dark btn-sm mr-2">
+                                <a href="{{ route('category-item.index', $category) }}" class="btn btn-dark btn-sm mr-2">
                                     Items
                                     <i class="fa fa-list"></i>
                                 </a>

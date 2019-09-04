@@ -11,12 +11,23 @@
 |
 */
 
+use App\Http\Controllers\CategoryItemController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ItemController;
 
 Auth::routes();
 
 Route::group(['prefix' => '/dashboard', 'as' => 'dashboard.'], function() {
     Route::get('/show', [DashboardController::class, 'show'])->name('show');
+});
+
+Route::group(['prefix' => '/item', 'as' => 'item.'], function() {
+    Route::get('/index', [ItemController::class, 'index'])->name('index');
+    Route::get('/create', [ItemController::class, 'create'])->name('create');
+    Route::post('/store', [ItemController::class, 'store'])->name('store');
+    Route::get('/edit/{item}', [ItemController::class, 'edit'])->name('edit');
+    Route::post('/update/{item}', [ItemController::class, 'update'])->name('update');
+    Route::post('/delete/{item}', [ItemController::class, 'delete'])->name('delete');
 });
 
 Route::middleware(['auth'])->group(function() {
@@ -62,13 +73,13 @@ Route::middleware(['auth'])->group(function() {
         Route::post('/delete/{category}', 'CategoryController@delete')->name('category.delete');
 
         Route::prefix('/items/{category}')->group(function() {
-            Route::get('/index', 'ItemController@index')->name('item.index');
-            Route::get('/create', 'ItemController@create')->name('item.create');
-            Route::post('/create', 'ItemController@processCreate')->name('item.create');
-            Route::get('/update/{item}', 'ItemController@update')->name('item.update');
-            Route::post('/update/{item}', 'ItemController@processUpdate')->name('item.update');
-            Route::post('/delete/{item}', 'ItemController@delete')->name('item.delete');
-            Route::get('/price_history/{item}', 'ItemController@priceHistory')->name('item.price_history');
+            Route::get('/index', [CategoryItemController::class, 'index'])->name('category-item.index');
+            Route::get('/create', [CategoryItemController::class, 'create'])->name('category-item.create');
+            Route::post('/create', [CategoryItemController::class, 'processCreate'])->name('category-item.create');
+            Route::get('/update/{item}', [CategoryItemController::class, 'update'])->name('category-item.update');
+            Route::post('/update/{item}', [CategoryItemController::class, 'processUpdate'])->name('category-item.update');
+            Route::post('/delete/{item}', [CategoryItemController::class, 'delete'])->name('category-item.delete');
+            Route::get('/price_history/{item}', [CategoryItemController::class, 'priceHistory'])->name('category-item.price_history');
         });
     });
 

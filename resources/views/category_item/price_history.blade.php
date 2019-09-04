@@ -8,7 +8,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"> <a href="{{ route('dashboard.show') }}"> Dashboard </a> </li>
             <li class="breadcrumb-item"> <a href="{{ route('category.index') }}"> Category </a> </li>
-            <li class="breadcrumb-item"> <a href="{{ route('item.index', [$category, $item]) }}"> Items in '{{ $category->name }}' </a> </li>
+            <li class="breadcrumb-item"> <a href="{{ route('category-item.index', [$category, $item]) }}"> Items in '{{ $category->name }}' </a> </li>
             <li class="breadcrumb-item"> Price History of '{{ $item->name }}' </li>
         </ol>
     </nav>

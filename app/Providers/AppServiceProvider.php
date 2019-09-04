@@ -3,25 +3,15 @@
 namespace App\Providers;
 
 use App\Enums\EntityType;
+use App\Helpers\Formatter;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
     public function boot()
     {
-        Relation::morphMap([
-            EntityType::VENDOR => \App\Vendor::class,
-            EntityType::STORAGE => \App\Storage::class
-        ]);
-
         Blade::directive('convert_money', function ($money) {
             return "<?php echo number_format($money, 0, ',', '.'); ?>";
         });
@@ -31,13 +21,24 @@ class AppServiceProvider extends ServiceProvider
         });
     }
 
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
     public function register()
     {
-        //
+        $this->registerEloquentMorphMap();
+        $this->registerFormatterHelper();
+    }
+
+    private function registerEloquentMorphMap()
+    {
+        Relation::morphMap([
+            EntityType::VENDOR => \App\Vendor::class,
+            EntityType::STORAGE => \App\Storage::class
+        ]);
+    }
+
+    private function registerFormatterHelper()
+    {
+        $this->app->singleton(Formatter::class, function ($app) {
+            return new Formatter;
+        });
     }
 }

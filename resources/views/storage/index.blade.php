@@ -15,7 +15,7 @@
         <div class="card-body">
             <h1 class="h5">
                 <i class="fa fa-truck"></i>
-                Kelola Storage
+                Storage
             </h1>
 
             <hr class="mt-2 mb-2">
