@@ -63,8 +63,7 @@ class DeliveryOrderController extends Controller
             "items.*.item_id" => "required|exists:items,id",
             "items.*.quantity" => "required|numeric|gte:0",
         ]);
-        
-        $delivery_order = null;
+
         DB::transaction(function() use($data, &$delivery_order) {
             $delivery_order = DeliveryOrder::create([
                 'creator_id' => Auth::user()->id,
@@ -81,8 +80,6 @@ class DeliveryOrderController extends Controller
                     ->create($item);
             }
         });
-
-        return $delivery_order->load("delivery_order_items");
 
         session()->flash('message.success', __('messages.create.success'));
     }

@@ -76,7 +76,7 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/index', 'DeliveryOrderController@index')->name('delivery-order.index');
         Route::get('/create', 'DeliveryOrderController@create')->name('delivery-order.create');
         Route::post('/store', 'DeliveryOrderController@store')->name('delivery-order.store');
-        
+
         Route::get('/update/{delivery_order}', 'DeliveryOrderController@update')->name('delivery-order.update');
         Route::post('/update/{delivery_order}', 'DeliveryOrderController@processUpdate')->name('delivery-order.update');
         Route::post('/delete/{delivery_order}', 'DeliveryOrderController@delete')->name('delivery-order.delete');

@@ -32,7 +32,7 @@ class InvoiceController extends Controller
             $invoice->code = $code ? $code . '-' . $invoice->id : null;
             return $invoice;
         });
-        
+
         return view('invoice.index', compact('invoices'));
     }
 
@@ -157,14 +157,14 @@ class InvoiceController extends Controller
     public function processRemoveDeliveryOrder(Invoice $invoice)
     {
         $invoice->load('delivery_orders:id,invoice_id');
-        
+
         $data = $this->validate(request(), [
             'delivery_order_id' => ['required', Rule::in($invoice->delivery_orders->pluck('id'))]
         ]);
 
         DeliveryOrder::where('id', $data['delivery_order_id'])
             ->update(['invoice_id' => null]);
-        
+
         return back()
             ->with('message.success', __('messages.delete.success'));
     }
@@ -247,7 +247,7 @@ class InvoiceController extends Controller
         DB::transaction(function() use($invoice, $data, $cash_amount) {
             switch ($data['payment_method']) {
                 case 'cash':
-                    
+
                     if ($invoice->payment_method == 'giro')
                         $invoice->giro_id = NULL;
 

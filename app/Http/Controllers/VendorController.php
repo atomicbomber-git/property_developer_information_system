@@ -23,7 +23,7 @@ class VendorController extends Controller
             ->with('contact_people:vendor_id,name,phone')
             ->orderBy('name')
             ->get();
-        
+
         return view('vendor.index', compact('vendors'));
     }
 
@@ -108,7 +108,7 @@ class VendorController extends Controller
         ]);
 
         $vendor->update($data);
-        
+
         return redirect()
             ->back()
             ->with('message.success', 'Data berhasil diperbarui.');
@@ -118,7 +118,7 @@ class VendorController extends Controller
     {
         if ($vendor->items()->count() > 0) {
             abort(409);
-        } 
+        }
 
         $vendor->delete();
         return back()
@@ -134,7 +134,7 @@ class VendorController extends Controller
                 $query->has('delivery_order_items');
                 $query->whereNull('invoice_id');
             },
-            'delivery_orders.target:id,name,received_at',
+            'delivery_orders.target:id,name',
             'delivery_orders.delivery_order_items:delivery_order_id,item_id,quantity',
             'delivery_orders.delivery_order_items.item:id,name,unit',
         ]);
