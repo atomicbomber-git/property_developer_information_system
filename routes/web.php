@@ -15,6 +15,7 @@ use App\Http\Controllers\CategoryItemController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemPriceHistoryController;
+use App\Http\Controllers\StorageController;
 
 Auth::routes();
 
@@ -33,6 +34,15 @@ Route::group(['prefix' => '/item', 'as' => 'item.'], function() {
 
 Route::group(['prefix' => '/item-price-history', 'as' => 'item-price-history.'], function() {
     Route::get('/index/{item}', [ItemPriceHistoryController::class, 'index'])->name('index');
+});
+
+Route::group(['prefix' => '/storage', 'as' => 'storage.'], function() {
+    Route::get('/index', [StorageController::class, 'index'])->name('index');
+    Route::get('/create', [StorageController::class, 'create'])->name('create');
+    Route::post('/store', [StorageController::class, 'store'])->name('store');
+    Route::get('/edit/{storage}', [StorageController::class, 'edit'])->name('edit');
+    Route::post('/update/{storage}', [StorageController::class, 'update'])->name('update');
+    Route::post('/delete/{storage}', [StorageController::class, 'delete'])->name('delete');
 });
 
 Route::middleware(['auth'])->group(function() {
@@ -57,16 +67,6 @@ Route::middleware(['auth'])->group(function() {
             Route::get('/unbilled', 'VendorController@unbilled')->name('vendor.unbilled');
             Route::get('/unbilled_delivery_orders/{vendor}', 'VendorController@unbilledDeliveryOrders')->name('vendor.unbilled_delivery_orders');
         });
-    });
-
-    Route::prefix('/storage')->group(function () {
-        Route::get('/index', 'StorageController@index')->name('storage.index');
-        Route::get('/create', 'StorageController@create')->name('storage.create');
-        Route::post('/create', 'StorageController@processCreate')->name('storage.create');
-        Route::get('/update/{storage}', 'StorageController@update')->name('storage.update');
-        Route::post('/update/{storage}', 'StorageController@processUpdate')->name('storage.update');
-        Route::post('/delete/{storage}', 'StorageController@delete')->name('storage.delete');
-        Route::get('/stock/{storage}', 'StorageController@stock')->name('storage.stock');
     });
 
     Route::prefix('/category')->group(function () {

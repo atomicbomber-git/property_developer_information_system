@@ -11,6 +11,11 @@ class Storage extends Model
         'address'
     ];
 
+    public function stocks()
+    {
+        return $this->morphMany(Stock::class, "storage");
+    }
+
     public function inbound_delivery_orders()
     {
         return $this->morphMany(DeliveryOrder::class, 'target');

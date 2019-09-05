@@ -9,6 +9,11 @@ use DB;
 
 class StorageController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware("auth");
+    }
+
     public function index()
     {
         if (request()->ajax())
@@ -20,7 +25,7 @@ class StorageController extends Controller
             ->withCount('outbound_delivery_orders')
             ->get()
             ->map(function ($storage) {
-                $storage->delivery_orders_count = 
+                $storage->delivery_orders_count =
                     $storage->inbound_delivery_orders_count +
                     $storage->outbound_delivery_orders_count;
                 return $storage;
@@ -63,7 +68,7 @@ class StorageController extends Controller
             'name' => ['required', 'string', Rule::unique('storages')->ignore($storage->id)],
             'address' => 'required|string'
         ]);
-        
+
         $storage->update($data);
 
         return redirect()
@@ -107,7 +112,7 @@ class StorageController extends Controller
             ->orderBy(DB::raw('LOWER(items.name)'))
             ->groupBy('items.id', 'item_id')
             ->get();
-        
+
         return view('storage.stock', compact('item_stocks', 'storage'));
     }
 
