@@ -1,7 +1,7 @@
 @inject('formatter', "App\Helpers\Formatter")
 
 @extends('shared.layout')
-@section('title', 'Item')
+@section('title', 'Items')
 @section('content')
 <div class="container my-5">
     <div class="container">
@@ -26,11 +26,11 @@
                        <thead class='thead thead-dark'>
                             <tr>
                                 <th> # </th>
-                                <th> Name </th>
+                                <th style="width: 5rem"> Name </th>
                                 <th> Vendor </th>
                                 <th> Category </th>
                                 <th class="text-right"> Latest Price </th>
-                                <th class="text-center"> Controls </th>
+                                <th class="text-center" style="width: 10rem"> Controls </th>
                             </tr>
                        </thead>
 
@@ -43,6 +43,11 @@
                                 <td> {{ $item->category->name }} </td>
                                 <td class="text-right"> {{ $formatter->currency($item->latest_price) }} </td>
                                 <td class="text-center">
+                                    <a class="btn btn-dark btn-sm" href="{{ route('item-price-history.index', $item) }}">
+                                        Price History
+                                        <i class="fa fa-line-chart"></i>
+                                    </a>
+
                                     <form action='{{ route('item.delete', $item) }}' method='POST' class='d-inline-block'>
                                         @csrf
                                         <button type='submit' class='btn btn-danger btn-sm'>

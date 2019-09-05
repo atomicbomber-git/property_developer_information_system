@@ -6,6 +6,13 @@ class Formatter
 {
     public function currency($value)
     {
-        return number_format($value, 2);
+        return isset($value) ?
+            number_format($value, 2) :
+            $this->emptySymbol();
+    }
+
+    private function emptySymbol()
+    {
+        return "-";
     }
 }

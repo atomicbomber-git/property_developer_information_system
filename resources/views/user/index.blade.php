@@ -1,6 +1,6 @@
 @extends('shared.layout')
 
-@section('title', 'All Users')
+@section('title', 'Users')
 
 @section('content')
 <div class="container">

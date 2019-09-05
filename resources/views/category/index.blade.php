@@ -1,6 +1,6 @@
 @extends('shared.layout')
 
-@section('title', 'All Categories')
+@section('title', 'Categories')
 
 @section('content')
 <div class="container">
@@ -29,12 +29,12 @@
 
             @include('shared.message-success')
             <div class="table-responsive">
-                <table class="table table-sm table-striped">
+                <table class="datatable table table-sm table-striped">
                     <thead class="thead-dark">
                         <tr>
                             <th> # </th>
                             <th> Nama </th>
-                            <th> Control </th>
+                            <th class="text-center"> Controls </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,12 +42,7 @@
                         <tr>
                             <td> {{ $loop->iteration }}. </td>
                             <td> {{ $category->name }} </td>
-                            <td>
-                                <a href="{{ route('category-item.index', $category) }}" class="btn btn-dark btn-sm mr-2">
-                                    Items
-                                    <i class="fa fa-list"></i>
-                                </a>
-
+                            <td class="text-center">
                                 <a href="{{ route('category.update', $category) }}" class="btn btn-dark btn-sm">
                                     <i class="fa fa-pencil"></i>
                                 </a>
@@ -80,9 +75,7 @@
 @endsection
 
 @section('script')
-<script>
-    $(document).ready(() => {
-        $('[data-toggle="tooltip"]').tooltip()
-    });
-</script>
+    @parent
+    @include('shared.datatables')
 @endsection
+

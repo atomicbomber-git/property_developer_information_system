@@ -8,9 +8,9 @@ use App\DeliveryOrder;
 
 class DeliveryOrderSeeder extends Seeder
 {
-    const DELIVERY_ORDER_COUNT_PER_MONTH = 20;
-    const VENDOR_COUNT = 20;
-    const MONTH_COUNT = 20;
+    const DELIVERY_ORDER_COUNT_PER_MONTH = 10;
+    const VENDOR_COUNT = 10;
+    const MONTH_COUNT = 10;
 
     /**
      * Run the database seeds.
@@ -30,9 +30,11 @@ class DeliveryOrderSeeder extends Seeder
                 foreach ($vendor_ids as $vendor_id) {
                     for ($j = 0; $j < self::DELIVERY_ORDER_COUNT_PER_MONTH; $j++) {
                         $this->createVendorDeliveryOrder(
-                            $vendor_id, $storage_ids->random(),
+                            $vendor_id,
+                            $storage_ids->random(),
                             $user_ids->random(),
-                            now()->subMonth($i));
+                            now()->subMonth($i)
+                        );
                     }
                 }
             }

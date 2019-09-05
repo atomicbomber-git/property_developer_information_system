@@ -8,6 +8,11 @@ use App\Item;
 
 class ItemController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware("auth");
+    }
+
     public function index()
     {
         $delivery_order_query = DeliveryOrder::query()
@@ -27,6 +32,7 @@ class ItemController extends Controller
         $items = Item::query()
             ->select("id", "name", "vendor_id", "category_id")
             ->selectSub($delivery_order_item_query, "latest_price")
+            ->orderBy("name")
             ->with([
                 "vendor:id,name",
                 "category:id,name",

@@ -1,6 +1,6 @@
 @extends('shared.layout')
 
-@section('title', "All Giros")
+@section('title', "Giros")
 
 @section('content')
 <div class="container">

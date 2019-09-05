@@ -1,6 +1,6 @@
 @extends('shared.layout')
 
-@section('title', 'All Vendors')
+@section('title', 'Vendors')
 
 @section('content')
 <div class="container">

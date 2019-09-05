@@ -1,6 +1,6 @@
 @extends('shared.layout')
 
-@section('title', 'All Storages')
+@section('title', 'Storages')
 
 @section('content')
 <div class="container">

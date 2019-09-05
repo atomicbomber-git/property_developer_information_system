@@ -14,6 +14,7 @@
 use App\Http\Controllers\CategoryItemController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ItemPriceHistoryController;
 
 Auth::routes();
 
@@ -28,6 +29,10 @@ Route::group(['prefix' => '/item', 'as' => 'item.'], function() {
     Route::get('/edit/{item}', [ItemController::class, 'edit'])->name('edit');
     Route::post('/update/{item}', [ItemController::class, 'update'])->name('update');
     Route::post('/delete/{item}', [ItemController::class, 'delete'])->name('delete');
+});
+
+Route::group(['prefix' => '/item-price-history', 'as' => 'item-price-history.'], function() {
+    Route::get('/index/{item}', [ItemPriceHistoryController::class, 'index'])->name('index');
 });
 
 Route::middleware(['auth'])->group(function() {

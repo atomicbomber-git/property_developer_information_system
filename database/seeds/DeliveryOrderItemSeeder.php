@@ -13,19 +13,21 @@ class DeliveryOrderItemSeeder extends Seeder
      */
     public function run()
     {
-        $delivery_orders = DeliveryOrder::query()
-            ->select('id', 'source_id', 'source_type')
-            ->with(['source', 'source.items:id,name,vendor_id,category_id'])
-            ->get();
-        
-        foreach ($delivery_orders as $delivery_order) {
-            foreach ($delivery_order->source->items as $item) {
-                factory(DeliveryOrderItem::class)->create([
-                    'delivery_order_id' => $delivery_order->id,
-                    'item_id' => $item->id,
-                    'price' => rand(1, 20) * 10000
-                ]);
+        DB::transaction(function() {
+            $delivery_orders = DeliveryOrder::query()
+                ->select('id', 'source_id', 'source_type')
+                ->with(['source', 'source.items:id,name,vendor_id,category_id'])
+                ->get();
+
+            foreach ($delivery_orders as $delivery_order) {
+                foreach ($delivery_order->source->items as $item) {
+                    factory(DeliveryOrderItem::class)->create([
+                        'delivery_order_id' => $delivery_order->id,
+                        'item_id' => $item->id,
+                        'price' => rand(1, 20) * 10000
+                    ]);
+                }
             }
-        }
+        });
     }
 }
