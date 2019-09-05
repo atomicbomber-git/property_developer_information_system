@@ -141,6 +141,9 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'received_at' => 'receivement date',
+        'items.*.quantity' => 'quantity'
+    ],
 
 ];

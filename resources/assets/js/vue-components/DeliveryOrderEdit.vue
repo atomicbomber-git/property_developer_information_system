@@ -153,6 +153,7 @@ export default {
     props: [
         "submit_url",
         "redirect_url",
+        "delivery_order",
         "vendors",
         "storages",
         "users",

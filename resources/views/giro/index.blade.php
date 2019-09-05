@@ -22,7 +22,7 @@
 
             <div class="text-right mb-5 mt-3">
                 <a href="{{ route('giro.create') }}" class="btn btn-secondary btn-sm">
-                    Tambahkan Giro Baru
+                    Add Giro
                     <i class="fa fa-plus"></i>
                 </a>
             </div>

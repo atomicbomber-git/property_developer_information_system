@@ -13,6 +13,13 @@ class Formatter
             $this->emptySymbol();
     }
 
+    public function number($value)
+    {
+        return $value ?
+            floatval($value) :
+            $this->emptySymbol();
+    }
+
     public function currency($value)
     {
         return isset($value) ?

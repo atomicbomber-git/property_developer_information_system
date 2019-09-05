@@ -1,5 +1,6 @@
 {
     "/js/components/delivery-order-create.js": "/js/components/delivery-order-create.js",
     "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/js/components/delivery-order-edit.js": "/js/components/delivery-order-edit.js"
 }

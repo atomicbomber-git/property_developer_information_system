@@ -18,7 +18,7 @@
         <div class="card-body">
             <h1 class="h5">
                 <i class="fa fa-plus"></i>
-                Tambahkan Item ke Delivery Order
+                Add Item ke Delivery Order
             </h1>
 
             <hr class="mt-2 mb-2">
@@ -53,7 +53,7 @@
 
                 <div class="text-right mt-3">
                     <button class="btn btn-primary btn-sm">
-                        Tambahkan Item
+                        Add Item
                         <i class="fa fa-plus"></i>
                     </button>
                 </div>

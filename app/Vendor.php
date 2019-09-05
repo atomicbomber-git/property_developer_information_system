@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Vendor extends Model
 {
@@ -12,7 +13,10 @@ class Vendor extends Model
 
     public function items()
     {
-        return $this->hasMany(Item::class);
+        return $this
+            ->belongsToMany(Item::class, (new VendorItem)->getTable())
+            ->using(VendorItem::class)
+            ->as(Str::snake(class_basename(VendorItem::class)));
     }
 
     public function contact_people()

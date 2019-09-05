@@ -17,7 +17,7 @@
             <h1 class="h5">
                 <i class="fa fa-usd"></i>
 
-                Invoice <strong> {{ $invoice->number }} </strong> From <a href="{{ route('vendor.transaction_history', $vendor->id) }}"> {{ $vendor->name }} </a> at {{ $invoice->received_at->format('d-m-Y')  }}
+                Invoice <strong> {{ $invoice->number }} </strong> From {{ $vendor->name }} at {{ $invoice->received_at->format('d-m-Y')  }}
 
                 @switch($invoice->payment_method)
                     @case('cash')
@@ -68,7 +68,7 @@
                                 </a>
                             </td>
                             <td> {{ $delivery_order->source_name }} </td>
-                            <td> <a href="{{ route('storage.stock', $delivery_order->target_id) }}"> {{ $delivery_order->target_name }} </a> </td>
+                            <td> <a href="{{ route('storage-stock.index', $delivery_order->target_id) }}"> {{ $delivery_order->target_name }} </a> </td>
                             <td class="text-right"> @convert_money($delivery_order->subtotal) </td>
                         </tr>
                         @endforeach
@@ -98,7 +98,7 @@
                 @foreach ($detailed_delivery_orders as $id => $delivery_order_items)
 
                 <h4> {{ $loop->iteration }}. <a href="{{ route('delivery-order.update_price', $id)}}"> Delivery Order {{ $id }} </a> </h2>
-                <p class="lead"> Delivered to <a href="{{ route('storage.stock', $delivery_orders[$id]->target_id) }}"> {{ $delivery_orders[$id]->target_name }} </a> </p>
+                <p class="lead"> Delivered to <a href="{{ route('storage-stock.index', $delivery_orders[$id]->target_id) }}"> {{ $delivery_orders[$id]->target_name }} </a> </p>
 
                 <table class='table table-sm table-striped mb-5'>
                     <thead class="thead-dark">

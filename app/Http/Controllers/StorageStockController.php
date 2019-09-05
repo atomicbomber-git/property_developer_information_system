@@ -13,6 +13,11 @@ class StorageStockController extends Controller
 
     public function index(Storage $storage)
     {
-        return $storage;
+        $storage->load([
+            "stocks:id,item_id,quantity,value,storage_id,storage_type,created_at",
+            "stocks.item:id,name,unit"
+        ]);
+
+        return view("storage-stock.index", compact("storage"));
     }
 }

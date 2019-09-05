@@ -8,7 +8,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"> <a href="{{ route('dashboard.show') }}"> Dashboard </a> </li>
             <li class="breadcrumb-item"> <a href="{{ route('delivery-order.index') }}"> Delivery Order (From Vendor) </a> </li>
-            <li class="breadcrumb-item active"> Add Delivery Order </li>
+            <li class="breadcrumb-item active"> Edit Delivery Order </li>
         </ol>
     </nav>
 
@@ -16,7 +16,7 @@
         <div class="card-body">
             <h1 class="h5">
                 <i class="fa fa-plus"></i>
-                Add Delivery Order
+                Edit Delivery Order
             </h1>
 
             <hr class="mt-2 mb-2">
@@ -25,6 +25,7 @@
                 <delivery-order-edit
                     submit_url='{{ route('delivery-order.store') }}'
                     redirect_url='{{ route('delivery-order.index') }}'
+                    :delivery_order='{{ json_encode($delivery_order) }}'
                     :storages='{{ json_encode($storages) }}'
                     :vendors='{{ json_encode($vendors) }}'
                     :users='{{ json_encode($users) }}'

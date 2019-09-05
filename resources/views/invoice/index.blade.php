@@ -22,7 +22,7 @@
 
             <div class="text-right mb-5 mt-3">
                 <a href="{{ route('invoice.create') }}" class="btn btn-secondary btn-sm">
-                    Tambahkan Invoice Baru
+                    Add Invoice
                     <i class="fa fa-plus"></i>
                 </a>
             </div>

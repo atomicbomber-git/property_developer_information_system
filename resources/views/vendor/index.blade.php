@@ -22,7 +22,7 @@
 
             <div class="text-right mb-5 mt-3">
                 <a href="{{ route('vendor.create') }}" class="btn btn-secondary btn-sm">
-                    Tambahkan Vendor Baru
+                    Add Vendor
                     <i class="fa fa-plus"></i>
                 </a>
             </div>

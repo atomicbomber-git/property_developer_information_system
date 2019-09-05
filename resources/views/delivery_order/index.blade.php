@@ -22,7 +22,7 @@
 
             <div class="text-right mb-5 mt-3">
                 <a href="{{ route('delivery-order.create') }}" class="btn btn-secondary btn-sm">
-                    Tambahkan Delivery Order Baru
+                    Add Delivery Order
                     <i class="fa fa-plus"></i>
                 </a>
             </div>
@@ -47,21 +47,13 @@
                             <td> {{ optional($delivery_order->receiver)->name }} </td>
                             <td>
                                 {{ $delivery_order->received_at->format('l, j F Y') }} <br>
-                                {{-- <span class="text-secondary"> {{ $delivery_order->received_at->ago() }} </span> --}}
                             </td>
                             <td> {{ optional($delivery_order->source)->name }} </td>
                             <td> {{ optional($delivery_order->target)->name }} </td>
                             <td>
-                                <a href="{{ route('delivery-order.detail', $delivery_order) }}" class="btn mr-2 btn-dark btn-sm">
-                                    Detail
-                                    <i class="fa fa-list-alt"></i>
-                                </a>
-
-                                <a href="{{ route('delivery-order.update', $delivery_order) }}" class="btn btn-dark btn-sm">
+                                <a href="{{ route('delivery-order.edit', $delivery_order) }}" class="btn btn-dark btn-sm">
                                     <i class="fa fa-pencil"></i>
                                 </a>
-
-                                @if ($delivery_order->delivery_order_items_count == 0)
 
                                 <form method="POST" class="d-inline-block" action="{{ route('delivery-order.delete', $delivery_order) }}">
                                     @csrf
@@ -69,15 +61,6 @@
                                         <i class="fa fa-trash"></i>
                                     </button>
                                 </form>
-
-                                @else
-
-                                <button class="btn btn-danger btn-sm disabled" data-toggle="tooltip" title="Data ini tidak dapat dihapus karena masih terdapat item terkait dengan data ini.">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-
-                                @endif
-
                             </td>
                         </tr>
                         @endforeach

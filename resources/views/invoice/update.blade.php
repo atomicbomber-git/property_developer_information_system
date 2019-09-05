@@ -66,7 +66,7 @@
 
                         <div class="text-right mt-3">
                             <button class="btn btn-primary btn-sm">
-                                Tambahkan
+                                Add
                                 <i class="fa fa-plus"></i>
                             </button>
                         </div>

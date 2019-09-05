@@ -1,9 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Vendor;
-use App\Storage;
-use App\User;
 use App\DeliveryOrder;
 
 class DeliveryOrderSeeder extends Seeder

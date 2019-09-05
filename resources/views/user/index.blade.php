@@ -22,7 +22,7 @@
 
             <div class="text-right mb-5 mt-3">
                 <a href="{{ route('user.create') }}" class="btn btn-secondary btn-sm">
-                    Tambahkan User Baru
+                    Add User
                     <i class="fa fa-plus"></i>
                 </a>
             </div>

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\DeliveryOrder;
 use App\DeliveryOrderItem;
@@ -10,10 +9,8 @@ use App\Enums\EntityType;
 use App\Vendor;
 use App\Storage;
 use App\User;
-use Validator;
 use DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 use URL;
 
 class DeliveryOrderController extends Controller
@@ -35,7 +32,7 @@ class DeliveryOrderController extends Controller
     {
         $vendors = Vendor::query()
             ->select('id', 'name')
-            ->with("items:id,vendor_id,name,unit")
+            ->with("items:items.id,name,unit")
             ->orderBy('name')
             ->get();
 
@@ -61,10 +58,10 @@ class DeliveryOrderController extends Controller
             "received_at" => "required|date",
             "items" => "required|array",
             "items.*.item_id" => "required|exists:items,id",
-            "items.*.quantity" => "required|numeric|gte:0",
+            "items.*.quantity" => "required|numeric|gt:0",
         ]);
 
-        DB::transaction(function() use($data, &$delivery_order) {
+        DB::transaction(function() use($data) {
             $delivery_order = DeliveryOrder::create([
                 'creator_id' => Auth::user()->id,
                 'source_type' => EntityType::VENDOR,
@@ -84,56 +81,31 @@ class DeliveryOrderController extends Controller
         session()->flash('message.success', __('messages.create.success'));
     }
 
-    public function update(DeliveryOrder $delivery_order)
+    public function edit(DeliveryOrder $delivery_order)
     {
+        $delivery_order->load("delivery_order_items:id,quantity,price");
+
         $vendors = Vendor::query()
             ->select('id', 'name')
+            ->with("items:items.id,name,unit")
+            ->orderBy('name')
             ->get();
 
         $storages = Storage::query()
             ->select('id', 'name')
+            ->orderBy('name')
             ->get();
 
         $users = User::query()
             ->select('id', 'name')
+            ->orderBy('name')
             ->get();
 
-        return view('delivery_order.update', compact('delivery_order', 'vendors', 'storages', 'users'));
+        return view("delivery_order.edit", compact("delivery_order", "vendors", "storages", "users"));
     }
 
-    public function processUpdate(DeliveryOrder $delivery_order)
+    public function update(DeliveryOrder $delivery_order)
     {
-        $vendor_ids = Vendor::query()
-            ->select('id')
-            ->pluck('id');
-
-        $storage_ids = Storage::query()
-            ->select('id')
-            ->pluck('id');
-
-        $user_ids = User::query()
-            ->select('id')
-            ->pluck('id');
-
-        $data = $this->validate(request(), [
-            'source_id' => ['required', Rule::in($vendor_ids)],
-            'target_id' => ['required', Rule::in($storage_ids)],
-            'receiver_id' => ['required', Rule::in($user_ids)],
-            'received_at' => ['required', 'date']
-        ]);
-
-        $delivery_order->update([
-            'source_type' => 'VENDOR',
-            'source_id' => $data['source_id'],
-            'target_type' => 'STORAGE',
-            'target_id' => $data['target_id'],
-            'receiver_id' => $data['receiver_id'],
-            'received_at' => $data['received_at']
-        ]);
-
-        return redirect()
-            ->route('delivery-order.index')
-            ->with('message.success', __('messages.update.success'));
     }
 
     public function delete(DeliveryOrder $delivery_order)
@@ -142,33 +114,6 @@ class DeliveryOrderController extends Controller
 
         return back()
             ->with('message.success', __('messages.delete.success'));
-    }
-
-    public function detail(DeliveryOrder $delivery_order)
-    {
-        $delivery_order->load([
-            'source',
-            'target',
-            'source.items:id,name,vendor_id,category_id',
-            'source.items.category:id,name',
-            'delivery_order_items:id,delivery_order_id,item_id,quantity',
-            'delivery_order_items.item:id,name,unit'
-        ]);
-
-        // TEMPORARY SOLUTION. TODO: USE DATABASE ORDERING
-        $delivery_order->source->items = $delivery_order->source->items
-            ->sortBy(function ($item) {
-                return $item->name;
-            })
-            ->values();
-
-        $delivery_order->delivery_order_items = $delivery_order->delivery_order_items
-            ->sortBy(function ($item) {
-                return strtolower($item->item->name);
-            })
-            ->values();
-
-        return view('delivery_order.detail', compact('delivery_order'));
     }
 
     public function createItem(DeliveryOrder $delivery_order)
@@ -194,14 +139,6 @@ class DeliveryOrderController extends Controller
 
         return back()
             ->with('message.success', __('messages.create.success'));
-    }
-
-    public function deleteItem(DeliveryOrder $delivery_order, DeliveryOrderItem $delivery_order_item)
-    {
-        $delivery_order_item->delete();
-
-        return back()
-            ->with('message.success', __('messages.delete.success'));
     }
 
     public function updateItems(DeliveryOrder $delivery_order)

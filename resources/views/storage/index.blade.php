@@ -22,7 +22,7 @@
 
             <div class="text-right mb-5 mt-3">
                 <a href="{{ route('storage.create') }}" class="btn btn-secondary btn-sm">
-                    Tambahkan Storage Baru
+                    Add Storage
                     <i class="fa fa-plus"></i>
                 </a>
             </div>
@@ -45,7 +45,7 @@
                             <td> {{ $storage->name }} </td>
                             <td> {{ $storage->address }} </td>
                             <td>
-                                <a href="{{ route('storage.stock', $storage) }}" class="btn btn-dark btn-sm mr-2">
+                                <a href="{{ route('storage-stock.index.index', $storage) }}" class="btn btn-dark btn-sm mr-2">
                                     Stocks
                                     <i class="fa fa-list"></i>
                                 </a>

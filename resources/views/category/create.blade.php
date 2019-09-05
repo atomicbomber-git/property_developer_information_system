@@ -8,7 +8,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"> <a href="{{ route('dashboard.show') }}"> Dashboard </a> </li>
             <li class="breadcrumb-item"> <a href="{{ route('category.index') }}"> Category </a> </li>
-            <li class="breadcrumb-item active"> Tambahkan Category Baru </li>
+            <li class="breadcrumb-item active"> Add Category </li>
         </ol>
     </nav>
 
@@ -16,7 +16,7 @@
         <div class="card-body">
             <h1 class="h5">
                 <i class="fa fa-plus"></i>
-                Tambahkan Category Baru
+                Add Category
             </h1>
 
             <hr class="mt-2 mb-2">
@@ -41,7 +41,7 @@
 
                 <div class="text-right mt-3">
                     <button class="btn btn-primary btn-sm">
-                        Tambahkan
+                        Add
                         <i class="fa fa-plus"></i>
                     </button>
                 </div>

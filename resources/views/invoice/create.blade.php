@@ -8,7 +8,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"> <a href="{{ route('dashboard.show') }}"> Dashboard </a> </li>
             <li class="breadcrumb-item"> <a href="{{ route('invoice.index') }}"> Invoice </a> </li>
-            <li class="breadcrumb-item active"> Tambahkan Invoice Baru </li>
+            <li class="breadcrumb-item active"> Add Invoice </li>
         </ol>
     </nav>
 
@@ -16,7 +16,7 @@
         <div class="card-body">
             <h1 class="h5">
                 <i class="fa fa-plus"></i>
-                Tambahkan Invoice Baru
+                Add Invoice
             </h1>
 
             <hr class="mt-2 mb-2">

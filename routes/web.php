@@ -13,9 +13,11 @@
 
 use App\Http\Controllers\CategoryItemController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DeliveryOrderController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemPriceHistoryController;
 use App\Http\Controllers\StorageController;
+use App\Http\Controllers\StorageStockController;
 
 Auth::routes();
 
@@ -43,6 +45,23 @@ Route::group(['prefix' => '/storage', 'as' => 'storage.'], function() {
     Route::get('/edit/{storage}', [StorageController::class, 'edit'])->name('edit');
     Route::post('/update/{storage}', [StorageController::class, 'update'])->name('update');
     Route::post('/delete/{storage}', [StorageController::class, 'delete'])->name('delete');
+});
+
+Route::group(['prefix' => '/storage-stock', 'as' => 'storage-stock.'], function() {
+    Route::get('/index/{storage}', [StorageStockController::class, 'index'])->name('index');
+});
+
+Route::group(['prefix' => '/delivery-order', 'as' => 'delivery-order.'], function() {
+    Route::get('/index', [DeliveryOrderController::class, 'index'])->name('index');
+    Route::get('/create', [DeliveryOrderController::class, 'create'])->name('create');
+    Route::post('/store', [DeliveryOrderController::class, 'store'])->name('store');
+    Route::get('/edit/{delivery_order}', [DeliveryOrderController::class, 'edit'])->name('edit');
+    Route::post('/update/{delivery_order}', [DeliveryOrderController::class, 'update'])->name('update');
+
+    Route::get('/update_price/{delivery_order}', [DeliveryOrderController::class, 'updatePrice'])->name('update_price');
+    Route::post('/update_price/{delivery_order}', [DeliveryOrderController::class, 'processUpdatePrice'])->name('update_price');
+
+    Route::post('/delete/{delivery_order}', [DeliveryOrderController::class, 'delete'])->name('delete');
 });
 
 Route::middleware(['auth'])->group(function() {
@@ -85,26 +104,6 @@ Route::middleware(['auth'])->group(function() {
             Route::post('/update/{item}', [CategoryItemController::class, 'processUpdate'])->name('category-item.update');
             Route::post('/delete/{item}', [CategoryItemController::class, 'delete'])->name('category-item.delete');
             Route::get('/price_history/{item}', [CategoryItemController::class, 'priceHistory'])->name('category-item.price_history');
-        });
-    });
-
-    Route::prefix('/delivery_order')->group(function () {
-        Route::get('/index', 'DeliveryOrderController@index')->name('delivery-order.index');
-        Route::get('/create', 'DeliveryOrderController@create')->name('delivery-order.create');
-        Route::post('/store', 'DeliveryOrderController@store')->name('delivery-order.store');
-
-        Route::get('/update/{delivery_order}', 'DeliveryOrderController@update')->name('delivery-order.update');
-        Route::post('/update/{delivery_order}', 'DeliveryOrderController@processUpdate')->name('delivery-order.update');
-        Route::post('/delete/{delivery_order}', 'DeliveryOrderController@delete')->name('delivery-order.delete');
-
-        Route::get('/update_price/{delivery_order}', 'DeliveryOrderController@updatePrice')->name('delivery-order.update_price');
-        Route::post('/update_price/{delivery_order}', 'DeliveryOrderController@processUpdatePrice')->name('delivery-order.update_price');
-
-        Route::prefix('/detail/{delivery_order}/')->group(function() {
-            Route::get('/', 'DeliveryOrderController@detail')->name('delivery-order.detail');
-            Route::post('/item/update', 'DeliveryOrderController@updateItems')->name('delivery-order.update_items');
-            Route::post('/item/create', 'DeliveryOrderController@createItem')->name('delivery-order.create_item');
-            Route::post('/item/delete/{delivery_order_item}', 'DeliveryOrderController@deleteItem')->name('delivery-order.delete_item');
         });
     });
 

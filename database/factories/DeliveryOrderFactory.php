@@ -5,6 +5,7 @@
 use App\DeliveryOrder;
 use App\DeliveryOrderItem;
 use App\Item;
+use App\StockMutation;
 use App\Storage;
 use App\User;
 use App\Vendor;
@@ -42,6 +43,15 @@ $factory->afterCreating(DeliveryOrder::class, function (DeliveryOrder $delivery_
                 "quantity" => $delivery_order_item->quantity,
                 "value" => $delivery_order_item->price,
             ]);
+
+        (new StockMutation([
+            "item_id" => $delivery_order_item->item_id,
+            "quantity" => $delivery_order_item->quantity,
+            "value" => $delivery_order_item->price,
+        ]))
+        ->source()->associate($delivery_order->source)
+        ->target()->associate($delivery_order->target)
+        ->save();
 
         $delivery_order
             ->delivery_order_items()
