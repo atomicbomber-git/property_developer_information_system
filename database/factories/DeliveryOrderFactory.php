@@ -4,6 +4,7 @@
 
 use App\DeliveryOrder;
 use App\DeliveryOrderItem;
+use App\Item;
 use App\Storage;
 use App\User;
 use App\Vendor;
@@ -11,20 +12,16 @@ use Faker\Generator as Faker;
 
 const ITEM_PER_DELIVERY_ORDER = 5;
 
-$receivers = User::select("id")->get();
-$vendors = Vendor::select("id")->get();
-$storages = Storage::select("id")->get();
-
-$factory->define(DeliveryOrder::class, function (Faker $faker) use($receivers, $vendors) {
+$factory->define(DeliveryOrder::class, function (Faker $faker) {
     return [
-        "receiver_id" => $receivers->random()->id,
+        "receiver_id" => User::select("id")->inRandomOrder()->value("id"),
     ];
 });
 
-$factory->afterMaking(DeliveryOrder::class, function (DeliveryOrder $delivery_order) use ($vendors, $storages) {
+$factory->afterMaking(DeliveryOrder::class, function (DeliveryOrder $delivery_order) {
     $delivery_order
-        ->source()->associate($vendors->random())
-        ->target()->associate($storages->random());
+        ->source()->associate(Vendor::select("id")->inRandomOrder()->first())
+        ->target()->associate(Storage::select("id")->inRandomOrder()->first());
 });
 
 $factory->afterCreating(DeliveryOrder::class, function (DeliveryOrder $delivery_order) {
