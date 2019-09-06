@@ -21,10 +21,6 @@ class DeliveryOrder extends Model
         'received_at'
     ];
 
-    protected $casts = [
-        'received_at' => 'datetime:d-m-Y'
-    ];
-
     public function receiver()
     {
         return $this->belongsTo(User::class, 'receiver_id');

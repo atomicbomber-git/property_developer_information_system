@@ -43,15 +43,15 @@ export default class DeliveryOrderInputForm extends Component {
                     this.setState({
                         users: response.data,
                         selected_receiver: get(response.data, '[0].id', '')
-                    }); 
+                    });
                 });
-        
+
         axios.get(`/storage/index`)
             .then(response => {
                 this.setState({
                     storages: response.data,
                     selected_storage: get(response.data, '[0].id', '')
-                }); 
+                });
             });
 
         axios.get(`/vendor/index`)
@@ -169,7 +169,7 @@ export default class DeliveryOrderInputForm extends Component {
         }
 
         const delivery_item_error = get(this.state.errorData, 'errors.delivery_items[0]', false);
-        
+
         return (
             <Fragment>
                 <div className="input-group">
@@ -179,7 +179,7 @@ export default class DeliveryOrderInputForm extends Component {
                                 .map(item => (<option value={item.id} key={item.id}> {item.name} ({item.unit}) </option>))
                         }
                     </select>
-                    
+
                     <div className="input-group-append">
                         <button type="button" onClick={this.handleAddItem} className="btn btn-secondary">
                             <i className="fa fa-plus"></i>
@@ -192,7 +192,7 @@ export default class DeliveryOrderInputForm extends Component {
                         {delivery_item_error}
                     </div>
                 }
-                
+
             </Fragment>
         );
     }
@@ -200,7 +200,7 @@ export default class DeliveryOrderInputForm extends Component {
     renderSelectedItems() {
         return (
             this.state.picked_vendor_items
-                .map(item => {  
+                .map(item => {
                     let quantityError = get(this.state.errorData, ['errors', `delivery_items.${item.id}.quantity`, '0'], false);
 
                     return (
@@ -224,7 +224,7 @@ export default class DeliveryOrderInputForm extends Component {
                                 </div>
                             </div>
 
-                            {quantityError && 
+                            {quantityError &&
                                 <p className="text-danger">
                                     {quantityError}
                                 </p>
@@ -271,7 +271,7 @@ export default class DeliveryOrderInputForm extends Component {
                         onChange={(e) => { this.setState({selected_date: e.target.value}) }}
                     />
                 </div>
-                
+
                 <div className="form-group">
                     <label htmlFor=""> Vendor: </label>
                     <SelectFormControl
@@ -293,7 +293,7 @@ export default class DeliveryOrderInputForm extends Component {
                     <label> Selected Items: </label>
                     {this.renderSelectedItems()}
                 </div>
-                
+
                 <div className="text-right mt-4">
                     <button className="btn btn-primary btn-sm">
                         Create Delivery Order

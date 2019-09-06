@@ -23,8 +23,8 @@
 
             <div id="app">
                 <delivery-order-edit
-                    submit_url='{{ route('delivery-order.store') }}'
-                    redirect_url='{{ route('delivery-order.index') }}'
+                    submit_url='{{ route('delivery-order.update', $delivery_order) }}'
+                    redirect_url='{{ route('delivery-order.edit', $delivery_order) }}'
                     :delivery_order='{{ json_encode($delivery_order) }}'
                     :storages='{{ json_encode($storages) }}'
                     :vendors='{{ json_encode($vendors) }}'

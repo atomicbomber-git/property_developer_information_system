@@ -12,7 +12,6 @@
                 label="name"
                 :options="users"
                 v-model="receiver"
-                :preselect-first="true"
             ></multiselect>
             <div v-if="get(this.error_data, 'errors.receiver_id[0]', false)" class='text-danger'>
                 {{ get(this.error_data, 'errors.receiver_id[0]', false) }}
@@ -31,7 +30,6 @@
                 label="name"
                 :options="storages"
                 v-model="storage"
-                :preselect-first="true"
             ></multiselect>
             <div v-if="get(this.error_data, 'errors.storage_id[0]', false)" class='text-danger'>
                 {{ get(this.error_data, 'errors.storage_id[0]', false) }}
@@ -63,7 +61,6 @@
                 label="name"
                 :options="m_vendors"
                 v-model="vendor"
-                :preselect-first="true"
             ></multiselect>
             <div v-if="get(this.error_data, 'errors.vendor_id[0]', false)" class='text-danger'>
                 {{ get(this.error_data, 'errors.vendor_id[0]', false) }}
@@ -144,6 +141,7 @@
 
 <script>
 
+import moment from 'moment'
 import { get } from 'lodash'
 import { Multiselect } from 'vue-multiselect'
 
@@ -165,19 +163,23 @@ export default {
                 return {
                     ...vendor,
                     items: vendor.items.map(item => {
+                        let delivery_order_item = this.delivery_order
+                            .delivery_order_items
+                            .find(delivery_order_item => delivery_order_item.item_id === item.id)
+
                         return {
                             ...item,
-                            picked: false,
-                            quantity: 0,
+                            picked: delivery_order_item ? true : false,
+                            quantity: delivery_order_item ? delivery_order_item.quantity : 0,
                         }
                     })
                 }
             }),
 
-            receiver: null,
-            storage: null,
-            vendor: null,
-            received_at: null,
+            receiver: this.users.find(user => user.id === this.delivery_order.receiver_id) || null,
+            storage: this.storages.find(storage => storage.id === this.delivery_order.target_id) || null,
+            vendor: this.vendors.find(vendor => vendor.id === this.delivery_order.source_id) || null,
+            received_at: this.delivery_order.received_at,
             selected_item: null,
             error_data: null,
         }
@@ -189,7 +191,7 @@ export default {
         onFormSubmit() {
             axios.post(this.submit_url, this.form_data)
                .then(response => {
-                    window.location.replace(this.redirect_url)
+                    // window.location.replace(this.redirect_url)
                })
                .catch(error => {
                    this.error_data = error.response.data

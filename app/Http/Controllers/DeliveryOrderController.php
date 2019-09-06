@@ -6,6 +6,7 @@ use Illuminate\Validation\Rule;
 use App\DeliveryOrder;
 use App\DeliveryOrderItem;
 use App\Enums\EntityType;
+use App\Stock;
 use App\Vendor;
 use App\Storage;
 use App\User;
@@ -73,8 +74,19 @@ class DeliveryOrderController extends Controller
             ]);
 
             foreach ($data['items'] as $item) {
-                $delivery_order->delivery_order_items()
+                $delivery_order_item = $delivery_order
+                    ->delivery_order_items()
                     ->create($item);
+
+                Stock::create([
+                    "item_id" => $item["item_id"],
+                    "quantity" => $item["quantity"],
+                    "value" => 0,
+                    "storage_type" => EntityType::STORAGE,
+                    "storage_id" => $data["storage_id"],
+                    "origin_type" => EntityType::DELIVERY_ORDER_ITEM,
+                    "origin_id" => $delivery_order_item->id,
+                ]);
             }
         });
 
@@ -83,7 +95,7 @@ class DeliveryOrderController extends Controller
 
     public function edit(DeliveryOrder $delivery_order)
     {
-        $delivery_order->load("delivery_order_items:id,quantity,price");
+        $delivery_order->load("delivery_order_items:id,delivery_order_id,quantity,price,item_id");
 
         $vendors = Vendor::query()
             ->select('id', 'name')
@@ -106,6 +118,17 @@ class DeliveryOrderController extends Controller
 
     public function update(DeliveryOrder $delivery_order)
     {
+        $data = $this->validate(request(), [
+            "vendor_id" => "required|exists:vendors,id",
+            "storage_id" => "required|exists:storages,id",
+            "receiver_id" => "required|exists:users,id",
+            "received_at" => "required|date",
+            "items" => "required|array",
+            "items.*.item_id" => "required|exists:items,id",
+            "items.*.quantity" => "required|numeric|gt:0",
+        ]);
+
+        return $data;
     }
 
     public function delete(DeliveryOrder $delivery_order)

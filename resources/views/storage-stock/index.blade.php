@@ -7,7 +7,11 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"> <a href="{{ route('dashboard.show') }}"> Dashboard </a> </li>
-            <li class="breadcrumb-item"> Storage </li>
+            <li class="breadcrumb-item">
+                <a href="{{ route('storage.index') }}">
+                    Storage
+                </a>
+            </li>
             <li class="breadcrumb-item active"> Stock </li>
         </ol>
     </nav>
