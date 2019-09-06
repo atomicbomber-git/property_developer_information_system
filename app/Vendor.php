@@ -29,13 +29,13 @@ class Vendor extends Model
         return $this->morphMany(DeliveryOrder::class, 'source');
     }
 
-    public function getNameAttribute($value)
+    public function setNameAttribute($value)
     {
-        return strtoupper($value);
+        $this->attributes['name'] = strtoupper($value);
     }
 
-    public function getCodeAttribute($value)
+    public function setCodeAttribute($value)
     {
-        return strtoupper($value);
+        $this->attributes['code'] = strtoupper($value);
     }
 }

@@ -3,9 +3,8 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\DB;
 
-class AddNameVendorIdUniqueConstraintToItems extends Migration
+class MakeVendorIdFieldNullableInItems extends Migration
 {
     /**
      * Run the migrations.
@@ -15,8 +14,7 @@ class AddNameVendorIdUniqueConstraintToItems extends Migration
     public function up()
     {
         Schema::table('items', function (Blueprint $table) {
-            DB::statement("DELETE FROM items a USING items b WHERE a.id < b.id AND UPPER(a.name) = UPPER(b.name)");
-            $table->unique(["name", "vendor_id"]);
+            $table->unsignedInteger('vendor_id')->nullable()->change();
         });
     }
 
@@ -28,7 +26,7 @@ class AddNameVendorIdUniqueConstraintToItems extends Migration
     public function down()
     {
         Schema::table('items', function (Blueprint $table) {
-            $table->dropUnique(["name", "vendor_id"]);
+            $table->unsignedInteger('vendor_id')->change();
         });
     }
 }

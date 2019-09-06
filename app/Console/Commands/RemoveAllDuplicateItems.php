@@ -16,6 +16,6 @@ class RemoveAllDuplicateItems extends Command
 
     public function handle()
     {
-        DB::statement("DELETE FROM items a USING items b WHERE a.id < b.id AND a.name = b.name AND a.vendor_id = b.vendor_id");
+        DB::statement("DELETE FROM items a USING items b WHERE a.id < b.id AND a.name = b.name");
     }
 }

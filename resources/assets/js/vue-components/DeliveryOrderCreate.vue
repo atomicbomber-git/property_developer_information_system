@@ -136,7 +136,8 @@
 
         <div class="form-group d-flex justify-content-end">
             <button class="btn btn-primary">
-                Store Delivery Order
+                Add Delivery Order
+                <i class="fa fa-plus"></i>
             </button>
         </div>
     </form>

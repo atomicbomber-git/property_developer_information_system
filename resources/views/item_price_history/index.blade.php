@@ -5,7 +5,19 @@
 @section('title', 'Item Price History')
 @section('content')
 <div class="container my-5">
-
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"> <a href="{{ route('dashboard.show') }}"> Dashboard </a> </li>
+            <li class="breadcrumb-item">
+                <a href="{{ route('item.index') }}">
+                    Item
+                </a>
+            </li>
+            <li class="breadcrumb-item active">
+                Item Price History
+            </li>
+        </ol>
+    </nav>
 
     <div class="card">
         <div class="card-body">

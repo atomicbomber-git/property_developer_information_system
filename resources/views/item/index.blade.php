@@ -20,6 +20,15 @@
 
             <hr class="mt-2 mb-2">
 
+            <div class="text-right mb-5 mt-3">
+                <a href="{{ route('item.create') }}" class="btn btn-secondary btn-sm">
+                    Add Item
+                    <i class="fa fa-plus"></i>
+                </a>
+            </div>
+
+            @include('shared.message-success')
+
             <div class='table-responsive'>
                 <table class='datatable table table-sm table-bordered table-striped'>
                     <thead class='thead thead-dark'>
@@ -38,13 +47,17 @@
                         <tr>
                             <td> {{ $loop->iteration }}. </td>
                             <td> {{ $item->name }} </td>
-                            <td> {{ $item->vendor->name }} </td>
+                            <td> {{ join(", ", $item->vendors->pluck("name")->toArray()) }} </td>
                             <td> {{ $item->category->name }} </td>
                             <td class="text-right"> {{ $formatter->currency($item->latest_price) }} </td>
                             <td class="text-center">
                                 <a class="btn btn-dark btn-sm" href="{{ route('item-price-history.index', $item) }}">
                                     Price History
                                     <i class="fa fa-line-chart"></i>
+                                </a>
+
+                                <a class="btn btn-dark btn-sm" href="{{ route('item.edit', $item) }}">
+                                    <i class="fa fa-pencil"></i>
                                 </a>
 
                                 <form action='{{ route('item.delete', $item) }}' method='POST' class='d-inline-block'>

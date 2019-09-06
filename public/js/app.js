@@ -29,7 +29,7 @@
 /******/
 /******/ 	// objects to store loaded and loading chunks
 /******/ 	var installedChunks = {
-/******/ 		1: 0
+/******/ 		3: 0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -86,7 +86,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + "" + ({"0":"/js/components/delivery-order-create","2":"/js/components/delivery-order-edit"}[chunkId]||chunkId) + ".js";
+/******/ 		script.src = __webpack_require__.p + "" + ({"0":"/js/components/delivery-order-edit","1":"/js/components/delivery-order-create","2":"/js/components/item-create","4":"/js/components/item-edit"}[chunkId]||chunkId) + ".js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {
@@ -31779,10 +31779,16 @@ window.Vue = __webpack_require__(57);
 
 /* Register all vue components */
 Vue.component('delivery-order-create', function () {
-  return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, 62));
+  return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, 62));
 });
 Vue.component('delivery-order-edit', function () {
-  return __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, 81));
+  return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, 63));
+});
+Vue.component('item-create', function () {
+  return __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, 64));
+});
+Vue.component('item-edit', function () {
+  return __webpack_require__.e/* import() */(4).then(__webpack_require__.bind(null, 87));
 });
 
 var app = new Vue({

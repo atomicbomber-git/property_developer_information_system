@@ -19,6 +19,13 @@ class Item extends Model
         return $this->belongsTo(Vendor::class);
     }
 
+    public function vendors()
+    {
+        return $this->belongsToMany(Vendor::class, (new VendorItem)->getTable())
+            ->using(VendorItem::class)
+            ->as("vendor_item");
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -29,13 +36,13 @@ class Item extends Model
         return $this->hasMany(DeliveryOrderItem::class);
     }
 
-    public function getNameAttribute($value)
+    public function setNameAttribute($value)
     {
-        return strtoupper($value);
+        $this->attributes['name'] = strtoupper($value);
     }
 
-    public function getUnitAttribute($value)
+    public function setUnitAttribute($value)
     {
-        return strtoupper($value);
+        $this->attributes['unit'] = strtoupper($value);
     }
 }
