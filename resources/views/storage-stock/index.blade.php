@@ -12,10 +12,6 @@
         </ol>
     </nav>
 
-    <h1 class='mb-5'>
-        <i class='fa fa-list'></i>
-        Storage Stocks
-    </h1>
 
     <div class="card">
         <div class="card-body">
@@ -23,6 +19,8 @@
                 <i class="fa fa-list"></i>
                 Storage Stocks
             </h1>
+
+            <hr class="mr-2 mb-2">
 
             <div class="table-responsive">
                 <table class="table table-sm table-striped">
@@ -39,9 +37,9 @@
                         @foreach ($storage->stocks as $stock)
                         <tr>
                             <td> {{ $loop->iteration }}. </td>
-                            <td> {{ $stock->item->unit }} </td>
                             <td> {{ $stock->item->name }} </td>
                             <td> {{ $formatter->number($stock->quantity) }} </td>
+                            <td> {{ $stock->item->unit }} </td>
                             <td> {{ $formatter->date($stock->created_at) }} </td>
                         </tr>
                         @endforeach
