@@ -17,6 +17,11 @@ class Item extends Model
         'note'
     ];
 
+    public function countedRelations()
+    {
+        return ["delivery_order_items"];
+    }
+
     public function vendor()
     {
         return $this->belongsTo(Vendor::class);

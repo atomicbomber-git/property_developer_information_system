@@ -159,5 +159,13 @@ class ItemController extends Controller
 
     public function delete(Item $item)
     {
+        DB::transaction(function () use($item) {
+            $item->vendors()->detach();
+            $item->delete();
+        });
+
+        return redirect()
+            ->route("item.index")
+            ->with("message.success", __("messages.delete.success"));
     }
 }

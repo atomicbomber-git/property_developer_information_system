@@ -44,7 +44,7 @@
 
     <script>
         $(document).ready(() => {
-            $('#notification').fadeOut(2500);
+            $('#notification').fadeOut(5000);
         });
     </script>
 </html>

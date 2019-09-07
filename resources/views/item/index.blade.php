@@ -55,6 +55,38 @@
 @section('script')
     @parent
     <script>
+        function attachControlEventHandlers() {
+            $("form.form-delete")
+                .each(function(index, elem) {
+                    let form = $(elem)
+
+                    $(elem).submit(function (e) {
+                        e.preventDefault()
+
+                        Swal.fire({
+                            title: "{{ __('modal.confirm.delete.title') }}",
+                            text: "{{ __('modal.confirm.delete.text') }}",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: "{{ __('modal.confirm.delete.button-yes') }}",
+                            cancelButtonText: "{{ __('modal.confirm.delete.button-no') }}",
+                        })
+                        .then((result) => {
+                            if (result.value) {
+                                Swal.fire(
+                                    "{{ __('modal.notification.delete.success.title') }}",
+                                    "{{ __('modal.notification.delete.success.text') }}",
+                                    "success",
+                                )
+                                .then(result => {
+                                    form.off("submit").submit()
+                                })
+                            }
+                        })
+                    })
+                })
+        }
+
         $(document).ready(function () {
             $("table.datatable").dataTable({
                 processing: true,
@@ -62,7 +94,10 @@
                 ajax: '{{ route('item.index') }}',
 
                 columns: [
-                    { data: 'DT_RowIndex', name: 'id' },
+                    {
+                        data: 'DT_RowIndex', name: 'id',
+                        width: '5%',
+                    },
                     { data: 'name', name: 'name' },
                     { data: 'unit', name: 'unit' },
                     { data: 'vendor_list', name: 'vendors.name'},
@@ -71,10 +106,21 @@
                         data: 'latest_delivery_order_item',
                         name: 'latest_delivery_order_item.price',
                         className: 'text-right',
-                        render: window.currencyDataTableRenderer
+                        render: window.currencyDataTableRenderer,
+                        width: '15%',
                     },
-                    { data: 'controls', className: 'text-center', orderable: false, searchable: false }
+                    {
+                        data: 'controls',
+                        className: 'text-center',
+                        orderable: false,
+                        searchable: false,
+                        width: '20%',
+                    }
                 ],
+
+                drawCallback: function() {
+                    attachControlEventHandlers()
+                }
             })
         })
     </script>

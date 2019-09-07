@@ -6571,6 +6571,11 @@ svgo@^0.7.0:
     sax "~1.2.1"
     whet.extend "~0.9.9"
 
+sweetalert2@^8.17.1:
+  version "8.17.1"
+  resolved "https://registry.npm.taobao.org/sweetalert2/download/sweetalert2-8.17.1.tgz#0c691ce4181661182ad4bc5312aa25e44479a650"
+  integrity sha1-DGkc5BgWYRgq1LxTEqol5ER5plA=
+
 tapable@^0.2.7:
   version "0.2.9"
   resolved "https://registry.npm.taobao.org/tapable/download/tapable-0.2.9.tgz#af2d8bbc9b04f74ee17af2b4d9048f807acd18a8"

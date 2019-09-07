@@ -7,4 +7,14 @@
     <a href="{{ route('item.edit', $item) }}" class="btn btn-dark btn-sm">
         <i class="fa fa-pencil"></i>
     </a>
+
+    <form action='{{ route('item.delete', $item) }}' method='POST' class='d-inline-block form-delete'>
+        @csrf
+        <button
+            @can("delete", $item) disabled @endcan
+            type='submit'
+            class='btn btn-danger btn-sm'>
+            <i class='fa fa-trash'></i>
+        </button>
+    </form>
 </div>

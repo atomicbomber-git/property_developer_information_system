@@ -11,6 +11,9 @@ window.Popper = require('popper.js').default;
 try {
     window.$ = window.jQuery = require('jquery');
     // Load datatables
+
+    window.Swal = require('sweetalert2')
+
     require('datatables.net-bs4')
     require('bootstrap');
 } catch (e) {}

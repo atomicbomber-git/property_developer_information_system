@@ -141,7 +141,7 @@ Route::middleware(['auth'])->group(function() {
     });
 });
 
-Route::fallback(function() {
-    return redirect()
-        ->route("dashboard.show");
-});
+// Route::fallback(function() {
+//     return redirect()
+//         ->route("dashboard.show");
+// });

@@ -4,7 +4,7 @@ namespace App\Traits;
 
 trait HasRelatedModels
 {
-    public function relations()
+    public function countedRelations()
     {
         return [];
     }
@@ -13,7 +13,7 @@ trait HasRelatedModels
     {
         $count = 0;
 
-        foreach ($this->relations() as $related_entity) {
+        foreach ($this->countedRelations() as $related_entity) {
             if ($this->{"{$related_entity}_count"} === null) {
                 $this->loadCount($related_entity);
             }
@@ -24,7 +24,7 @@ trait HasRelatedModels
         return $count;
     }
 
-    public function hasRelatedModels()
+    public function hasRelatedModels(): bool
     {
         return $this->relatedModelsCount() > 0;
     }
