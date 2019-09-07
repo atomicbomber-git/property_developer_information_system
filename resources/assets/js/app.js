@@ -20,6 +20,9 @@ require('./components/UpdateDeliveryOrderPricesForm')
 require('./components/UpdateInvoicePaymentForm')
 require('./components/CreateInvoiceForm')
 
+/* Load global functions */
+window.currencyDataTableRenderer = require('./helpers/number').currencyDataTableRenderer
+
 /* Initialize Vue */
 window.Vue = require('vue');
 

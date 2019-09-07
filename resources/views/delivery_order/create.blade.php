@@ -22,14 +22,13 @@
             <hr class="mt-2 mb-2">
 
             <div id="app">
-                <delivery-order-edit
+                <delivery-order-create>
                     submit_url='{{ route('delivery-order.store') }}'
                     redirect_url='{{ route('delivery-order.index') }}'
                     :storages='{{ json_encode($storages) }}'
                     :vendors='{{ json_encode($vendors) }}'
                     :users='{{ json_encode($users) }}'
-                >
-                </delivery-order-edit>
+                </delivery-order-create>
             </div>
         </div>
     </div>

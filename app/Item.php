@@ -2,10 +2,13 @@
 
 namespace App;
 
+use App\Traits\HasRelatedModels;
 use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
 {
+    use HasRelatedModels;
+
     public $fillable = [
         'category_id',
         'vendor_id',
@@ -29,6 +32,11 @@ class Item extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function latest_delivery_order_item()
+    {
+        return $this->belongsTo(DeliveryOrderItem::class, "latest_delivery_order_item_id");
     }
 
     public function delivery_order_items()

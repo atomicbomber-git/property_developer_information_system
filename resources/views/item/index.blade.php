@@ -35,7 +35,8 @@
                         <tr>
                             <th> # </th>
                             <th style="width: 5rem"> Name </th>
-                            <th> Vendor </th>
+                            <th> Unit </th>
+                            <th style="width: 5rem"> Vendors </th>
                             <th> Category </th>
                             <th class="text-right"> Latest Price </th>
                             <th class="text-center" style="width: 10rem"> Controls </th>
@@ -43,32 +44,6 @@
                     </thead>
 
                     <tbody>
-                        @foreach ($items as $item)
-                        <tr>
-                            <td> {{ $loop->iteration }}. </td>
-                            <td> {{ $item->name }} </td>
-                            <td> {{ join(", ", $item->vendors->pluck("name")->toArray()) }} </td>
-                            <td> {{ $item->category->name }} </td>
-                            <td class="text-right"> {{ $formatter->currency($item->latest_price) }} </td>
-                            <td class="text-center">
-                                <a class="btn btn-dark btn-sm" href="{{ route('item-price-history.index', $item) }}">
-                                    Price History
-                                    <i class="fa fa-line-chart"></i>
-                                </a>
-
-                                <a class="btn btn-dark btn-sm" href="{{ route('item.edit', $item) }}">
-                                    <i class="fa fa-pencil"></i>
-                                </a>
-
-                                <form action='{{ route('item.delete', $item) }}' method='POST' class='d-inline-block'>
-                                    @csrf
-                                    <button type='submit' class='btn btn-danger btn-sm'>
-                                        <i class='fa fa-trash'></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -79,5 +54,28 @@
 
 @section('script')
     @parent
-    @include('shared.datatables')
+    <script>
+        $(document).ready(function () {
+            $("table.datatable").dataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('item.index') }}',
+
+                columns: [
+                    { data: 'DT_RowIndex', name: 'id' },
+                    { data: 'name', name: 'name' },
+                    { data: 'unit', name: 'unit' },
+                    { data: 'vendor_list', name: 'vendors.name'},
+                    { data: 'category.name', name: 'category.name'},
+                    {
+                        data: 'latest_delivery_order_item',
+                        name: 'latest_delivery_order_item.price',
+                        className: 'text-right',
+                        render: window.currencyDataTableRenderer
+                    },
+                    { data: 'controls', className: 'text-center', orderable: false, searchable: false }
+                ],
+            })
+        })
+    </script>
 @endsection
