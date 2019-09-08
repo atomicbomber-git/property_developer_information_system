@@ -1,3 +1,5 @@
+@inject('formatter', \App\Helpers\Formatter)
+
 @extends('shared.layout')
 
 @section('title', 'Delivery Orders (From Vendor)')
@@ -30,7 +32,7 @@
             @include('shared.message-success')
 
             <div class="table-responsive">
-                <table class="table table-sm table-striped table-responsive-xl">
+                <table class="datatable table table-sm table-striped table-responsive-xl">
                     <thead class="thead-dark">
                         <tr>
                             <th> # </th>
@@ -38,19 +40,17 @@
                             <th> Date </th>
                             <th> Vendor (Source) </th>
                             <th> Storage (Target) </th>
-                            <th> Control </th>
+                            <th> Controls </th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($delivery_orders as $delivery_order)
+                        {{-- @foreach ($delivery_orders as $delivery_order)
                         <tr>
                             <td> {{ $delivery_orders->firstItem() + $loop->index }}. </td>
-                            <td> {{ optional($delivery_order->receiver)->name }} </td>
-                            <td>
-                                {{ $delivery_order->received_at->format('l, j F Y') }} <br>
-                            </td>
-                            <td> {{ optional($delivery_order->source)->name }} </td>
-                            <td> {{ optional($delivery_order->target)->name }} </td>
+                            <td> {{ $delivery_order->receiver->name }} </td>
+                            <td> {{ $formatter->date($delivery_order->received_at) }} </td>
+                            <td> {{ $delivery_order->source->name }} </td>
+                            <td> {{ $delivery_order->target->name }} </td>
                             <td>
                                 <a href="{{ route('delivery-order.edit', $delivery_order) }}" class="btn btn-dark btn-sm">
                                     <i class="fa fa-pencil"></i>
@@ -64,21 +64,45 @@
                                 </form>
                             </td>
                         </tr>
-                        @endforeach
+                        @endforeach --}}
                     </tbody>
                 </table>
             </div>
-
-            {{ $delivery_orders->links() }}
         </div>
     </div>
 </div>
 @endsection
 
 @section('script')
-<script>
-    $(document).ready(() => {
-        $('[data-toggle="tooltip"]').tooltip()
-    });
-</script>
+    @parent
+
+    <script>
+        $(document).ready(function() {
+            $("table.datatable").dataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('delivery-order.index') }}',
+
+                columns: [
+                    {
+                        data: 'DT_RowIndex',
+                        name: 'id',
+                        width: '5%',
+                    },
+                    { data: 'receiver.name', name: 'receiver.name' },
+                    { data: 'received_at', name: 'received_at' },
+                    { data: 'source.name', name: 'source_name' },
+                    { data: 'target.name', name: 'target_name' },
+                    {
+                        data: 'controls',
+                        className: 'text-center',
+                        orderable: false,
+                        searchable: false,
+                        width: '20%',
+                    }
+                ],
+
+            })
+        })
+    </script>
 @endsection

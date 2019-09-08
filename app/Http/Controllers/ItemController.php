@@ -50,23 +50,26 @@ class ItemController extends Controller
         $items_query = Item::query()
             ->select("items.id", "items.name", "unit", "items.vendor_id", "category_id")
             ->selectSub($delivery_order_item_query, "latest_delivery_order_item_id")
-            ->orderBy("name")
+            ->withCount("delivery_order_items")
             ->with([
                 "latest_delivery_order_item:id,price",
                 "vendors:vendors.id,name",
                 "category:id,name",
             ]);
 
-        return DataTables::of($items_query)
+        return DataTables::eloquent($items_query)
             ->addColumn('vendor_list', function (Item $user) {
                 return $user->vendors->implode("name", ",");
             })
-            ->filterColumn('latest_delivery_order_item.price', function ($query, $keyword) use($delivery_order_item_price_query) {
+            ->filterColumn('latest_delivery_order_item_price', function ($query, $keyword) use($delivery_order_item_price_query) {
                 $query->where(DB::raw("({$delivery_order_item_price_query->toSql()})"), "like", "%$keyword%");
             })
             ->addColumn('controls', function (Item $item) {
                 return view("item.control", compact("item"));
             })
+
+            ->orderColumn("latest_delivery_order_item_price", "({$delivery_order_item_price_query->toSql()}) $1 nulls last")
+            ->orderByNullsLast()
             ->addIndexColumn()
             ->toJson();
     }

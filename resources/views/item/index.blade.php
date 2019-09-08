@@ -104,7 +104,7 @@
                     { data: 'category.name', name: 'category.name'},
                     {
                         data: 'latest_delivery_order_item',
-                        name: 'latest_delivery_order_item.price',
+                        name: 'latest_delivery_order_item_price',
                         className: 'text-right',
                         render: window.currencyDataTableRenderer,
                         width: '15%',

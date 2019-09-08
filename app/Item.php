@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Traits\HasRelatedModels;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model

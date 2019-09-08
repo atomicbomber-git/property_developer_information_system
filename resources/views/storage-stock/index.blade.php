@@ -21,7 +21,7 @@
         <div class="card-body">
             <h1 class="h5">
                 <i class="fa fa-list"></i>
-                Storage Stocks
+                Storage Stocks of {{ $storage->name }}
             </h1>
 
             <hr class="mr-2 mb-2">
@@ -53,4 +53,10 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+    @parent
+    <script>
+    </script>
 @endsection

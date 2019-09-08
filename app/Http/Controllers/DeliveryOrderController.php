@@ -10,23 +10,63 @@ use App\Stock;
 use App\Vendor;
 use App\Storage;
 use App\User;
-use DB;
+
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use URL;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
+use Yajra\DataTables\Facades\DataTables;
 
 class DeliveryOrderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $delivery_orders = DeliveryOrder::query()
-            ->select('id', 'receiver_id', 'received_at', 'source_type', 'source_id', 'target_type', 'target_id')
-            ->where('source_type', 'VENDOR')
-            ->with(['receiver:id,name', 'source:id,name', 'target:id,name'])
-            ->withCount('delivery_order_items')
-            ->orderBy('received_at', 'desc')
-            ->paginate();
+        if (!$request->ajax()) {
+            return view("delivery_order.index");
+        }
 
-        return view('delivery_order.index', compact('delivery_orders'));
+        $delivery_orders = DeliveryOrder::query()
+            ->select(["delivery_orders.*"])
+            ->where('source_type', EntityType::VENDOR)
+            ->with([
+                'receiver:id,name',
+                'source:id,name',
+                'target:id,name'
+            ]);
+
+        $vendor_name_query = Vendor::query()
+            ->select("name")
+            ->whereColumn("vendors.id", "=", "delivery_orders.source_id")
+            ->where("delivery_orders.source_type", EntityType::VENDOR)
+            ->limit(1);
+
+        $storage_name_query = Storage::query()
+            ->select("name")
+            ->whereColumn("storages.id", "=", "delivery_orders.target_id")
+            ->where("delivery_orders.target_type", EntityType::STORAGE)
+            ->limit(1);
+
+        return DataTables::eloquent($delivery_orders)
+            ->smart(true)
+            ->addIndexColumn()
+            ->addColumn("controls", function (DeliveryOrder $delivery_order) {
+                return view("delivery_order.control", compact($delivery_order));
+            })
+            ->filterColumn("source_name", function ($query, $keyword) use($vendor_name_query) {
+                $query->whereRaw(
+                    "LOWER(({$vendor_name_query->toSql()})) LIKE LOWER(?)",
+                    array_merge($vendor_name_query->getBindings(), ["%$keyword%"])
+                );
+            })
+            ->filterColumn("target_name", function ($query, $keyword) use($storage_name_query) {
+                $query->whereRaw(
+                    "LOWER(({$storage_name_query->toSql()})) LIKE LOWER(?)",
+                    array_merge($storage_name_query->getBindings(), ["%$keyword%"])
+                );
+            })
+            ->orderColumn("source_name", "({$vendor_name_query->toSql()}) $1", $vendor_name_query->getBindings())
+            ->orderColumn("target_name", "({$storage_name_query->toSql()}) $1", $storage_name_query->getBindings())
+            ->toJson();
     }
 
     public function create()
