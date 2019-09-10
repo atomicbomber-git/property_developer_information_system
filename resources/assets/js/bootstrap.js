@@ -15,6 +15,7 @@ try {
     window.Swal = require('sweetalert2')
 
     require('datatables.net-bs4')
+    require('datatables.net-responsive-dt')
     require('bootstrap');
 } catch (e) {}
 

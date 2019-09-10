@@ -59,6 +59,7 @@
 
         $(document).ready(function () {
             $("table.datatable").dataTable({
+                responsive: true,
                 processing: true,
                 serverSide: true,
                 ajax: '{{ route('item.index') }}',

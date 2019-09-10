@@ -4,7 +4,7 @@ namespace App\Traits;
 
 trait CanCountRelatedModels
 {
-    public function countedRelations()
+    public static function countedRelations()
     {
         return [];
     }
@@ -13,7 +13,7 @@ trait CanCountRelatedModels
     {
         $count = 0;
 
-        foreach ($this->countedRelations() as $related_entity) {
+        foreach (self::countedRelations() as $related_entity) {
             if ($this->{"{$related_entity}_count"} === null) {
                 $this->loadCount($related_entity);
             }

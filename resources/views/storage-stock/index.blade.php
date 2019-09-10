@@ -27,7 +27,7 @@
             <hr class="mr-2 mb-2">
 
             <div class="table-responsive">
-                <table class="table table-sm table-striped">
+                <table class="datatable table table-sm table-striped">
                     <thead class="thead-dark">
                         <tr>
                             <th> # </th>
@@ -57,6 +57,5 @@
 
 @section('script')
     @parent
-    <script>
-    </script>
+    @include('shared.datatables')
 @endsection

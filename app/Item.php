@@ -19,7 +19,7 @@ class Item extends Model
         'note'
     ];
 
-    public function countedRelations()
+    public static function countedRelations()
     {
         return ["delivery_order_items"];
     }

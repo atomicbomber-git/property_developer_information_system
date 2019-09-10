@@ -24,7 +24,7 @@ class DeliveryOrder extends Model
         'received_at'
     ];
 
-    public function countedRelations()
+    public static function countedRelations()
     {
         return ["delivery_order_items"];
     }
@@ -37,6 +37,12 @@ class DeliveryOrder extends Model
     public function delivery_order_items()
     {
         return $this->hasMany(DeliveryOrderItem::class);
+    }
+
+    public function delivery_order_items_with_price()
+    {
+        return $this->delivery_order_items()
+            ->whereNotNull("price");
     }
 
     public function source()

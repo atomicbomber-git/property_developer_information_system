@@ -32,7 +32,8 @@ class DeliveryOrderController extends Controller
                 'receiver:id,name',
                 'source:id,name',
                 'target:id,name'
-            ]);
+            ])
+            ->withCount(DeliveryOrder::countedRelations());
 
         $vendor_name_query = Vendor::query()
             ->select("name")
