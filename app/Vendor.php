@@ -16,7 +16,8 @@ class Vendor extends Model
         return $this
             ->belongsToMany(Item::class, (new VendorItem)->getTable())
             ->using(VendorItem::class)
-            ->as(Str::snake(class_basename(VendorItem::class)));
+            ->as(Str::snake(class_basename(VendorItem::class)))
+            ->withTimestamps();
     }
 
     public function contact_people()

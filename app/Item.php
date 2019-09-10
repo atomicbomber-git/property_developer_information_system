@@ -33,7 +33,8 @@ class Item extends Model
     {
         return $this->belongsToMany(Vendor::class, (new VendorItem)->getTable())
             ->using(VendorItem::class)
-            ->as("vendor_item");
+            ->as("vendor_item")
+            ->withTimestamps();
     }
 
     public function category()
