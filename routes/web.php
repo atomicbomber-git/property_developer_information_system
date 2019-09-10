@@ -35,6 +35,10 @@ Route::group(['prefix' => '/storage', 'as' => 'storage.'], function() {
     Route::post('/delete/{storage}', [StorageController::class, 'delete'])->name('delete');
 });
 
+Route::group(['prefix' => '/storage-stock-adjustment', 'as' => 'storage-stock-adjustment.'], function() {
+    Route::get('/create/{storage}', [\App\Http\Controllers\StorageStockAdjustmentController::class, 'create'])->name('create');
+});
+
 Route::group(['prefix' => '/storage-stock', 'as' => 'storage-stock.'], function() {
     Route::get('/index/{storage}', [StorageStockController::class, 'index'])->name('index');
 });

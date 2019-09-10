@@ -90,6 +90,7 @@
                         </td>
                         <td class="text-center">
                             <button
+                                type="button"
                                 @click="picked_vendor.picked = false"
                                 class="btn btn-sm btn-danger"
                                 >

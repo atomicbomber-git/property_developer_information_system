@@ -20,9 +20,9 @@
 
             <hr class="mt-2 mb-2">
 
-            <div class="text-right mb-5 mt-3">
+            <div class="d-flex justify-content-end mb-5 mt-3">
                 <a href="{{ route('item.create') }}" class="btn btn-secondary btn-sm">
-                    Add Item
+                    Create Item
                     <i class="fa fa-plus"></i>
                 </a>
             </div>
@@ -69,23 +69,23 @@
                         data: 'DT_RowIndex', name: 'id',
                         width: '5%',
                     },
-                    { data: 'name', name: 'name' },
-                    { data: 'unit', name: 'unit' },
-                    { data: 'vendor_list', name: 'vendors.name'},
-                    { data: 'category.name', name: 'category.name'},
+                    { data: 'name', name: 'name', width: '10%' },
+                    { data: 'unit', name: 'unit', width: '10%' },
+                    { data: 'vendor_list', name: 'vendors.name', width: '10%' },
+                    { data: 'category.name', name: 'category.name', width: '10%'},
                     {
                         data: 'latest_delivery_order_item',
                         name: 'latest_delivery_order_item_price',
                         className: 'text-right',
                         render: window.currencyDataTableRenderer,
-                        width: '15%',
+                        width: '10%',
                     },
                     {
                         data: 'controls',
                         className: 'text-center',
                         orderable: false,
                         searchable: false,
-                        width: '20%',
+                        width: '10%',
                     }
                 ],
 

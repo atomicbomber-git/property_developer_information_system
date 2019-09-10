@@ -26,6 +26,14 @@
 
             <hr class="mr-2 mb-2">
 
+            <div class="d-flex justify-content-end mb-5 mt-3">
+                <a
+                    href="{{ route('storage-stock-adjustment.create', $storage) }}"
+                    class="btn btn-dark btn-sm">
+                    Stock Adjustment
+                </a>
+            </div>
+
             <div class="table-responsive">
                 <table class="datatable table table-sm table-striped">
                     <thead class="thead-dark">

@@ -58,8 +58,10 @@ class ItemController extends Controller
             ]);
 
         return DataTables::eloquent($items_query)
-            ->addColumn('vendor_list', function (Item $user) {
-                return $user->vendors->implode("name", ",");
+            ->addColumn('vendor_list', function (Item $item) {
+                return view('item.vendor-list', [
+                    "vendors" => $item->vendors,
+                ]);
             })
             ->filterColumn('latest_delivery_order_item_price', function ($query, $keyword) use($delivery_order_item_price_query) {
                 $query->where(DB::raw("({$delivery_order_item_price_query->toSql()})"), "like", "%$keyword%");

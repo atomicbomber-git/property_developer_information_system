@@ -128,6 +128,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
 
 
 
@@ -428,6 +429,7 @@ var render = function() {
                           "button",
                           {
                             staticClass: "btn btn-sm btn-danger",
+                            attrs: { type: "button" },
                             on: {
                               click: function($event) {
                                 picked_vendor.picked = false
