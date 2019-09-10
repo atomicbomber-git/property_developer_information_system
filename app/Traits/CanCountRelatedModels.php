@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-trait HasRelatedModels
+trait CanCountRelatedModels
 {
     public function countedRelations()
     {

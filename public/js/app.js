@@ -86,7 +86,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + "" + ({"0":"/js/components/delivery-order-edit","1":"/js/components/item-edit","2":"/js/components/item-create","3":"/js/components/delivery-order-create"}[chunkId]||chunkId) + ".js";
+/******/ 		script.src = __webpack_require__.p + "" + ({"0":"/js/components/item-edit","1":"/js/components/item-create","2":"/js/components/delivery-order-edit","3":"/js/components/delivery-order-create"}[chunkId]||chunkId) + ".js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {
@@ -142,7 +142,7 @@
 /******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 20);
+/******/ 	return __webpack_require__(__webpack_require__.s = 19);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -17587,7 +17587,7 @@ if (false) {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(19)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(22)(module)))
 
 /***/ }),
 /* 3 */
@@ -31742,42 +31742,14 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 /* 19 */
-/***/ (function(module, exports) {
-
-module.exports = function(module) {
-	if(!module.webpackPolyfill) {
-		module.deprecate = function() {};
-		module.paths = [];
-		// module.parent = undefined by default
-		if(!module.children) module.children = [];
-		Object.defineProperty(module, "loaded", {
-			enumerable: true,
-			get: function() {
-				return module.l;
-			}
-		});
-		Object.defineProperty(module, "id", {
-			enumerable: true,
-			get: function() {
-				return module.i;
-			}
-		});
-		module.webpackPolyfill = 1;
-	}
-	return module;
-};
-
-
-/***/ }),
-/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(21);
+__webpack_require__(20);
 module.exports = __webpack_require__(62);
 
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -31787,7 +31759,7 @@ module.exports = __webpack_require__(62);
  * building robust, powerful web applications using React + Laravel.
  */
 
-__webpack_require__(22);
+__webpack_require__(21);
 
 /**
  * Next, we will create a fresh React component instance and attach it to
@@ -31812,13 +31784,13 @@ Vue.component('delivery-order-create', function () {
   return __webpack_require__.e/* import() */(3).then(__webpack_require__.bind(null, 63));
 });
 Vue.component('delivery-order-edit', function () {
-  return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, 64));
+  return __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, 64));
 });
 Vue.component('item-create', function () {
-  return __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, 65));
+  return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, 65));
 });
 Vue.component('item-edit', function () {
-  return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, 66));
+  return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, 66));
 });
 
 var app = new Vue({
@@ -31826,7 +31798,7 @@ var app = new Vue({
 });
 
 /***/ }),
-/* 22 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -31889,6 +31861,34 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports) {
+
+module.exports = function(module) {
+	if(!module.webpackPolyfill) {
+		module.deprecate = function() {};
+		module.paths = [];
+		// module.parent = undefined by default
+		if(!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function() {
+				return module.i;
+			}
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
+
 
 /***/ }),
 /* 23 */
@@ -85746,7 +85746,6 @@ function emptySymbol() {
 }
 
 function numberDataTableRenderer(data, type, row) {
-    console.log(type);
     return data;
 }
 

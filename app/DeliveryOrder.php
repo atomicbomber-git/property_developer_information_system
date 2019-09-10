@@ -2,10 +2,13 @@
 
 namespace App;
 
+use App\Traits\CanCountRelatedModels;
 use Illuminate\Database\Eloquent\Model;
 
 class DeliveryOrder extends Model
 {
+    use CanCountRelatedModels;
+
     public $fillable = [
         'receiver_id',
         'source_type',
@@ -20,6 +23,11 @@ class DeliveryOrder extends Model
         'updated_at',
         'received_at'
     ];
+
+    public function countedRelations()
+    {
+        return ["delivery_order_items"];
+    }
 
     public function receiver()
     {

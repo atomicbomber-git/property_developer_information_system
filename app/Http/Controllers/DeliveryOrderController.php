@@ -50,7 +50,7 @@ class DeliveryOrderController extends Controller
             ->smart(true)
             ->addIndexColumn()
             ->addColumn("controls", function (DeliveryOrder $delivery_order) {
-                return view("delivery_order.control", compact($delivery_order));
+                return view("delivery_order.control", compact("delivery_order"));
             })
             ->filterColumn("source_name", function ($query, $keyword) use($vendor_name_query) {
                 $query->whereRaw(

@@ -1,6 +1,6 @@
 @extends('shared.layout')
 
-@section('title', 'Create New Delivery Order')
+@section('title', 'Edit Delivery Order')
 
 @section('content')
 <div class="container">
@@ -8,7 +8,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"> <a href="{{ route('dashboard.show') }}"> Dashboard </a> </li>
             <li class="breadcrumb-item"> <a href="{{ route('delivery-order.index') }}"> Delivery Order (From Vendor) </a> </li>
-            <li class="breadcrumb-item active"> Edit Delivery Order </li>
+            <li class="breadcrumb-item active"> Create Delivery Order (From Vendor) </li>
         </ol>
     </nav>
 
@@ -16,7 +16,7 @@
         <div class="card-body">
             <h1 class="h5">
                 <i class="fa fa-plus"></i>
-                Edit Delivery Order
+                Create Delivery Order
             </h1>
 
             <hr class="mt-2 mb-2">

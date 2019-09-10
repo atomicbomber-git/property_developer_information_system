@@ -11,7 +11,7 @@
     <form action='{{ route('item.delete', $item) }}' method='POST' class='d-inline-block form-delete'>
         @csrf
         <button
-            @can("delete", $item) disabled @endcan
+            @cannot("delete", $item) disabled @endcan
             type='submit'
             class='btn btn-danger btn-sm'>
             <i class='fa fa-trash'></i>

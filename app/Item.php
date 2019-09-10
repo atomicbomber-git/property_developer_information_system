@@ -2,13 +2,14 @@
 
 namespace App;
 
-use App\Traits\HasRelatedModels;
+use App\Traits\CanCountRelatedModels;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Item extends Model
 {
-    use HasRelatedModels;
+    use CanCountRelatedModels;
 
     public $fillable = [
         'category_id',

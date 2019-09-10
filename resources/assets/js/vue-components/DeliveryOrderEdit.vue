@@ -141,7 +141,7 @@
 
 <script>
 
-import moment from 'moment'
+import { toHTMLInputDateFormat } from '../helpers/datetime'
 import { get } from 'lodash'
 import { Multiselect } from 'vue-multiselect'
 
@@ -163,14 +163,22 @@ export default {
                 return {
                     ...vendor,
                     items: vendor.items.map(item => {
-                        let delivery_order_item = this.delivery_order
-                            .delivery_order_items
-                            .find(delivery_order_item => delivery_order_item.item_id === item.id)
+                        if (this.delivery_order.source_id === vendor.id) {
+                            let delivery_order_item = this.delivery_order
+                                .delivery_order_items
+                                .find(delivery_order_item => delivery_order_item.item_id === item.id)
+
+                            return {
+                                ...item,
+                                picked: delivery_order_item ? true : false,
+                                quantity: delivery_order_item ? delivery_order_item.quantity : 0,
+                            }
+                        }
 
                         return {
                             ...item,
-                            picked: delivery_order_item ? true : false,
-                            quantity: delivery_order_item ? delivery_order_item.quantity : 0,
+                            picked: false,
+                            quantity: 0,
                         }
                     })
                 }
@@ -179,7 +187,7 @@ export default {
             receiver: this.users.find(user => user.id === this.delivery_order.receiver_id) || null,
             storage: this.storages.find(storage => storage.id === this.delivery_order.target_id) || null,
             vendor: this.vendors.find(vendor => vendor.id === this.delivery_order.source_id) || null,
-            received_at: this.delivery_order.received_at,
+            received_at: toHTMLInputDateFormat(this.delivery_order.received_at),
             selected_item: null,
             error_data: null,
         }
@@ -189,9 +197,10 @@ export default {
         get,
 
         onFormSubmit() {
+
             axios.post(this.submit_url, this.form_data)
                .then(response => {
-                    // window.location.replace(this.redirect_url)
+                    window.location.replace(this.redirect_url)
                })
                .catch(error => {
                    this.error_data = error.response.data

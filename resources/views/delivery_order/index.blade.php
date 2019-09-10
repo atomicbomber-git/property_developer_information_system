@@ -44,27 +44,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- @foreach ($delivery_orders as $delivery_order)
-                        <tr>
-                            <td> {{ $delivery_orders->firstItem() + $loop->index }}. </td>
-                            <td> {{ $delivery_order->receiver->name }} </td>
-                            <td> {{ $formatter->date($delivery_order->received_at) }} </td>
-                            <td> {{ $delivery_order->source->name }} </td>
-                            <td> {{ $delivery_order->target->name }} </td>
-                            <td>
-                                <a href="{{ route('delivery-order.edit', $delivery_order) }}" class="btn btn-dark btn-sm">
-                                    <i class="fa fa-pencil"></i>
-                                </a>
-
-                                <form method="POST" class="d-inline-block" action="{{ route('delivery-order.delete', $delivery_order) }}">
-                                    @csrf
-                                    <button class="btn btn-danger btn-sm">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                        @endforeach --}}
                     </tbody>
                 </table>
             </div>
@@ -77,6 +56,8 @@
     @parent
 
     <script>
+        @include('shared.js-delete-form-event-handlers-declaration')
+
         $(document).ready(function() {
             $("table.datatable").dataTable({
                 processing: true,
@@ -102,6 +83,9 @@
                     }
                 ],
 
+                drawCallback: function() {
+                    attachDeleteFormEventHandlers()
+                }
             })
         })
     </script>

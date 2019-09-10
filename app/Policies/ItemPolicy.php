@@ -12,6 +12,6 @@ class ItemPolicy
 
     public function delete(User $user, Item $item)
     {
-        return $item->hasRelatedModels();
+        return !$item->hasRelatedModels();
     }
 }

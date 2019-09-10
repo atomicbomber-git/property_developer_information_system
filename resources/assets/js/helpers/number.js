@@ -9,7 +9,6 @@ function emptySymbol() {
 }
 
 export function numberDataTableRenderer(data, type, row) {
-    console.log(type)
     return data
 }
 

@@ -7,8 +7,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"> <a href="{{ route('dashboard.show') }}"> Dashboard </a> </li>
-            <li class="breadcrumb-item"> <a href="{{ route('item.index') }}"> Item (From Vendor) </a> </li>
-            <li class="breadcrumb-item active"> Add Item </li>
+            <li class="breadcrumb-item"> <a href="{{ route('item.index') }}"> Item </a> </li>
+            <li class="breadcrumb-item active"> Create Item </li>
         </ol>
     </nav>
 
@@ -16,7 +16,7 @@
         <div class="card-body">
             <h1 class="h5">
                 <i class="fa fa-plus"></i>
-                Add Item
+                Create Item
             </h1>
 
             <hr class="mt-2 mb-2">
