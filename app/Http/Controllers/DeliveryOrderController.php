@@ -215,7 +215,6 @@ class DeliveryOrderController extends Controller
         $delivery_order->delivery_order_items()->delete();
         $delivery_order->delete();
 
-
         DB::commit();
 
         return back()

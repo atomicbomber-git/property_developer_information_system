@@ -4,5 +4,6 @@
     "/js/components/item-create.js": "/js/components/item-create.js",
     "/js/components/delivery-order-create.js": "/js/components/delivery-order-create.js",
     "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/js/components/storage-stock-adjustment-create.js": "/js/components/storage-stock-adjustment-create.js"
 }

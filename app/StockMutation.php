@@ -6,12 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class StockMutation extends Model
 {
-    public function source()
+    public $guarded = [
+
+    ];
+
+    public function storage()
     {
         return $this->morphTo();
     }
 
-    public function target()
+    public function origin()
     {
         return $this->morphTo();
     }

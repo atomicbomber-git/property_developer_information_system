@@ -31,7 +31,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Relation::morphMap([
             EntityType::VENDOR => \App\Vendor::class,
-            EntityType::STORAGE => \App\Storage::class
+            EntityType::STORAGE => \App\Storage::class,
+            EntityType::DELIVERY_ORDER_ITEM => \App\DeliveryOrderItem::class,
+            EntityType::STOCK_ADJUSTMENT => \App\StockAdjustment::class,
         ]);
     }
 

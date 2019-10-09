@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Stock extends Model
 {
@@ -21,5 +22,77 @@ class Stock extends Model
     public function origin()
     {
         return $this->morphTo();
+    }
+
+    public function moveTo(Model $target, $quantity)
+    {
+        if (!method_exists($target, "stocks")) {
+            throw new \Exception("Target model has to have a stocks() method.");
+        }
+
+        DB::beginTransaction();
+
+        /* Replicates this stock except for the quantity */
+        $new_stock = $this->replicate(["quantity"]);
+        $new_stock->quantity = $quantity;
+
+        $this->decrementQuantity($quantity);
+
+        StockTransaction::create()
+            ->stock_mutations()
+            ->saveMany([
+                /* The credit side of the transaction */
+                (new StockMutation([
+                    "item_id" => $this->item_id,
+                    "quantity" => -$quantity,
+                    "value" => -$this->value,
+                ]))
+                ->storage()->associate($this->storage)
+                ->origin()->associate($this->origin),
+
+                /* The debit side of the transaction */
+                (new StockMutation([
+                    "item_id" => $this->item_id,
+                    "quantity" => $quantity,
+                    "value" => $this->value,
+                ]))
+                ->storage()->associate($target)
+                ->origin()->associate($this->origin),
+            ]);
+
+        /* Tries to find a similar stock in the target */
+        $similar_stock = $target->stocks()
+            ->where([
+                "origin_type" => $new_stock->origin_type,
+                "origin_id" => $new_stock->origin_id,
+                "item_id" => $new_stock->item_id,
+            ])
+            ->first();
+
+        if ($similar_stock) {
+            $similar_stock->increment("quantity", $new_stock->quantity);
+        }
+        else {
+            $target->stocks()->save($new_stock);
+        }
+
+        DB::commit();
+    }
+
+    public function decrementQuantity($quantity)
+    {
+        $new_quantity = $this->quantity - $quantity;
+
+        if ($new_quantity > 0) {
+            $this->update([
+                "quantity" => $new_quantity,
+            ]);
+        }
+        else if ($new_quantity == 0) {
+            $this->delete();
+        }
+        else {
+            throw new \Exception("Can't decrement more quantity than the amount recorded.");
+        }
     }
 }
