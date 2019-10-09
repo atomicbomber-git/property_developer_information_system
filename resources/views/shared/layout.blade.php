@@ -28,7 +28,7 @@
             </div>
         </nav>
 
-        <div class="container" id="app">
+        <div class="container">
             <div class="alert alert-info">
                 <i class="fa fa-info"></i>
                 Anda Log In dengan nama {{ auth()->user()->name }} dan status {{ auth()->user()->privilege }}
