@@ -12,7 +12,7 @@
         </ol>
     </nav>
 
-    <div class="card" style="max-width: 25rem; margin: auto">
+    <div class="card" style="max-width: 25rem">
         <div class="card-body">
             <h1 class="h5">
                 <i class="fa fa-pencil"></i>
@@ -20,6 +20,8 @@
             </h1>
 
             <hr class="mt-2 mb-2">
+
+            @include('shared.message-success')
 
             <form
                 method='POST'

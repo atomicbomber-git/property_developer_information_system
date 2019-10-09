@@ -21,7 +21,7 @@
 
             <hr class="mt-2 mb-2">
 
-            <div id="app">
+            <div >
                 <delivery-order-create
                     submit_url='{{ route('delivery-order.store') }}'
                     redirect_url='{{ route('delivery-order.index') }}'

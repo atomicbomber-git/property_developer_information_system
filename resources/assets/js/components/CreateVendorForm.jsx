@@ -36,7 +36,6 @@ class CreateVendorForm extends React.Component {
     onFormSubmit(e)
     {
         e.preventDefault()
-        console.log( this.mapStateToFormData() )
         axios.post(`/vendor/create`, this.mapStateToFormData())
             .then(response => {
                 this.setState({ errorData: { } })
@@ -62,7 +61,7 @@ class CreateVendorForm extends React.Component {
             return { contact_persons: prevState.contact_persons.filter(cp => cp.key != key) }
         })
     }
-    
+
     render() {
         return (
             <form onSubmit={this.onFormSubmit}>
@@ -104,7 +103,7 @@ class CreateVendorForm extends React.Component {
 
                 <div className="form-group">
                     <label htmlFor="contact_persons"> Contact Persons: </label>
-                    
+
                     {this.state.contact_persons.map(contact_person => {
                         return (
                             <div key={contact_person.key}>

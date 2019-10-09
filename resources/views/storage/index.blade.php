@@ -27,7 +27,8 @@
                 </a>
             </div>
 
-            @include('shared.message-success')
+        @include('shared.message-success')
+
             <div class="table-responsive">
                 <table class="table table-sm table-striped">
                     <thead class="thead-dark">
@@ -50,7 +51,7 @@
                                     <i class="fa fa-list"></i>
                                 </a>
 
-                                <a href="{{ route('storage.update', $storage) }}" class="btn btn-dark btn-sm">
+                                <a href="{{ route('storage.edit', $storage) }}" class="btn btn-dark btn-sm">
                                     <i class="fa fa-pencil"></i>
                                 </a>
 

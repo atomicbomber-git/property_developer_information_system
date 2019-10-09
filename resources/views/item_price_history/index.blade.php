@@ -35,7 +35,6 @@
                             <th> # </th>
                             <th class="text-right"> Price </th>
                             <th class="text-right"> Received At </th>
-                            <th class="text-center"> Controls </th>
                         </tr>
                    </thead>
 
@@ -48,9 +47,6 @@
                             </td>
                             <td class="text-right">
                                 {{ $delivery_order_item->delivery_order_received_at }}
-                            </td>
-                            <td>
-
                             </td>
                         </tr>
                        @endforeach

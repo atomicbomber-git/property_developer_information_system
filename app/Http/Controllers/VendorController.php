@@ -72,34 +72,13 @@ class VendorController extends Controller
         ];
     }
 
-    public function update(Vendor $vendor)
+    public function edit(Vendor $vendor)
     {
         $vendor->load('contact_people:id,vendor_id,name,phone');
-        return view('vendor.update', [
-            'vendor' => $vendor
-        ]);
+        return view("vendor.edit", compact("vendor"));
     }
 
-    public function transactionHistory(Vendor $vendor)
-    {
-        $invoices = DB::table('vendors')
-            ->select('invoice_id AS id', 'invoices.received_at', 'invoices.number')
-            ->join('delivery_orders', function ($join) {
-                $join
-                    ->on('source_id', '=', 'vendors.id')
-                    ->where('source_type', 'VENDOR')
-                    ->whereNotNull('invoice_id');
-            })
-            ->join('invoices', 'invoices.id', '=', 'invoice_id')
-            ->groupBy('invoice_id', 'invoices.received_at', 'invoices.number')
-            ->orderBy('invoices.received_at', 'DESC')
-            ->where('vendors.id', $vendor->id)
-            ->paginate(10);
-
-        return view('vendor.transaction_history', compact('invoices', 'vendor'));
-    }
-
-    public function processUpdate(Vendor $vendor)
+    public function update(Vendor $vendor)
     {
         $data = $this->validate(request(), [
             'name' => 'required|string',
@@ -116,11 +95,11 @@ class VendorController extends Controller
 
     public function delete(Vendor $vendor)
     {
-        if ($vendor->items()->count() > 0) {
-            abort(409);
-        }
+        DB::transaction(function () use($vendor) {
+            $vendor->contact_people()->delete();
+            $vendor->delete();
+        });
 
-        $vendor->delete();
         return back()
             ->with('message.success', 'Data berhasil dihapus.');
     }

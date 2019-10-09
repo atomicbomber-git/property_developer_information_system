@@ -23,7 +23,7 @@
 
             <form
                 method='POST'
-                action='{{ route('storage.create') }}'>
+                action='{{ route('storage.store') }}'>
                 @csrf
 
                 <div class='form-group'>

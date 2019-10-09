@@ -21,7 +21,7 @@
 
             <hr class="mt-2 mb-2">
 
-            <div id="app">
+            <div >
                 <delivery-order-edit
                     submit_url='{{ route('delivery-order.update', $delivery_order) }}'
                     redirect_url='{{ route('delivery-order.edit', $delivery_order) }}'

@@ -55,17 +55,14 @@
                                 @endforeach
                             </td>
                             <td>
-
-                                <a href="{{ route('vendor.transaction_history', $vendor) }}" class="btn btn-dark btn-sm">
-                                    T. History
-                                    <i class="fa fa-money"></i>
-                                </a>
-
-                                <a href="{{ route('vendor.update', $vendor) }}" class="btn btn-dark btn-sm">
+                                <a
+                                    href="{{ route('vendor.edit', $vendor) }}"
+                                    class="btn btn-dark btn-sm"
+                                    >
                                     <i class="fa fa-pencil"></i>
                                 </a>
 
-                                @if ($vendor->items_count + $vendor->contact_people_count == 0)
+                                @if ($vendor->items_count == 0)
 
                                 <form method="POST" class="d-inline-block" action="{{ route('vendor.delete', $vendor) }}">
                                     @csrf
@@ -76,7 +73,10 @@
 
                                 @else
 
-                                <button class="btn btn-danger btn-sm disabled" data-toggle="tooltip" title="Data ini tidak dapat dihapus karena masih terdapat item terkait dengan data ini.">
+                                <button
+                                    class="btn btn-danger btn-sm disabled"
+                                    data-toggle="tooltip"
+                                    title="Data ini tidak dapat dihapus karena masih terdapat item terkait dengan data ini.">
                                     <i class="fa fa-trash"></i>
                                 </button>
 

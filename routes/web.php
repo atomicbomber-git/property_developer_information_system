@@ -61,8 +61,10 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/index', 'VendorController@index')->name('vendor.index');
         Route::get('/create', 'VendorController@create')->name('vendor.create');
         Route::post('/create', 'VendorController@processCreate')->name('vendor.create');
-        Route::get('/update/{vendor}', 'VendorController@update')->name('vendor.update');
-        Route::post('/update/{vendor}', 'VendorController@processUpdate')->name('vendor.update');
+
+        Route::get('/edit/{vendor}', 'VendorController@edit')->name('vendor.edit');
+        Route::post('/update/{vendor}', 'VendorController@update')->name('vendor.update');
+
         Route::post('/delete/{vendor}', 'VendorController@delete')->name('vendor.delete');
         Route::get('/transaction_history/{vendor}', 'VendorController@transactionHistory')->name('vendor.transaction_history');
         Route::get('/item/{vendor}', 'VendorController@item')->name('vendor.item');
@@ -133,7 +135,7 @@ Route::middleware(['auth'])->group(function() {
     });
 });
 
-Route::fallback(function() {
-    return redirect()
-        ->route("dashboard.show");
-});
+// Route::fallback(function() {
+//     return redirect()
+//         ->route("dashboard.show");
+// });

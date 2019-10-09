@@ -21,7 +21,7 @@
 
             <hr class="mt-2 mb-2">
 
-            <div id="app">
+            <div >
                 <item-create
                     submit_url='{{ route('item.store') }}'
                     redirect_url='{{ route('item.index') }}'
