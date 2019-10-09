@@ -67,7 +67,7 @@ class UpdateInvoicePaymentForm extends Component {
                 })
             })
             .catch(error => {
-                
+
             })
     }
 
@@ -96,19 +96,6 @@ class UpdateInvoicePaymentForm extends Component {
                     </select>
                 </div>
 
-                {/* {this.state.selected_payment_method == 'cash' &&
-                    <div className="form-group">
-                        <label htmlFor="cash_amount"> Cash Amount: </label>
-                        <InputFormControl
-                            isInvalid={get(this.state.errorData, 'errors.cash_amount[0]', false)}
-                            invalidFeedback={get(this.state.errorData, 'errors.cash_amount[0]', '')}
-                            type="number"
-                            value={this.state.cash_amount}
-                            onChange={(e) => { this.setState({ cash_amount: e.target.value })}}
-                            className={{'form-control-sm' : true}} placeholder="Cash amount"/>
-                    </div>
-                } */}
-
                 {this.state.selected_payment_method == 'new_giro' &&
                     <div className="form-group">
                         <label htmlFor="giro_number"> Giro Number: </label>
@@ -133,7 +120,7 @@ class UpdateInvoicePaymentForm extends Component {
                         <div className="form-group">
                             <label htmlFor="giro_id"> Giro Number: </label>
                             <select value={this.state.selected_giro_option} onChange={this.onGiroSelectChange} className="form-control form-control-sm" name="giro_id" id="giro_id">
-                                {this.state.giro_options.map(giro => 
+                                {this.state.giro_options.map(giro =>
                                     <option key={giro.id} value={giro.id}> {giro.number} </option>
                                 )}
                             </select>

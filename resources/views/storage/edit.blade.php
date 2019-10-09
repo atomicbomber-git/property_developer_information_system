@@ -1,6 +1,6 @@
 @extends('shared.layout')
 
-@section('title', "Update Storage $storage->name")
+@section('title', "Edit Storage $storage->name")
 
 @section('content')
 <div class="container">
@@ -8,7 +8,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"> <a href="{{ route('dashboard.show') }}"> Dashboard </a> </li>
             <li class="breadcrumb-item"> <a href="{{ route('storage.index') }}"> Storage </a> </li>
-            <li class="breadcrumb-item active"> <a href="{{ route('storage.update', $storage) }}"> Update Storage {{ $storage->name }} </a> </li>
+            <li class="breadcrumb-item active"> <a href="{{ route('storage.edit', $storage) }}"> Update Storage {{ $storage->name }} </a> </li>
         </ol>
     </nav>
 
@@ -16,7 +16,7 @@
         <div class="card-body">
             <h1 class="h5">
                 <i class="fa fa-pencil"></i>
-                Update Storage {{ $storage->name }}
+                Edit Storage {{ $storage->name }}
             </h1>
 
             <hr class="mt-2 mb-2">

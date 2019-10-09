@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class DeliveryOrderItem extends Model
 {
@@ -18,6 +19,11 @@ class DeliveryOrderItem extends Model
         return $this->belongsTo(DeliveryOrder::class);
     }
 
+    public function stocks()
+    {
+        return $this->morphMany(Stock::class, "origin");
+    }
+
     public function item()
     {
         return $this->belongsTo(Item::class);
@@ -26,5 +32,18 @@ class DeliveryOrderItem extends Model
     public function getPriceAttribute($value)
     {
         return number_format($value, 0, '', '');
+    }
+
+    public function updatePrice($price)
+    {
+        DB::transaction();
+
+        $this->stocks()->update([
+            "value" => $price,
+        ]);
+
+        $this->update(compact("price"));
+
+        DB::commit();
     }
 }

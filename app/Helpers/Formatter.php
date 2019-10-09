@@ -23,7 +23,7 @@ class Formatter
     public function currency($value)
     {
         return isset($value) ?
-            number_format($value, 2) :
+            number_format($value, 0) :
             $this->emptySymbol();
     }
 

@@ -23,7 +23,7 @@
 
             @include('shared.message-success')
 
-            <div >
+            <div id="app">
                 <item-edit
                     submit_url='{{ route('item.update', $item) }}'
                     redirect_url='{{ route('item.edit', $item) }}'

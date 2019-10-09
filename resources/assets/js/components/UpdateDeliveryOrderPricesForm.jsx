@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import InputFormControl from './InputFormControl'
 import {get, keyBy} from 'lodash'
 import axios from 'axios'
+import { numberFormat, currencyFormat } from '../helpers/number'
 
 class UpdateDeliveryOrderPricesForm extends React.Component {
     constructor(props) {
@@ -55,7 +56,7 @@ class UpdateDeliveryOrderPricesForm extends React.Component {
                             <tr>
                                 <th> # </th>
                                 <th> Item </th>
-                                <th> Quantity </th>
+                                <th className="text-right"> Quantity </th>
                                 <th> Unit </th>
                                 <th className='text-right'> Price </th>
                                 <th className='text-right'> Subtotal </th>
@@ -69,13 +70,13 @@ class UpdateDeliveryOrderPricesForm extends React.Component {
                                     <tr key={i}>
                                         <td> {i + 1}. </td>
                                         <td> {do_items[key].item.name} </td>
-                                        <td> {do_items[key].quantity} </td>
+                                        <td className="text-right"> {numberFormat(do_items[key].quantity)} </td>
                                         <td> {do_items[key].item.unit} </td>
                                         <td className='text-right'>
                                             <InputFormControl
                                                 className={{'form-control-sm': true, 'text-right': true}}
                                                 type='number'
-                                                step='0.001'
+                                                step='any'
                                                 placeholder='Price'
                                                 isInvalid={get(this.state.errorData, ['errors', `delivery_order_items.${key}.price`, 0], false)}
                                                 invalidFeedback={get(this.state.errorData, ['errors', `delivery_order_items.${key}.price`, 0], '')}
@@ -84,7 +85,7 @@ class UpdateDeliveryOrderPricesForm extends React.Component {
                                                     let newPrice = e.target.value
                                                     this.setState(prevState => {
                                                         let updated = {}
-                                                        updated[key] = {...do_items[key], price: newPrice} 
+                                                        updated[key] = {...do_items[key], price: newPrice}
                                                         return {delivery_order_items: {...prevState.delivery_order_items, ...updated}}
                                                     })
                                                 }}
@@ -94,16 +95,16 @@ class UpdateDeliveryOrderPricesForm extends React.Component {
                                                     copied[key] = {...do_items[key], price: do_items[key].latest_price}
 
                                                     this.setState({
-                                                        delivery_order_items: copied 
-                                                    }) 
+                                                        delivery_order_items: copied
+                                                    })
                                                 }}
-                                                
+
                                                 className="btn btn-dark btn-sm d-inline-block mt-1">
-                                                Use Latest Price: { parseFloat(do_items[key].latest_price).toLocaleString('id-ID')}
+                                                Use Latest Price: {currencyFormat(do_items[key].latest_price)}
                                             </button>
                                         </td>
                                         <td className='text-right'>
-                                            {(do_items[key].price * do_items[key].quantity).toLocaleString('id-ID') }
+                                            {currencyFormat(do_items[key].price * do_items[key].quantity)}
                                         </td>
                                     </tr>
                                 )
@@ -119,7 +120,7 @@ class UpdateDeliveryOrderPricesForm extends React.Component {
                     </button>
                 </div>
             </form>
-            
+
         )
     }
 }

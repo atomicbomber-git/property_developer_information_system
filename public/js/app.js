@@ -84956,6 +84956,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_lodash__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_axios__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__helpers_number__ = __webpack_require__(56);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -84965,6 +84966,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -85060,7 +85062,7 @@ var UpdateDeliveryOrderPricesForm = function (_React$Component) {
                                 ),
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                     'th',
-                                    null,
+                                    { className: 'text-right' },
                                     ' Quantity '
                                 ),
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -85104,9 +85106,9 @@ var UpdateDeliveryOrderPricesForm = function (_React$Component) {
                                     ),
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'td',
-                                        null,
+                                        { className: 'text-right' },
                                         ' ',
-                                        do_items[key].quantity,
+                                        Object(__WEBPACK_IMPORTED_MODULE_5__helpers_number__["numberFormat"])(do_items[key].quantity),
                                         ' '
                                     ),
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -85122,7 +85124,7 @@ var UpdateDeliveryOrderPricesForm = function (_React$Component) {
                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__InputFormControl__["a" /* default */], {
                                             className: { 'form-control-sm': true, 'text-right': true },
                                             type: 'number',
-                                            step: '0.001',
+                                            step: 'any',
                                             placeholder: 'Price',
                                             isInvalid: Object(__WEBPACK_IMPORTED_MODULE_3_lodash__["get"])(_this5.state.errorData, ['errors', 'delivery_order_items.' + key + '.price', 0], false),
                                             invalidFeedback: Object(__WEBPACK_IMPORTED_MODULE_3_lodash__["get"])(_this5.state.errorData, ['errors', 'delivery_order_items.' + key + '.price', 0], ''),
@@ -85149,13 +85151,13 @@ var UpdateDeliveryOrderPricesForm = function (_React$Component) {
 
                                                 className: 'btn btn-dark btn-sm d-inline-block mt-1' },
                                             'Use Latest Price: ',
-                                            parseFloat(do_items[key].latest_price).toLocaleString('id-ID')
+                                            Object(__WEBPACK_IMPORTED_MODULE_5__helpers_number__["currencyFormat"])(do_items[key].latest_price)
                                         )
                                     ),
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'td',
                                         { className: 'text-right' },
-                                        (do_items[key].price * do_items[key].quantity).toLocaleString('id-ID')
+                                        Object(__WEBPACK_IMPORTED_MODULE_5__helpers_number__["currencyFormat"])(do_items[key].price * do_items[key].quantity)
                                     )
                                 );
                             })
@@ -85731,6 +85733,7 @@ if (rootElem) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["numberFormat"] = numberFormat;
+/* harmony export (immutable) */ __webpack_exports__["currencyFormat"] = currencyFormat;
 /* harmony export (immutable) */ __webpack_exports__["numberDataTableRenderer"] = numberDataTableRenderer;
 /* harmony export (immutable) */ __webpack_exports__["currencyDataTableRenderer"] = currencyDataTableRenderer;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_numeral__ = __webpack_require__(57);
@@ -85738,6 +85741,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 function numberFormat(value) {
+    return __WEBPACK_IMPORTED_MODULE_0_numeral___default()(value).format("0,0.[00]");
+}
+
+function currencyFormat(value) {
     return __WEBPACK_IMPORTED_MODULE_0_numeral___default()(value).format("0,0.[00]");
 }
 

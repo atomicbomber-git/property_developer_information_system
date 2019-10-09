@@ -1,3 +1,5 @@
+@inject('formatter', 'App\Helpers\Formatter')
+
 @extends('shared.layout')
 
 @section('title', "Payment of Invoice $invoice->id")
@@ -69,7 +71,9 @@
                             </td>
                             <td> {{ $delivery_order->source_name }} </td>
                             <td> <a href="{{ route('storage-stock.index', $delivery_order->target_id) }}"> {{ $delivery_order->target_name }} </a> </td>
-                            <td class="text-right"> @convert_money($delivery_order->subtotal) </td>
+                            <td class="text-right">
+                                {{ $formatter->currency($delivery_order->subtotal) }}
+                            </td>
                         </tr>
                         @endforeach
                         <tr>
@@ -77,7 +81,9 @@
                             <td></td>
                             <td></td>
                             <td class="text-right"> <strong> Total: </strong> </td>
-                            <td id="total" class="text-right"> @convert_money($delivery_orders->sum->subtotal) </td>
+                            <td id="total" class="text-right">
+                                {{ $formatter->currency($delivery_orders->sum->subtotal) }}
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -113,16 +119,16 @@
                         @foreach ($delivery_order_items as $item)
                             <tr>
                                 <td> {{ $item->name }} </td>
-                                <td class="text-right"> {{ number_format($item->quantity, 0, ",", ".") }} </td>
-                                <td class="text-right"> {{ number_format($item->price, 0, ",", ".") }} </td>
-                                <td class="text-right"> {{ number_format($item->subtotal, 0, ",", ".") }} </td>
+                                <td class="text-right"> {{ $formatter->number($item->quantity) }} </td>
+                                <td class="text-right"> {{ $formatter->currency($item->price) }} </td>
+                                <td class="text-right"> {{ $formatter->currency($item->subtotal) }} </td>
                             </tr>
                         @endforeach
                         <tr class="font-weight-bold">
                             <td></td>
                             <td></td>
                             <td class="text-right"> Total: </td>
-                            <td class="text-right"> {{ number_format($delivery_order_items->sum("subtotal"), 0, ",", ".") }} </td>
+                            <td class="text-right"> {{ $formatter->currency($delivery_order_items->sum("subtotal")) }} </td>
                         </tr>
                     </tbody>
                     </table>

@@ -17127,6 +17127,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
 
 
 
@@ -17219,13 +17220,17 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             };
         },
         item_options: function item_options() {
+            var _this3 = this;
+
             if (this.vendor === null) {
                 return [];
-            } else {
-                return this.vendor.items.filter(function (item) {
-                    return !item.picked;
-                });
             }
+
+            return this.m_vendors.find(function (m_vendor) {
+                return m_vendor.id === _this3.vendor.id;
+            }).items.filter(function (item) {
+                return !item.picked;
+            });
         },
         picked_items: function picked_items() {
             return this.m_vendors.reduce(function (prev, curr) {
@@ -17832,6 +17837,7 @@ var render = function() {
                           "button",
                           {
                             staticClass: "btn btn-sm btn-danger",
+                            attrs: { type: "button" },
                             on: {
                               click: function($event) {
                                 picked_item.picked = false

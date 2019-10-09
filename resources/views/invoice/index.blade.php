@@ -1,3 +1,5 @@
+@inject('formatter', "App\Helpers\Formatter")
+
 @extends('shared.layout')
 
 @section('title', 'Invoices')
@@ -66,7 +68,7 @@
                             </td>
 
                             <td>
-                                {{ $invoice->received_at->format('d-m-Y') }}
+                                {{ $formatter->date($invoice->received_at) }}
                             </td>
 
                             <td>

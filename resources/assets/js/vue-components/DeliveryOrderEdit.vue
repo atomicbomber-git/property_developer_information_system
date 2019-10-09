@@ -117,6 +117,7 @@
                             <button
                                 @click="picked_item.picked = false"
                                 class="btn btn-sm btn-danger"
+                                type="button"
                                 >
                                 <i class="fa fa-trash"></i>
                             </button>
@@ -235,9 +236,11 @@ export default {
             if (this.vendor === null) {
                 return []
             }
-            else {
-                return this.vendor.items.filter(item => !item.picked)
-            }
+
+            return this.m_vendors
+                .find(m_vendor => m_vendor.id === this.vendor.id)
+                .items
+                .filter(item => !item.picked)
         },
 
         picked_items() {

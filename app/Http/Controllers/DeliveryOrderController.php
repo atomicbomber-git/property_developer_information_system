@@ -33,7 +33,10 @@ class DeliveryOrderController extends Controller
                 'source:id,name',
                 'target:id,name'
             ])
-            ->withCount(DeliveryOrder::countedRelations());
+            ->withCount(DeliveryOrder::countedRelations())
+            ->orderByDesc("received_at")
+            ->orderByDesc("created_at")
+            ->orderByDesc("updated_at");
 
         $vendor_name_query = Vendor::query()
             ->select("name")
@@ -169,6 +172,34 @@ class DeliveryOrderController extends Controller
             "items.*.quantity" => "required|numeric|gt:0",
         ]);
 
+        DB::transaction(function() use($data, $delivery_order) {
+            $delivery_order = DeliveryOrder::create([
+                'creator_id' => Auth::user()->id,
+                'source_type' => EntityType::VENDOR,
+                'source_id' => $data['vendor_id'],
+                'target_type' => EntityType::STORAGE,
+                'target_id' => $data['storage_id'],
+                'receiver_id' => $data['receiver_id'],
+                'received_at' => $data['received_at']
+            ]);
+
+            foreach ($data['items'] as $item) {
+                $delivery_order_item = $delivery_order
+                    ->delivery_order_items()
+                    ->create($item);
+
+                Stock::create([
+                    "item_id" => $item["item_id"],
+                    "quantity" => $item["quantity"],
+                    "value" => 0,
+                    "storage_type" => EntityType::STORAGE,
+                    "storage_id" => $data["storage_id"],
+                    "origin_type" => EntityType::DELIVERY_ORDER_ITEM,
+                    "origin_id" => $delivery_order_item->id,
+                ]);
+            }
+        });
+
         return $data;
     }
 
@@ -273,8 +304,12 @@ class DeliveryOrderController extends Controller
         DB::beginTransaction();
 
         foreach ($data['delivery_order_items'] as $delivery_order_item) {
-            DeliveryOrderItem::where(['id' => $delivery_order_item['id'] ])
-                ->update(['price' => $delivery_order_item['price'] ]);
+            $delivery_order_item = DeliveryOrderItem::find(
+                $delivery_order_item["id"]
+            )
+            ->updatePrice(
+                $delivery_order_item['price']
+            );
         }
 
         DB::commit();
