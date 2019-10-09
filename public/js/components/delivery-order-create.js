@@ -494,8 +494,6 @@ var render = function() {
                         )
                       ]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(" " + _vm._s(picked_item.unit) + " ")]),
-                      _vm._v(" "),
                       _c("td", [
                         _c("input", {
                           directives: [
@@ -553,6 +551,8 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(" "),
+                      _c("td", [_vm._v(" " + _vm._s(picked_item.unit) + " ")]),
+                      _vm._v(" "),
                       _c("td", { staticClass: "text-center" }, [
                         _c(
                           "button",
@@ -593,9 +593,9 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v(" Item ")]),
         _vm._v(" "),
-        _c("th", [_vm._v(" Unit ")]),
-        _vm._v(" "),
         _c("th", [_vm._v(" Quantity ")]),
+        _vm._v(" "),
+        _c("th", [_vm._v(" Unit ")]),
         _vm._v(" "),
         _c("th", { staticClass: "text-center" }, [_vm._v(" Controls ")])
       ])

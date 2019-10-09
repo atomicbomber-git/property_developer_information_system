@@ -4,6 +4,10 @@ export function numberFormat(value) {
     return numeral(value).format("0,0.[00]")
 }
 
+export function numberNormalize(value) {
+    return numeral(value).format("0,0.[00]")
+}
+
 export function currencyFormat(value) {
     return numeral(value).format("0,0.[00]")
 }

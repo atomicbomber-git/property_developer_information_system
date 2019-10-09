@@ -10,7 +10,7 @@ use App\Stock;
 use App\Vendor;
 use App\Storage;
 use App\User;
-
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -173,7 +173,7 @@ class DeliveryOrderController extends Controller
         ]);
 
         DB::transaction(function() use($data, $delivery_order) {
-            $delivery_order = DeliveryOrder::create([
+            $delivery_order->update([
                 'creator_id' => Auth::user()->id,
                 'source_type' => EntityType::VENDOR,
                 'source_id' => $data['vendor_id'],
@@ -183,29 +183,40 @@ class DeliveryOrderController extends Controller
                 'received_at' => $data['received_at']
             ]);
 
-            foreach ($data['items'] as $item) {
-                $delivery_order_item = $delivery_order
-                    ->delivery_order_items()
-                    ->create($item);
+            $delivery_order_items_data = new Collection($data["items"]);
 
-                Stock::create([
-                    "item_id" => $item["item_id"],
-                    "quantity" => $item["quantity"],
-                    "value" => 0,
-                    "storage_type" => EntityType::STORAGE,
-                    "storage_id" => $data["storage_id"],
-                    "origin_type" => EntityType::DELIVERY_ORDER_ITEM,
-                    "origin_id" => $delivery_order_item->id,
-                ]);
-            }
+            $delivery_order
+                ->delivery_order_items()
+                ->whereNotIn("item_id", $delivery_order_items_data->pluck("item_id"))
+                ->delete();
+
+            $delivery_order_items_data
+                ->each(function ($delivery_order_item_data) use($delivery_order) {
+                    $delivery_order
+                        ->delivery_order_items()
+                        ->updateOrCreate(
+                            [
+                                "item_id" => $delivery_order_item_data["item_id"],
+                            ],
+                            [
+                                "quantity" => $delivery_order_item_data["quantity"],
+                            ]
+                        );
+                });
         });
 
-        return $data;
+        session()->flash('message.success', __('messages.update.success'));
     }
 
     public function delete(DeliveryOrder $delivery_order)
     {
+        DB::beginTransaction();
+
+        $delivery_order->delivery_order_items()->delete();
         $delivery_order->delete();
+
+
+        DB::commit();
 
         return back()
             ->with('message.success', __('messages.delete.success'));

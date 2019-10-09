@@ -26,7 +26,9 @@ class DeliveryOrder extends Model
 
     public static function countedRelations()
     {
-        return ["delivery_order_items"];
+        return [
+            "invoice"
+        ];
     }
 
     public function receiver()

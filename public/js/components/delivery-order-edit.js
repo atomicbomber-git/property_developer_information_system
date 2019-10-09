@@ -4654,7 +4654,7 @@ module.exports = Component.exports
 
 })));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20)(module)))
 
 /***/ }),
 /* 68 */
@@ -16978,10 +16978,11 @@ module.exports = function normalizeComponent (
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_datetime__ = __webpack_require__(200);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_multiselect__ = __webpack_require__(69);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_multiselect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue_multiselect__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_number__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_lodash__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_multiselect__ = __webpack_require__(69);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_multiselect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue_multiselect__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -17128,6 +17129,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+
 
 
 
@@ -17135,7 +17138,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    components: { Multiselect: __WEBPACK_IMPORTED_MODULE_2_vue_multiselect__["Multiselect"] },
+    components: { Multiselect: __WEBPACK_IMPORTED_MODULE_3_vue_multiselect__["Multiselect"] },
 
     props: ["submit_url", "redirect_url", "delivery_order", "vendors", "storages", "users"],
 
@@ -17153,7 +17156,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
                             return _extends({}, item, {
                                 picked: delivery_order_item ? true : false,
-                                quantity: delivery_order_item ? delivery_order_item.quantity : 0
+                                quantity: delivery_order_item ? Object(__WEBPACK_IMPORTED_MODULE_1__helpers_number__["numberNormalize"])(delivery_order_item.quantity) : 0
                             });
                         }
 
@@ -17182,7 +17185,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 
     methods: {
-        get: __WEBPACK_IMPORTED_MODULE_1_lodash__["get"],
+        get: __WEBPACK_IMPORTED_MODULE_2_lodash__["get"],
 
         onFormSubmit: function onFormSubmit() {
             var _this2 = this;
@@ -17773,8 +17776,6 @@ var render = function() {
                         )
                       ]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(" " + _vm._s(picked_item.unit) + " ")]),
-                      _vm._v(" "),
                       _c("td", [
                         _c("input", {
                           directives: [
@@ -17796,6 +17797,7 @@ var render = function() {
                           },
                           attrs: {
                             type: "number",
+                            step: "any",
                             id: "picked_item.quantity",
                             placeholder: "Quantity"
                           },
@@ -17831,6 +17833,8 @@ var render = function() {
                           )
                         ])
                       ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(" " + _vm._s(picked_item.unit) + " ")]),
                       _vm._v(" "),
                       _c("td", { staticClass: "text-center" }, [
                         _c(
@@ -17872,9 +17876,9 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v(" Item ")]),
         _vm._v(" "),
-        _c("th", [_vm._v(" Unit ")]),
-        _vm._v(" "),
         _c("th", [_vm._v(" Quantity ")]),
+        _vm._v(" "),
+        _c("th", [_vm._v(" Unit ")]),
         _vm._v(" "),
         _c("th", { staticClass: "text-center" }, [_vm._v(" Controls ")])
       ])
@@ -17886,7 +17890,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group d-flex justify-content-end" }, [
       _c("button", { staticClass: "btn btn-primary" }, [
-        _vm._v("\n            Store Delivery Order\n        ")
+        _vm._v("\n            Update Delivery Order\n        ")
       ])
     ])
   }

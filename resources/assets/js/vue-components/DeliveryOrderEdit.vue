@@ -89,8 +89,8 @@
                 <thead class="thead thead-dark">
                     <tr>
                         <th> Item </th>
-                        <th> Unit </th>
                         <th> Quantity </th>
+                        <th> Unit </th>
                         <th class="text-center"> Controls </th>
                     </tr>
                 </thead>
@@ -100,19 +100,20 @@
                         <td>
                             {{ picked_item.name }}
                         </td>
-                        <td> {{ picked_item.unit }} </td>
                         <td>
                             <input
                                 v-model.number='picked_item.quantity'
                                 class='form-control'
                                 :class="{'is-invalid': get(error_data, ['errors', `items.${i}.quantity`, 0], false)}"
                                 type='number'
+                                step="any"
                                 id='picked_item.quantity'
                                 placeholder='Quantity'>
                             <div class='invalid-feedback'>
                                  {{ get(error_data, ['errors', `items.${i}.quantity`, 0], false) }}
                             </div>
                         </td>
+                        <td> {{ picked_item.unit }} </td>
                         <td class="text-center">
                             <button
                                 @click="picked_item.picked = false"
@@ -134,7 +135,7 @@
 
         <div class="form-group d-flex justify-content-end">
             <button class="btn btn-primary">
-                Store Delivery Order
+                Update Delivery Order
             </button>
         </div>
     </form>
@@ -143,6 +144,7 @@
 <script>
 
 import { toHTMLInputDateFormat } from '../helpers/datetime'
+import { numberNormalize } from '../helpers/number'
 import { get } from 'lodash'
 import { Multiselect } from 'vue-multiselect'
 
@@ -172,7 +174,7 @@ export default {
                             return {
                                 ...item,
                                 picked: delivery_order_item ? true : false,
-                                quantity: delivery_order_item ? delivery_order_item.quantity : 0,
+                                quantity: delivery_order_item ? numberNormalize(delivery_order_item.quantity ): 0,
                             }
                         }
 
@@ -198,7 +200,6 @@ export default {
         get,
 
         onFormSubmit() {
-
             axios.post(this.submit_url, this.form_data)
                .then(response => {
                     window.location.replace(this.redirect_url)

@@ -15,11 +15,13 @@
     <div class="card" style="max-width: 35rem">
         <div class="card-body">
             <h1 class="h5">
-                <i class="fa fa-plus"></i>
+                <i class="fa fa-pencil"></i>
                 Edit Delivery Order
             </h1>
 
             <hr class="mt-2 mb-2">
+
+            @include('shared.message-success')
 
             <div id="app">
                 <delivery-order-edit

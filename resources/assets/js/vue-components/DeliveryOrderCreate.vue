@@ -92,8 +92,8 @@
                 <thead class="thead thead-dark">
                     <tr>
                         <th> Item </th>
-                        <th> Unit </th>
                         <th> Quantity </th>
+                        <th> Unit </th>
                         <th class="text-center"> Controls </th>
                     </tr>
                 </thead>
@@ -103,7 +103,6 @@
                         <td>
                             {{ picked_item.name }}
                         </td>
-                        <td> {{ picked_item.unit }} </td>
                         <td>
                             <input
                                 v-model.number='picked_item.quantity'
@@ -116,6 +115,7 @@
                                  {{ get(error_data, ['errors', `items.${i}.quantity`, 0], false) }}
                             </div>
                         </td>
+                        <td> {{ picked_item.unit }} </td>
                         <td class="text-center">
                             <button
                                 @click="picked_item.picked = false"

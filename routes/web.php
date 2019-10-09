@@ -9,6 +9,8 @@ use App\Http\Controllers\StorageStockController;
 
 Auth::routes();
 
+Route::redirect('/', '/dashboard/show', 301);
+
 Route::group(['prefix' => '/dashboard', 'as' => 'dashboard.'], function() {
     Route::get('/show', [DashboardController::class, 'show'])->name('show');
 });
