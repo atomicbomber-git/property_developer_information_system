@@ -28,6 +28,7 @@ window.Vue = require('vue');
 /* Register all vue components */
 Vue.component('delivery-order-create', () => import(/* webpackChunkName:"/js/components/delivery-order-create" */ './vue-components/DeliveryOrderCreate.vue'));
 Vue.component('delivery-order-edit', () => import(/* webpackChunkName:"/js/components/delivery-order-edit" */ './vue-components/DeliveryOrderEdit.vue'));
+Vue.component('internal-delivery-order-create', () => import(/* webpackChunkName:"/js/components/delivery-order-create" */ './vue-components/InternalDeliveryOrderCreate.vue'));
 Vue.component('item-create', () => import(/* webpackChunkName:"/js/components/item-create" */ './vue-components/ItemCreate.vue'));
 Vue.component('item-edit', () => import(/* webpackChunkName:"/js/components/item-edit" */ './vue-components/ItemEdit.vue'));
 Vue.component('storage-stock-adjustment-create', () => import(/* webpackChunkName:"/js/components/storage-stock-adjustment-create" */ './vue-components/StorageStockAdjustmentCreate.vue'));

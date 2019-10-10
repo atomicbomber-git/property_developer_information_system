@@ -54,9 +54,15 @@
                 <div class="col-md-3">
                     <a href="{{ route('delivery-order.index') }}" class="mb-3 text-left btn btn-info btn-lg d-block">
                         <i class="fa fa-credit-card"></i>
-                        Delivery Orders
+                        Delivery Orders (From Vendor)
                     </a>
                 </div>
+                <div class="col-md-3">
+                    <a href="{{ route('internal-delivery-order.index') }}" class="mb-3 text-left btn btn-info btn-lg d-block">
+                        <i class="fa fa-credit-card"></i>
+                        Delivery Orders (Internal)
+                    </a>
+                    </div>
                 <div class="col-md-3">
                     <a href="{{ route('invoice.index') }}" class="mb-3 text-left btn btn-info btn-lg d-block">
                         <i class="fa fa-usd"></i>

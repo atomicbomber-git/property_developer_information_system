@@ -2,6 +2,7 @@
 use App\Http\Controllers\CategoryItemController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeliveryOrderController;
+use App\Http\Controllers\InternalDeliveryOrderController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemPriceHistoryController;
 use App\Http\Controllers\StorageController;
@@ -40,6 +41,15 @@ Route::group(['prefix' => '/storage', 'as' => 'storage.'], function() {
 Route::group(['prefix' => '/storage-stock-adjustment', 'as' => 'storage-stock-adjustment.'], function() {
     Route::get('/create/{storage}', [\App\Http\Controllers\StorageStockAdjustmentController::class, 'create'])->name('create');
     Route::post('/store/{storage}', [\App\Http\Controllers\StorageStockAdjustmentController::class, 'store'])->name('store');
+});
+
+Route::group(['prefix' => '/internal-delivery-order', 'as' => 'internal-delivery-order.'], function() {
+    Route::get('/index', [InternalDeliveryOrderController::class, 'index'])->name('index');
+    Route::get('/create', [InternalDeliveryOrderController::class, 'create'])->name('create');
+    Route::post('/store', [InternalDeliveryOrderController::class, 'store'])->name('store');
+    Route::get('/edit/{internal-delivery-order}', [InternalDeliveryOrderController::class, 'edit'])->name('edit');
+    Route::post('/update/{internal-delivery-order}', [InternalDeliveryOrderController::class, 'update'])->name('update');
+    Route::post('/delete/{internal-delivery-order}', [InternalDeliveryOrderController::class, 'delete'])->name('delete');
 });
 
 Route::group(['prefix' => '/storage-stock', 'as' => 'storage-stock.'], function() {

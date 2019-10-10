@@ -31857,6 +31857,9 @@ Vue.component('delivery-order-create', function () {
 Vue.component('delivery-order-edit', function () {
   return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, 64));
 });
+Vue.component('internal-delivery-order-create', function () {
+  return __webpack_require__.e/* import() */(4).then(__webpack_require__.bind(null, 229));
+});
 Vue.component('item-create', function () {
   return __webpack_require__.e/* import() */(3).then(__webpack_require__.bind(null, 65));
 });
