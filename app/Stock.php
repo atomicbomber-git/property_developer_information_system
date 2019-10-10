@@ -7,7 +7,15 @@ use Illuminate\Support\Facades\DB;
 
 class Stock extends Model
 {
-    protected $guarded = [];
+    protected $fillable = [
+        "item_id",
+        "quantity",
+        "value",
+        "storage_id",
+        "storage_type",
+        "origin_id",
+        "origin_type",
+    ];
 
     public function item()
     {
@@ -38,13 +46,15 @@ class Stock extends Model
 
         $this->decrementQuantity($quantity);
 
+        dump($this);
+
         StockTransaction::create()
             ->stock_mutations()
             ->saveMany([
                 /* The credit side of the transaction */
                 (new StockMutation([
                     "item_id" => $this->item_id,
-                    "quantity" => -$quantity,
+                    "quantity" => $quantity !== null ? -$quantity : null,
                     "value" => -$this->value,
                 ]))
                 ->storage()->associate($this->storage)
@@ -53,7 +63,7 @@ class Stock extends Model
                 /* The debit side of the transaction */
                 (new StockMutation([
                     "item_id" => $this->item_id,
-                    "quantity" => $quantity,
+                    "quantity" => $quantity !== null ? $quantity : null,
                     "value" => $this->value,
                 ]))
                 ->storage()->associate($target)

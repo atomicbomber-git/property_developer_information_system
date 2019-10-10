@@ -29,7 +29,7 @@
 /******/
 /******/ 	// objects to store loaded and loading chunks
 /******/ 	var installedChunks = {
-/******/ 		4: 0
+/******/ 		5: 0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -86,7 +86,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + "" + ({"0":"/js/components/delivery-order-edit","1":"/js/components/item-edit","2":"/js/components/item-create","3":"/js/components/delivery-order-create","5":"/js/components/storage-stock-adjustment-create"}[chunkId]||chunkId) + ".js";
+/******/ 		script.src = __webpack_require__.p + "" + ({"0":"/js/components/delivery-order-edit","1":"/js/components/storage-stock-adjustment-create","2":"/js/components/item-edit","3":"/js/components/item-create","4":"/js/components/delivery-order-create"}[chunkId]||chunkId) + ".js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {
@@ -28442,7 +28442,7 @@ function numberFormat(value) {
 }
 
 function numberNormalize(value) {
-    return __WEBPACK_IMPORTED_MODULE_0_numeral___default()(value).format("0,0.[00]");
+    return __WEBPACK_IMPORTED_MODULE_0_numeral___default()(value).format("0.[00]");
 }
 
 function currencyFormat(value) {
@@ -31852,19 +31852,19 @@ window.Vue = __webpack_require__(58);
 
 /* Register all vue components */
 Vue.component('delivery-order-create', function () {
-  return __webpack_require__.e/* import() */(3).then(__webpack_require__.bind(null, 63));
+  return __webpack_require__.e/* import() */(4).then(__webpack_require__.bind(null, 63));
 });
 Vue.component('delivery-order-edit', function () {
   return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, 64));
 });
 Vue.component('item-create', function () {
-  return __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, 65));
+  return __webpack_require__.e/* import() */(3).then(__webpack_require__.bind(null, 65));
 });
 Vue.component('item-edit', function () {
-  return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, 66));
+  return __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, 66));
 });
 Vue.component('storage-stock-adjustment-create', function () {
-  return __webpack_require__.e/* import() */(5).then(__webpack_require__.bind(null, 221));
+  return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, 67));
 });
 
 var app = new Vue({

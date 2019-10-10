@@ -13,7 +13,7 @@
         </ol>
     </nav>
 
-    <div class="card" style="max-width: 25rem">
+    <div class="card">
         <div class="card-body">
             <h1 class="h5">
                 Add Stock Adjustment
@@ -21,9 +21,17 @@
 
             <hr class="mt-2 mb-2">
 
+            @include('shared.message-success')
 
-
-
+            <div id="app">
+                <storage-stock-adjustment-create
+                    submit_url="{{ route('storage-stock-adjustment.store', $storage) }}"
+                    redirect_url="{{ route('storage-stock-adjustment.create', $storage) }}"
+                    :items='{{ $items }}'
+                    :storage='{{ $storage }}'
+                    >
+                </storage-stock-adjustment-create>
+            </div>
         </div>
     </div>
 </div>

@@ -5,7 +5,7 @@ export function numberFormat(value) {
 }
 
 export function numberNormalize(value) {
-    return numeral(value).format("0,0.[00]")
+    return numeral(value).format("0.[00]")
 }
 
 export function currencyFormat(value) {
