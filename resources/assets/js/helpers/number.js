@@ -1,5 +1,9 @@
 import numeral from 'numeral'
 
+function emptySymbol() {
+    return "-"
+}
+
 export function numberFormat(value) {
     return numeral(value).format("0,0.[00]")
 }
@@ -9,11 +13,9 @@ export function numberNormalize(value) {
 }
 
 export function currencyFormat(value) {
-    return numeral(value).format("0,0.[00]")
-}
-
-function emptySymbol() {
-    return "-"
+    return value ?
+        numeral(value).format("0,0.[00]") :
+        emptySymbol()
 }
 
 export function numberDataTableRenderer(data, type, row) {

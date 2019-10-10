@@ -1,12 +1,84 @@
 <template>
     <form @submit.prevent="onFormSubmit">
-        <h4>
-            <i class="fa fa-list-alt"></i>
-            New Items
-        </h4>
+        <div>
+            <h4>
+                <i class="fa fa-list-alt"></i>
+                New Items
+            </h4>
 
+            <div class="form-group">
+                <label> Item to Add: </label>
 
-        <hr>
+                <multiselect
+                    placeholder="Item"
+                    selectLabel=""
+                    selectedLabel=""
+                    deselectLabel=""
+                    track-by="id"
+                    label="name"
+                    :options="unpicked_items"
+                    v-model="m_item"
+                ></multiselect>
+            </div>
+
+            <div class="form-group">
+                <table class="table table-sm table-striped">
+                    <thead class="thead thead-dark">
+                        <tr>
+                            <th> Item </th>
+                            <th> Quantity </th>
+                            <th> Unit </th>
+                            <th> Value </th>
+                            <th class="text-center"> Controls </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr
+                            v-for="item in picked_items"
+                            :key="item.id"
+                            >
+                            <td> {{ item.name }} </td>
+                            <td>
+                                <input
+                                    v-model.number='item.quantity'
+                                    class='form-control form-control-sm'
+                                    :class="{'is-invalid': get(this.error_data, 'errors.quantity[0]', false)}"
+                                    type='number'
+                                    id='quantity'
+                                    placeholder='Quantity'>
+                                <div class='invalid-feedback'>
+                                        {{ get(this.error_data, 'errors.quantity[0]', false) }}
+                                </div>
+                            </td>
+                            <td> {{ item.unit }} </td>
+                            <td>
+                                <input
+                                    v-model.number='item.value'
+                                    class='form-control form-control-sm'
+                                    :class="{'is-invalid': get(this.error_data, 'errors.value[0]', false)}"
+                                    type='number'
+                                    id='value'
+                                    placeholder='Value'>
+                                <div class='invalid-feedback'>
+                                    {{ get(this.error_data, 'errors.value[0]', false) }}
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <button
+                                    @click="item.picked = false; item.quantity = 0; item.value = 0"
+                                    class="btn btn-sm btn-danger"
+                                    type="button">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <hr class="my-5">
 
         <h4>
             <i class="fa fa-list-alt"></i>
@@ -19,6 +91,7 @@
                     <th> Item </th>
                     <th> Quantity </th>
                     <th> Unit </th>
+                    <th> Value </th>
                     <th> Origin </th>
                 </tr>
             </thead>
@@ -46,6 +119,7 @@
                         </div>
                     </td>
                     <td> {{ stock.item.unit }} </td>
+                    <td> {{ currencyFormat(stock.value) }} </td>
                     <td>
                         {{ getStockOriginName(stock) }}
                         <br>
@@ -66,9 +140,10 @@
 <script>
 
 import { dateFormat } from '../helpers/datetime'
-import { numberNormalize } from '../helpers/number'
+import { numberNormalize, currencyFormat } from '../helpers/number'
 import { get } from 'lodash'
 import { confirmationModal } from '../helpers/alerts'
+import Multiselect from 'vue-multiselect'
 
 export default {
     props: [
@@ -78,6 +153,8 @@ export default {
         "items",
     ],
 
+    components: { Multiselect },
+
     data() {
         return {
             m_stocks: this.storage
@@ -85,29 +162,69 @@ export default {
                 .map(stock => ({
                     ...stock,
                     quantity: numberNormalize(stock.quantity),
-                }))
+                })),
+
+            m_items: this.items
+                .map(item => ({
+                    ...item,
+                    quantity: 0,
+                    value: null,
+                    picked: false,
+                })),
+
+            m_item: null,
+        }
+    },
+
+    watch: {
+        m_item(picked_item) {
+            if (picked_item === null) {
+                return
+            }
+
+            picked_item.quantity = 0
+            picked_item.picked = true
+            picked_item = null
         }
     },
 
     computed: {
         form_data() {
             return {
+                new_stocks: this.picked_items.map(item => ({
+                    item_id: item.id,
+                    quantity: item.quantity,
+                    value: item.value,
+                })),
+
                 old_stocks: this.m_stocks.map(stock => ({
                     id: stock.id,
                     quantity: stock.quantity,
                 }))
             }
-        }
+        },
+
+        unpicked_items() {
+            return this.m_items.filter(item => !item.picked)
+        },
+
+        picked_items() {
+            return this.m_items.filter(item => item.picked)
+        },
     },
 
     methods: {
         dateFormat,
         numberNormalize,
+        currencyFormat,
         get,
 
         getStockOriginName(stock) {
             if (stock.origin_type === "DELIVERY_ORDER_ITEM") {
                 return `${stock.origin.delivery_order.source.name}`
+            }
+            else if (stock.origin_type === "STOCK_ADJUSTMENT") {
+                return "STOCK ADJUSTMENT"
             }
 
             return null
@@ -116,6 +233,9 @@ export default {
         getStockOriginDate(stock) {
             if (stock.origin_type === "DELIVERY_ORDER_ITEM") {
                 return `${dateFormat(stock.origin.delivery_order.received_at)}`
+            }
+            else if (stock.origin_type === "STOCK_ADJUSTMENT") {
+                return `${dateFormat(stock.origin.created_at)}`
             }
 
             return null

@@ -28437,6 +28437,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_numeral___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_numeral__);
 
 
+function emptySymbol() {
+    return "-";
+}
+
 function numberFormat(value) {
     return __WEBPACK_IMPORTED_MODULE_0_numeral___default()(value).format("0,0.[00]");
 }
@@ -28446,11 +28450,7 @@ function numberNormalize(value) {
 }
 
 function currencyFormat(value) {
-    return __WEBPACK_IMPORTED_MODULE_0_numeral___default()(value).format("0,0.[00]");
-}
-
-function emptySymbol() {
-    return "-";
+    return value ? __WEBPACK_IMPORTED_MODULE_0_numeral___default()(value).format("0,0.[00]") : emptySymbol();
 }
 
 function numberDataTableRenderer(data, type, row) {

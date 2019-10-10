@@ -20,6 +20,7 @@ class StorageStockAdjustmentController extends Controller
     {
         $items = Item::query()
             ->select(
+                "id",
                 "name",
                 "unit",
             )
@@ -36,6 +37,7 @@ class StorageStockAdjustmentController extends Controller
                     "origin_id",
                     "origin_type",
                     "quantity",
+                    "value",
                 )
                 ->orderBy(
                     Item::query()
@@ -66,67 +68,83 @@ class StorageStockAdjustmentController extends Controller
     public function store(Request $request, Storage $storage)
     {
         $data = $request->validate([
-            "old_stocks" => "required|array",
+            "new_stocks.*.item_id" => "required",
+            "new_stocks.*.value" => "nullable",
+            "new_stocks.*.quantity" => "required",
             "old_stocks.*.id" => "required",
             "old_stocks.*.quantity" => "required",
         ]);
 
-        $old_stocks = (new Collection($data["old_stocks"]))
-            ->keyBy("id");
+        DB::transaction(function () use($data, $storage) {
 
-        DB::beginTransaction();
+            $stock_adjustment = StockAdjustment::create([
+                "storage_id" => $storage->id,
+            ]);
 
-        $stocks = $storage->stocks()
-            ->select(
-                "id",
-                "quantity",
-                "item_id",
-                "storage_id",
-                "storage_type",
-                "origin_id",
-                "origin_type",
-            )
-            ->get();
+            $old_stocks = (new Collection($data["old_stocks"] ?? []))
+                ->keyBy("id");
 
-        $stocks = $stocks
-            ->map(function (Stock $stock) use($old_stocks) {
-                $stock->difference =
-                    $old_stocks[$stock->id]["quantity"] -
-                    $stock->quantity;
+            $stocks = $storage->stocks()
+                ->select(
+                    "id",
+                    "quantity",
+                    "item_id",
+                    "storage_id",
+                    "storage_type",
+                    "origin_id",
+                    "origin_type",
+                )
+                ->get();
 
-                return $stock;
-            })
-            ->filter(function (Stock $stock) {
-                return $stock->difference != 0;
-            });
+            $stocks = $stocks
+                ->map(function (Stock $stock) use($old_stocks) {
+                    $stock->difference =
+                        $old_stocks[$stock->id]["quantity"] -
+                        $stock->quantity;
 
-        if ($stocks->count() == 0) {
-            return;
-        }
+                    return $stock;
+                })
+                ->filter(function (Stock $stock) {
+                    return $stock->difference != 0;
+                });
 
-        $stock_adjustment = StockAdjustment::create([
-            "storage_id" => $storage->id,
-        ]);
+            list($inbound, $outbound) = $stocks
+                ->partition(function (Stock $stock) {
+                    return $stock->difference > 0;
+                });
 
-        list($inbound, $outbound) = $stocks
-            ->partition(function (Stock $stock) {
-                return $stock->difference > 0;
-            });
+            foreach ($inbound as $stock) {
+                $new_stock = $stock->replicate(["storage_id", "storage_type", "quantity", "difference"]);
+                $new_stock->quantity = $stock->difference;
+                $new_stock->storage()->associate($stock_adjustment);
+                $new_stock->moveTo($storage, $stock->difference);
+            }
 
-        foreach ($inbound as $stock) {
-            $new_stock = $stock->replicate(["storage_id", "storage_type", "quantity", "difference"]);
-            $new_stock->quantity = $stock->difference;
-            $new_stock->storage()->associate($stock_adjustment);
-            $new_stock->moveTo($storage, $stock->difference);
-        }
+            foreach ($outbound as $stock) {
+                $difference = $stock->difference;
+                unset($stock->difference);
+                $stock->moveTo($stock_adjustment, abs($difference));
+            }
 
-        foreach ($outbound as $stock) {
-            $difference = $stock->difference;
-            unset($stock->difference);
-            $stock->moveTo($stock_adjustment, abs($difference));
-        }
+            if (!isset($data["new_stocks"])) {
+                return;
+            }
 
-        DB::commit();
+            $new_stocks = (new Collection($data["new_stocks"] ?? []))
+                ->keyBy("id");
+
+            foreach ($new_stocks as $new_stock) {
+                (new Stock([
+                    "item_id" => $new_stock["item_id"],
+                    "quantity" => $new_stock["quantity"],
+                    "value" => $new_stock["value"],
+                ]))
+                ->storage()->associate($stock_adjustment)
+                ->origin()->associate($stock_adjustment)
+                ->moveTo($storage, $new_stock["quantity"]);
+            }
+
+        });
 
         session()->flash('message.success', __('messages.update.success'));
     }

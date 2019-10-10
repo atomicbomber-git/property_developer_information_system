@@ -55,7 +55,7 @@ class Stock extends Model
                 (new StockMutation([
                     "item_id" => $this->item_id,
                     "quantity" => $quantity !== null ? -$quantity : null,
-                    "value" => -$this->value,
+                    "value" => $this->value !== null ? -$this->value : null,
                 ]))
                 ->storage()->associate($this->storage)
                 ->origin()->associate($this->origin),
@@ -64,7 +64,7 @@ class Stock extends Model
                 (new StockMutation([
                     "item_id" => $this->item_id,
                     "quantity" => $quantity !== null ? $quantity : null,
-                    "value" => $this->value,
+                    "value" => $this->value !== null ? -$this->value : null,
                 ]))
                 ->storage()->associate($target)
                 ->origin()->associate($this->origin),
