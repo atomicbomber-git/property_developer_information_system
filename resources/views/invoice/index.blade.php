@@ -35,20 +35,20 @@
                     <thead class="thead-dark">
                         <tr>
                             <th> # </th>
-                            <th> Code </th>
-                            <th> Number </th>
-                            <th> Status </th>
-                            <th> Receivement Date </th>
-                            <th> Control </th>
+                            <th class="text-center"> Code </th>
+                            <th class="text-center"> Number </th>
+                            <th class="text-center"> Status </th>
+                            <th class="text-center"> Receivement Date </th>
+                            <th class="text-center"> Controls </th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($invoices as $invoice)
                         <tr>
                             <td> {{ $invoices->firstItem() + $loop->index }}. </td>
-                            <td> {{ $invoice->code }} </td>
-                            <td> {{ $invoice->number }} </td>
-                            <td>
+                            <td class="text-center"> {{ $invoice->code }} </td>
+                            <td class="text-center"> {{ $invoice->number }} </td>
+                            <td class="text-center">
                                 @switch($invoice->payment_method)
                                     @case('cash')
                                     <span class="badge badge-success">
@@ -67,11 +67,11 @@
                                 @endswitch
                             </td>
 
-                            <td>
+                            <td class="text-center">
                                 {{ $formatter->date($invoice->received_at) }}
                             </td>
 
-                            <td>
+                            <td class="text-center">
                                 <a href="{{ route('invoice.pay', $invoice) }}" class="btn btn-dark mr-2 btn-sm">
                                     Payment
                                     <i class="fa fa-usd"></i>

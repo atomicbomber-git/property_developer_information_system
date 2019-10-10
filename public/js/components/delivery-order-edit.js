@@ -1,11 +1,11 @@
-webpackJsonp([0],Array(64).concat([
+webpackJsonp([2],Array(64).concat([
 /* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(70)
 /* script */
-var __vue_script__ = __webpack_require__(201)
+var __vue_script__ = __webpack_require__(203)
 /* template */
 var __vue_template__ = __webpack_require__(204)
 /* template functional */
@@ -1905,7 +1905,7 @@ module.exports = Component.exports
             try {
                 oldLocale = globalLocale._abbr;
                 var aliasedRequire = require;
-                __webpack_require__(203)("./" + name);
+                __webpack_require__(200)("./" + name);
                 getSetGlobalLocale(oldLocale);
             } catch (e) {}
         }
@@ -16972,283 +16972,7 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 199 */,
-/* 200 */,
-/* 201 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_datetime__ = __webpack_require__(202);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_number__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_multiselect__ = __webpack_require__(71);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_multiselect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue_multiselect__);
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    components: { Multiselect: __WEBPACK_IMPORTED_MODULE_3_vue_multiselect__["Multiselect"] },
-
-    props: ["submit_url", "redirect_url", "delivery_order", "vendors", "storages", "users"],
-
-    data: function data() {
-        var _this = this;
-
-        return {
-            m_vendors: this.vendors.map(function (vendor) {
-                return _extends({}, vendor, {
-                    items: vendor.items.map(function (item) {
-                        if (_this.delivery_order.source_id === vendor.id) {
-                            var delivery_order_item = _this.delivery_order.delivery_order_items.find(function (delivery_order_item) {
-                                return delivery_order_item.item_id === item.id;
-                            });
-
-                            return _extends({}, item, {
-                                picked: delivery_order_item ? true : false,
-                                quantity: delivery_order_item ? Object(__WEBPACK_IMPORTED_MODULE_1__helpers_number__["numberNormalize"])(delivery_order_item.quantity) : 0
-                            });
-                        }
-
-                        return _extends({}, item, {
-                            picked: false,
-                            quantity: 0
-                        });
-                    })
-                });
-            }),
-
-            receiver: this.users.find(function (user) {
-                return user.id === _this.delivery_order.receiver_id;
-            }) || null,
-            storage: this.storages.find(function (storage) {
-                return storage.id === _this.delivery_order.target_id;
-            }) || null,
-            vendor: this.vendors.find(function (vendor) {
-                return vendor.id === _this.delivery_order.source_id;
-            }) || null,
-            received_at: Object(__WEBPACK_IMPORTED_MODULE_0__helpers_datetime__["b" /* toHTMLInputDateFormat */])(this.delivery_order.received_at),
-            selected_item: null,
-            error_data: null
-        };
-    },
-
-
-    methods: {
-        get: __WEBPACK_IMPORTED_MODULE_2_lodash__["get"],
-
-        onFormSubmit: function onFormSubmit() {
-            var _this2 = this;
-
-            axios.post(this.submit_url, this.form_data).then(function (response) {
-                window.location.replace(_this2.redirect_url);
-            }).catch(function (error) {
-                _this2.error_data = error.response.data;
-            });
-        }
-    },
-
-    watch: {
-        selected_item: function selected_item(item) {
-            if (item !== null) {
-                item.picked = true;
-                this.selected_item = null;
-            }
-        }
-    },
-
-    computed: {
-        form_data: function form_data() {
-            return {
-                receiver_id: this.receiver ? this.receiver.id : null,
-                storage_id: this.storage ? this.storage.id : null,
-                vendor_id: this.vendor ? this.vendor.id : null,
-                received_at: this.received_at,
-                items: this.picked_items.map(function (picked_items) {
-                    return {
-                        item_id: picked_items.id,
-                        quantity: picked_items.quantity
-                    };
-                })
-            };
-        },
-        item_options: function item_options() {
-            var _this3 = this;
-
-            if (this.vendor === null) {
-                return [];
-            }
-
-            return this.m_vendors.find(function (m_vendor) {
-                return m_vendor.id === _this3.vendor.id;
-            }).items.filter(function (item) {
-                return !item.picked;
-            });
-        },
-        picked_items: function picked_items() {
-            return this.m_vendors.reduce(function (prev, curr) {
-                return [].concat(_toConsumableArray(prev), _toConsumableArray(curr.items.filter(function (item) {
-                    return item.picked;
-                })));
-            }, []);
-        }
-    }
-});
-
-/***/ }),
-/* 202 */
+/* 199 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17267,7 +16991,7 @@ function dateFormat(value) {
 }
 
 /***/ }),
-/* 203 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
@@ -17540,7 +17264,283 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 203;
+webpackContext.id = 200;
+
+/***/ }),
+/* 201 */,
+/* 202 */,
+/* 203 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_datetime__ = __webpack_require__(199);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_number__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_lodash__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_multiselect__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_multiselect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue_multiselect__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    components: { Multiselect: __WEBPACK_IMPORTED_MODULE_3_vue_multiselect__["Multiselect"] },
+
+    props: ["submit_url", "redirect_url", "delivery_order", "vendors", "storages", "users"],
+
+    data: function data() {
+        var _this = this;
+
+        return {
+            m_vendors: this.vendors.map(function (vendor) {
+                return _extends({}, vendor, {
+                    items: vendor.items.map(function (item) {
+                        if (_this.delivery_order.source_id === vendor.id) {
+                            var delivery_order_item = _this.delivery_order.delivery_order_items.find(function (delivery_order_item) {
+                                return delivery_order_item.item_id === item.id;
+                            });
+
+                            return _extends({}, item, {
+                                picked: delivery_order_item ? true : false,
+                                quantity: delivery_order_item ? Object(__WEBPACK_IMPORTED_MODULE_1__helpers_number__["numberNormalize"])(delivery_order_item.quantity) : 0
+                            });
+                        }
+
+                        return _extends({}, item, {
+                            picked: false,
+                            quantity: 0
+                        });
+                    })
+                });
+            }),
+
+            receiver: this.users.find(function (user) {
+                return user.id === _this.delivery_order.receiver_id;
+            }) || null,
+            storage: this.storages.find(function (storage) {
+                return storage.id === _this.delivery_order.target_id;
+            }) || null,
+            vendor: this.vendors.find(function (vendor) {
+                return vendor.id === _this.delivery_order.source_id;
+            }) || null,
+            received_at: Object(__WEBPACK_IMPORTED_MODULE_0__helpers_datetime__["b" /* toHTMLInputDateFormat */])(this.delivery_order.received_at),
+            selected_item: null,
+            error_data: null
+        };
+    },
+
+
+    methods: {
+        get: __WEBPACK_IMPORTED_MODULE_2_lodash__["get"],
+
+        onFormSubmit: function onFormSubmit() {
+            var _this2 = this;
+
+            axios.post(this.submit_url, this.form_data).then(function (response) {
+                window.location.replace(_this2.redirect_url);
+            }).catch(function (error) {
+                _this2.error_data = error.response.data;
+            });
+        }
+    },
+
+    watch: {
+        selected_item: function selected_item(item) {
+            if (item !== null) {
+                item.picked = true;
+                this.selected_item = null;
+            }
+        }
+    },
+
+    computed: {
+        form_data: function form_data() {
+            return {
+                receiver_id: this.receiver ? this.receiver.id : null,
+                storage_id: this.storage ? this.storage.id : null,
+                vendor_id: this.vendor ? this.vendor.id : null,
+                received_at: this.received_at,
+                items: this.picked_items.map(function (picked_items) {
+                    return {
+                        item_id: picked_items.id,
+                        quantity: picked_items.quantity
+                    };
+                })
+            };
+        },
+        item_options: function item_options() {
+            var _this3 = this;
+
+            if (this.vendor === null) {
+                return [];
+            }
+
+            return this.m_vendors.find(function (m_vendor) {
+                return m_vendor.id === _this3.vendor.id;
+            }).items.filter(function (item) {
+                return !item.picked;
+            });
+        },
+        picked_items: function picked_items() {
+            return this.m_vendors.reduce(function (prev, curr) {
+                return [].concat(_toConsumableArray(prev), _toConsumableArray(curr.items.filter(function (item) {
+                    return item.picked;
+                })));
+            }, []);
+        }
+    }
+});
 
 /***/ }),
 /* 204 */

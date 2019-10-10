@@ -36,7 +36,7 @@ class DeliveryOrderItem extends Model
 
     public function updatePrice($price)
     {
-        DB::transaction();
+        DB::beginTransaction();
 
         $this->stocks()->update([
             "value" => $price,

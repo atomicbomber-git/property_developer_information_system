@@ -116,4 +116,13 @@ class InternalDeliveryOrderController extends Controller
 
         return view("internal_delivery_order.create", compact("storages"));
     }
+
+    public function store(Request $request)
+    {
+        dump($request);
+
+        // $request->validate([
+        //     ""
+        // ]);
+    }
 }

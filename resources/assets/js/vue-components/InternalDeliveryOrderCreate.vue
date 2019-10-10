@@ -13,7 +13,7 @@
                 v-model="source"
             ></multiselect>
             <div class='invalid-feedback'>
-                    {{ get(this.error_data, 'errors.source_id[0]', false) }}
+                {{ get(this.error_data, 'errors.source_id[0]', false) }}
             </div>
         </div>
 
@@ -208,6 +208,12 @@ export default {
         },
 
         onFormSubmit() {
+            axios.post(this.submit_url, this.form_data)
+               .then(response => {
+                    window.location.replace(this.redirect_url)
+               })
+               .catch(error => {
+                 })
         }
     },
 
@@ -228,7 +234,7 @@ export default {
             return {
                 stocks: this.picked_stocks.map(stock => ({
                     id: stock.id,
-                    quantity: stock.picked_quantity,
+                    picked_quantity: stock.picked_quantity,
                 }))
             }
         },
