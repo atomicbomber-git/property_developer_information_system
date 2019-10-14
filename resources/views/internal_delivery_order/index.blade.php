@@ -36,6 +36,7 @@
                     <thead class="thead-dark">
                         <tr>
                             <th> # </th>
+                            <th> Sender </th>
                             <th> Receiver </th>
                             <th> Date </th>
                             <th> Vendor (Source) </th>
@@ -70,7 +71,8 @@
                         name: 'id',
                         width: '5%',
                     },
-                    { data: 'receiver.name', name: 'receiver.name' },
+                    { data: 'sender.name', name: 'sender.name' },
+                    { data: 'driver.name', name: 'driver.name' },
                     { data: 'received_at', name: 'received_at' },
                     { data: 'source.name', name: 'source_name' },
                     { data: 'target.name', name: 'target_name' },

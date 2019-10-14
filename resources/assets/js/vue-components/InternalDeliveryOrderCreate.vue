@@ -13,7 +13,7 @@
                 v-model="source"
             ></multiselect>
             <div class='invalid-feedback'>
-                    {{ get(this.error_data, 'errors.source_id[0]', false) }}
+                {{ get(this.error_data, 'errors.source_id[0]', false) }}
             </div>
         </div>
 
@@ -34,17 +34,49 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <label for="receiver_id"> Sender: </label>
+            <multiselect
+                placeholder="Sender"
+                :allow-empty="false"
+                selectLabel=""
+                selectedLabel=""
+                deselectLabel=""
+                track-by="id"
+                label="name"
+                :options="users"
+                v-model="sender"
+                :preselect-first="true"
+            ></multiselect>
+        </div>
+
         <div class='form-group'>
-            <label for='received_at'> Receivement Date: </label>
+            <label for='sent_at'> Sending Date: </label>
             <input
                 type="date"
-                v-model='received_at'
+                v-model='sent_at'
                 class='form-control'
-                :class="{'is-invalid': get(this.error_data, 'errors.received_at[0]', false)}"
-                id='received_at'
+                :class="{'is-invalid': get(this.error_data, 'errors.sent_at[0]', false)}"
+                id='sent_at'
                 placeholder='Receivement Date'
                 >
-            <div class='invalid-feedback'>{{ get(this.error_data, 'errors.received_at[0]', false) }}</div>
+            <div class='invalid-feedback'>{{ get(this.error_data, 'errors.sent_at[0]', false) }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="receiver_id"> Driver: </label>
+            <multiselect
+                placeholder="Driver"
+                :allow-empty="false"
+                selectLabel=""
+                selectedLabel=""
+                deselectLabel=""
+                track-by="id"
+                label="name"
+                :options="users"
+                v-model="driver"
+                :preselect-first="true"
+            ></multiselect>
         </div>
 
         <div class='form-group'>
@@ -89,6 +121,7 @@
                 <thead class="thead thead-dark">
                     <tr>
                         <th> Item </th>
+                        <th> Source </th>
                         <th> Stock </th>
                         <th> Quantity </th>
                         <th> Unit </th>
@@ -101,6 +134,7 @@
                         v-for="stock in picked_stocks"
                         :key="stock.id"
                     >
+                        <td> {{ stock.item.name }} </td>
                         <td> {{ stockLabel(stock) }} </td>
                         <td> {{ numberFormat(stock.quantity) }} </td>
                         <td>
@@ -155,6 +189,7 @@ export default {
         "submit_url",
         "redirect_url",
         "storages",
+        "users",
     ],
 
     data() {
@@ -170,8 +205,10 @@ export default {
 
             source: null,
             target: null,
+            sender: null,
+            driver: null,
             stock: null,
-            received_at: null,
+            sent_at: null,
             error_data: null,
         }
     },
@@ -182,7 +219,7 @@ export default {
         numberFormat,
 
         stockLabel(stock) {
-            return `${stock.item.name} ${this.stockOriginName(stock)} ${this.stockOriginDate(stock)}`
+            return `${this.stockOriginName(stock)} ${this.stockOriginDate(stock)}`
         },
 
         stockOriginName(stock) {
@@ -198,7 +235,7 @@ export default {
 
         stockOriginDate(stock) {
             if (stock.origin_type === "DELIVERY_ORDER_ITEM") {
-                return `${dateFormat(stock.origin.delivery_order.received_at)}`
+                return `${dateFormat(stock.origin.delivery_order.sent_at)}`
             }
             else if (stock.origin_type === "STOCK_ADJUSTMENT") {
                 return `${dateFormat(stock.origin.created_at)}`
@@ -208,6 +245,13 @@ export default {
         },
 
         onFormSubmit() {
+            axios.post(this.submit_url, this.form_data)
+               .then(response => {
+                    window.location.replace(this.redirect_url)
+               })
+               .catch(error => {
+                   this.error_data = error.response.data
+               })
         }
     },
 
@@ -229,7 +273,13 @@ export default {
                 stocks: this.picked_stocks.map(stock => ({
                     id: stock.id,
                     quantity: stock.picked_quantity,
-                }))
+                })),
+
+                sent_at: this.sent_at,
+                source_id: this.source ? this.source.id : null,
+                target_id: this.target ? this.target.id : null,
+                driver_id: this.driver ? this.driver.id : null,
+                sender_id: this.sender ? this.sender.id : null,
             }
         },
 

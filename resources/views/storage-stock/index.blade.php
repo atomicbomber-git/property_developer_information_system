@@ -42,7 +42,8 @@
                             <th> Item </th>
                             <th> Quantity </th>
                             <th> Unit </th>
-                            <th> Entry Date </th>
+                            <th class="text-right"> Value </th>
+                            <th> Origin </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -52,7 +53,17 @@
                             <td> {{ $stock->item->name }} </td>
                             <td> {{ $formatter->number($stock->quantity) }} </td>
                             <td> {{ $stock->item->unit }} </td>
-                            <td> {{ $formatter->date($stock->created_at) }} </td>
+                            <td class="text-right"> {{ $formatter->currency($stock->value) }} </td>
+                            <td>
+                                @if ($stock->origin instanceof \App\StockAdjustment)
+                                STOCK ADJUSTMENT <br/>
+                                {{ $formatter->date($stock->origin->created_at) }}
+                                @elseif ($stock->origin instanceof \App\DeliveryOrderItem)
+                                {{ $stock->origin->delivery_order->source->name }} <br/>
+                                {{ $formatter->date($stock->origin->delivery_order->received_at) }}
+                                @endif
+
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>

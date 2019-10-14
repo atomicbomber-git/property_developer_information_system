@@ -6,12 +6,15 @@ use App\DeliveryOrder;
 use App\DeliveryOrderItem;
 use App\Enums\EntityType;
 use App\Item;
+use App\Stock;
 use App\Storage;
+use App\User;
 use App\Vendor;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class InternalDeliveryOrderController extends Controller
@@ -26,7 +29,8 @@ class InternalDeliveryOrderController extends Controller
             ->select(["delivery_orders.*"])
             ->where('source_type', EntityType::STORAGE)
             ->with([
-                'receiver:id,name',
+                'driver:id,name',
+                'sender:id,name',
                 'source:id,name',
                 'target:id,name'
             ])
@@ -114,6 +118,58 @@ class InternalDeliveryOrderController extends Controller
             ])
             ->get();
 
-        return view("internal_delivery_order.create", compact("storages"));
+        $users = User::query()
+            ->select("id", "name")
+            ->get();
+
+        return view("internal_delivery_order.create", compact("storages", "users"));
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            "driver_id" => ["nullable", "exists:" . (new User)->getTable() . ",id"],
+            "sender_id" => ["nullable", "exists:" . (new User)->getTable() . ",id"],
+            "sent_at" => ["required", "date"],
+            "source_id" => ["required", "exists:" . (new Storage)->getTable() . ",id"],
+            "target_id" => ["required", "exists:" . (new Storage)->getTable() . ",id"],
+            "stocks" => ["required", "array"],
+            "stocks.*.id" => ["required", "exists:" . (new Stock)->getTable()],
+            "stocks.*.quantity" => ["required", "gt:0"],
+        ]);
+
+        DB::beginTransaction();
+
+        $delivery_order = DeliveryOrder::create([
+            "driver_id" => $data["driver_id"],
+            "sender_id" => $data["sender_id"],
+            "sent_at" => $data["sent_at"],
+            "source_id" => $data["source_id"],
+            "source_type" => EntityType::STORAGE,
+            "target_id" => $data["target_id"],
+            "target_type" => EntityType::STORAGE,
+        ]);
+
+        $target = Storage::find($data["target_id"]);
+
+        foreach ($data["stocks"] as $stock_data) {
+            $stock = Stock::find($stock_data["id"]);
+
+            $stock->moveTo(
+                $target,
+                $stock_data["quantity"],
+            );
+
+            DeliveryOrderItem::create([
+                "delivery_order_id" => $delivery_order->id,
+                "item_id" => $stock->item_id,
+                "price" => $stock->value,
+                "quantity" => $stock->quantity,
+            ]);
+        }
+
+        DB::commit();
+
+        session()->flash('message.success', __('messages.create.success'));
     }
 }

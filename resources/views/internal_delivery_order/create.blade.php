@@ -23,9 +23,10 @@
 
             <div id="app">
                 <internal-delivery-order-create
-                    submit_url='{{ route('delivery-order.store') }}'
-                    redirect_url='{{ route('delivery-order.index') }}'
+                    submit_url='{{ route('internal-delivery-order.store') }}'
+                    redirect_url='{{ route('internal-delivery-order.index') }}'
                     :storages='{{ json_encode($storages) }}'
+                    :users='{{ json_encode($users) }}'
                     >
                 </internal-delivery-order-create>
             </div>

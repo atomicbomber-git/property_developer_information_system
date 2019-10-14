@@ -9,7 +9,7 @@
 
     <a
         class="btn btn-dark btn-sm"
-        href="{{ route('delivery-order.edit', $delivery_order) }}">
-        <i class="fa fa-pencil"></i>
+        href="{{ route('internal-delivery-order.show', $delivery_order) }}">
+        <i class="fa fa-show"></i>
     </a>
 </form>

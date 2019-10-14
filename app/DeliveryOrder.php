@@ -15,13 +15,17 @@ class DeliveryOrder extends Model
         'source_id',
         'target_type',
         'target_id',
-        'received_at'
+        'received_at',
+        'sender_id',
+        'sent_at',
+        'driver_id',
     ];
 
     public $dates = [
         'created_at',
         'updated_at',
-        'received_at'
+        'received_at',
+        'sent_at',
     ];
 
     public static function countedRelations()
@@ -31,9 +35,28 @@ class DeliveryOrder extends Model
         ];
     }
 
+    public function sender()
+    {
+        return $this->belongsTo(User::class, 'sender_id')
+            ->withDefault([
+                "name" => "-",
+            ]);
+    }
+
     public function receiver()
     {
-        return $this->belongsTo(User::class, 'receiver_id');
+        return $this->belongsTo(User::class, 'receiver_id')
+            ->withDefault([
+                "name" => "-",
+            ]);
+    }
+
+    public function driver()
+    {
+        return $this->belongsTo(User::class, "driver_id")
+            ->withDefault([
+                "name" => "-",
+            ]);
     }
 
     public function delivery_order_items()

@@ -24,6 +24,11 @@ class DeliveryOrderItem extends Model
         return $this->morphMany(Stock::class, "origin");
     }
 
+    public function stock_mutations()
+    {
+        return $this->morphMany(StockMutation::class, "origin");
+    }
+
     public function item()
     {
         return $this->belongsTo(Item::class);
@@ -36,11 +41,10 @@ class DeliveryOrderItem extends Model
 
     public function updatePrice($price)
     {
-        DB::transaction();
+        DB::beginTransaction();
 
-        $this->stocks()->update([
-            "value" => $price,
-        ]);
+        $this->stocks()->update(["value" => $price,]);
+        $this->stock_mutations()->update(["value" => $price,]);
 
         $this->update(compact("price"));
 

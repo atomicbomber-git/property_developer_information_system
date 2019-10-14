@@ -46,8 +46,6 @@ class Stock extends Model
 
         $this->decrementQuantity($quantity);
 
-        dump($this);
-
         StockTransaction::create()
             ->stock_mutations()
             ->saveMany([
