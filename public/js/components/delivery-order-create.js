@@ -17324,6 +17324,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_multiselect__ = __webpack_require__(71);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_multiselect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_multiselect__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+<<<<<<< HEAD
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -17567,6 +17568,251 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 /* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
+=======
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    components: { Multiselect: __WEBPACK_IMPORTED_MODULE_1_vue_multiselect__["Multiselect"] },
+
+    props: ["submit_url", "redirect_url", "vendors", "storages", "users"],
+
+    data: function data() {
+        return {
+            m_vendors: this.vendors.map(function (vendor) {
+                return _extends({}, vendor, {
+                    items: vendor.items.map(function (item) {
+                        return _extends({}, item, {
+                            picked: false,
+                            quantity: 0
+                        });
+                    })
+                });
+            }),
+
+            receiver: null,
+            storage: null,
+            vendor: null,
+            received_at: null,
+            selected_item: null,
+            error_data: null
+        };
+    },
+
+
+    methods: {
+        get: __WEBPACK_IMPORTED_MODULE_0_lodash__["get"],
+
+        onFormSubmit: function onFormSubmit() {
+            var _this = this;
+
+            axios.post(this.submit_url, this.form_data).then(function (response) {
+                window.location.replace(_this.redirect_url);
+            }).catch(function (error) {
+                _this.error_data = error.response.data;
+            });
+        }
+    },
+
+    watch: {
+        selected_item: function selected_item(item) {
+            if (item !== null) {
+                item.picked = true;
+                this.selected_item = null;
+            }
+        }
+    },
+
+    computed: {
+        form_data: function form_data() {
+            return {
+                receiver_id: this.receiver ? this.receiver.id : null,
+                storage_id: this.storage ? this.storage.id : null,
+                vendor_id: this.vendor ? this.vendor.id : null,
+                received_at: this.received_at,
+                items: this.picked_items.map(function (picked_items) {
+                    return {
+                        item_id: picked_items.id,
+                        quantity: picked_items.quantity
+                    };
+                })
+            };
+        },
+        item_options: function item_options() {
+            if (this.vendor === null) {
+                return [];
+            } else {
+                return this.vendor.items.filter(function (item) {
+                    return !item.picked;
+                });
+            }
+        },
+        picked_items: function picked_items() {
+            return this.m_vendors.reduce(function (prev, curr) {
+                return [].concat(_toConsumableArray(prev), _toConsumableArray(curr.items.filter(function (item) {
+                    return item.picked;
+                })));
+            }, []);
+        }
+    }
+});
+
+/***/ }),
+/* 202 */
+/***/ (function(module, exports, __webpack_require__) {
+
+>>>>>>> 51ca91e79c6babb04fca79c7d1cde5bb8898f65a
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
@@ -18195,9 +18441,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
             axios.post(this.submit_url, this.form_data).then(function (response) {
                 window.location.replace(_this.redirect_url);
+<<<<<<< HEAD
             }).catch(function (error) {
                 _this.error_data = error.response.data;
             });
+=======
+            }).catch(function (error) {});
+>>>>>>> 51ca91e79c6babb04fca79c7d1cde5bb8898f65a
         }
     },
 
@@ -18219,7 +18469,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 stocks: this.picked_stocks.map(function (stock) {
                     return {
                         id: stock.id,
-                        quantity: stock.picked_quantity
+                        picked_quantity: stock.picked_quantity
                     };
                 }),
 

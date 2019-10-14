@@ -201,4 +201,13 @@ class InternalDeliveryOrderController extends Controller
         return redirect()
             ->route("internal-delivery-order.index");
     }
+
+    public function store(Request $request)
+    {
+        dump($request);
+
+        // $request->validate([
+        //     ""
+        // ]);
+    }
 }
