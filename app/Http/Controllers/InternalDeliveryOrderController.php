@@ -158,6 +158,7 @@ class InternalDeliveryOrderController extends Controller
             $stock->moveTo(
                 $target,
                 $stock_data["quantity"],
+                $delivery_order,
             );
 
             DeliveryOrderItem::create([
@@ -171,5 +172,33 @@ class InternalDeliveryOrderController extends Controller
         DB::commit();
 
         session()->flash('message.success', __('messages.create.success'));
+    }
+
+    public function show(DeliveryOrder $delivery_order)
+    {
+        $delivery_order->load(
+            "delivery_order_items",
+            "delivery_order_items.item",
+        );
+
+        return view("internal_delivery_order.show", compact("delivery_order"));
+    }
+
+    public function delete(DeliveryOrder $delivery_order)
+    {
+        DB::beginTransaction();
+
+        foreach ($delivery_order->stock_transactions as $stock_transaction) {
+            $stock_transaction->stock_mutations()->delete();
+            $stock_transaction->delete();
+        }
+
+        $delivery_order->delivery_order_items()->delete();
+        $delivery_order->delete();
+
+        DB::commit();
+
+        return redirect()
+            ->route("internal-delivery-order.index");
     }
 }

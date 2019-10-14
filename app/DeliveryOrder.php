@@ -90,4 +90,9 @@ class DeliveryOrder extends Model
         return $query->where('source_id', $vendor_id)
             ->where('source_type', 'VENDOR');
     }
+
+    public function stock_transactions()
+    {
+        return $this->morphMany(StockTransaction::class, "source");
+    }
 }

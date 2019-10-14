@@ -46,10 +46,10 @@ Route::group(['prefix' => '/storage-stock-adjustment', 'as' => 'storage-stock-ad
 Route::group(['prefix' => '/internal-delivery-order', 'as' => 'internal-delivery-order.'], function() {
     Route::get('/index', [InternalDeliveryOrderController::class, 'index'])->name('index');
     Route::get('/create', [InternalDeliveryOrderController::class, 'create'])->name('create');
+    Route::get('/show/{delivery_order}', [InternalDeliveryOrderController::class, 'show'])->name('show');
     Route::post('/store', [InternalDeliveryOrderController::class, 'store'])->name('store');
-    Route::get('/edit/{internal-delivery-order}', [InternalDeliveryOrderController::class, 'edit'])->name('edit');
-    Route::post('/update/{internal-delivery-order}', [InternalDeliveryOrderController::class, 'update'])->name('update');
-    Route::post('/delete/{internal-delivery-order}', [InternalDeliveryOrderController::class, 'delete'])->name('delete');
+    Route::post('/update/{delivery_order}', [InternalDeliveryOrderController::class, 'update'])->name('update');
+    Route::post('/delete/{delivery_order}', [InternalDeliveryOrderController::class, 'delete'])->name('delete');
 });
 
 Route::group(['prefix' => '/storage-stock', 'as' => 'storage-stock.'], function() {

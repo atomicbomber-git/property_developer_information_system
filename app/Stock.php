@@ -32,7 +32,7 @@ class Stock extends Model
         return $this->morphTo();
     }
 
-    public function moveTo(Model $target, $quantity)
+    public function moveTo(Model $target, $quantity, Model $source)
     {
         if (!method_exists($target, "stocks")) {
             throw new \Exception("Target model has to have a stocks() method.");
@@ -46,7 +46,9 @@ class Stock extends Model
 
         $this->decrementQuantity($quantity);
 
-        StockTransaction::create()
+        $stock_transaction = StockTransaction::create();
+
+        $stock_transaction
             ->stock_mutations()
             ->saveMany([
                 /* The credit side of the transaction */
@@ -67,6 +69,10 @@ class Stock extends Model
                 ->storage()->associate($target)
                 ->origin()->associate($this->origin),
             ]);
+
+        $stock_transaction->source()
+            ->associate($source)
+            ->save();
 
         /* Tries to find a similar stock in the target */
         $similar_stock = $target->stocks()

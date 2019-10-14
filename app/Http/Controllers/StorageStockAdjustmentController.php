@@ -117,13 +117,13 @@ class StorageStockAdjustmentController extends Controller
                 $new_stock = $stock->replicate(["storage_id", "storage_type", "quantity", "difference"]);
                 $new_stock->quantity = $stock->difference;
                 $new_stock->storage()->associate($stock_adjustment);
-                $new_stock->moveTo($storage, $stock->difference);
+                $new_stock->moveTo($storage, $stock->difference, $stock_adjustment);
             }
 
             foreach ($outbound as $stock) {
                 $difference = $stock->difference;
                 unset($stock->difference);
-                $stock->moveTo($stock_adjustment, abs($difference));
+                $stock->moveTo($stock_adjustment, abs($difference), $stock_adjustment);
             }
 
             if (!isset($data["new_stocks"])) {
@@ -141,7 +141,7 @@ class StorageStockAdjustmentController extends Controller
                 ]))
                 ->storage()->associate($stock_adjustment)
                 ->origin()->associate($stock_adjustment)
-                ->moveTo($storage, $new_stock["quantity"]);
+                ->moveTo($storage, $new_stock["quantity"], $stock_adjustment);
             }
 
         });

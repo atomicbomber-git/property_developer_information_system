@@ -10,4 +10,9 @@ class StockTransaction extends Model
     {
         return $this->hasMany(StockMutation::class);
     }
+
+    public function source()
+    {
+        return $this->morphTo();
+    }
 }

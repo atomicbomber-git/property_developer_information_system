@@ -50,6 +50,7 @@ $factory->afterCreating(DeliveryOrder::class, function (DeliveryOrder $delivery_
         $stock->moveTo(
             $delivery_order->target,
             $delivery_order_item->quantity,
+            $delivery_order,
         );
     }
 });

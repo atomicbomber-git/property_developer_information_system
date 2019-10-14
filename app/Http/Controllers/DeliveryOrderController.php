@@ -106,33 +106,42 @@ class DeliveryOrderController extends Controller
             "items.*.quantity" => "required|numeric|gt:0",
         ]);
 
-        DB::transaction(function() use($data) {
-            $delivery_order = DeliveryOrder::create([
-                'creator_id' => Auth::user()->id,
-                'source_type' => EntityType::VENDOR,
-                'source_id' => $data['vendor_id'],
-                'target_type' => EntityType::STORAGE,
-                'target_id' => $data['storage_id'],
-                'receiver_id' => $data['receiver_id'],
-                'received_at' => $data['received_at']
-            ]);
+        DB::beginTransaction();
 
-            foreach ($data['items'] as $item) {
-                $delivery_order_item = $delivery_order
-                    ->delivery_order_items()
-                    ->create($item);
+        $delivery_order = DeliveryOrder::create([
+            'creator_id' => Auth::user()->id,
+            'source_type' => EntityType::VENDOR,
+            'source_id' => $data['vendor_id'],
+            'target_type' => EntityType::STORAGE,
+            'target_id' => $data['storage_id'],
+            'receiver_id' => $data['receiver_id'],
+            'received_at' => $data['received_at']
+        ]);
 
-                Stock::create([
-                    "item_id" => $item["item_id"],
-                    "quantity" => $item["quantity"],
-                    "value" => 0,
-                    "storage_type" => EntityType::STORAGE,
-                    "storage_id" => $data["storage_id"],
-                    "origin_type" => EntityType::DELIVERY_ORDER_ITEM,
-                    "origin_id" => $delivery_order_item->id,
-                ]);
-            }
-        });
+        $vendor = Vendor::find($data["vendor_id"]);
+        $storage = Storage::find($data["storage_id"]);
+
+        foreach ($data['items'] as $item) {
+            $delivery_order_item = $delivery_order
+                ->delivery_order_items()
+                ->create($item);
+
+            $stock = (new Stock([
+                "item_id" => $item["item_id"],
+                "quantity" => $item["quantity"],
+                "value" => 0,
+            ]))
+            ->storage()->associate($vendor)
+            ->origin()->associate($delivery_order_item);
+
+            $stock->moveTo(
+                $storage,
+                $item["quantity"],
+                $delivery_order,
+            );
+        }
+
+        DB::commit();
 
         session()->flash('message.success', __('messages.create.success'));
     }
@@ -211,6 +220,11 @@ class DeliveryOrderController extends Controller
     public function delete(DeliveryOrder $delivery_order)
     {
         DB::beginTransaction();
+
+        foreach ($delivery_order->stock_transactions as $stock_transaction) {
+            $stock_transaction->stock_mutations()->delete();
+            $stock_transaction->delete();
+        }
 
         $delivery_order->delivery_order_items()->delete();
         $delivery_order->delete();
