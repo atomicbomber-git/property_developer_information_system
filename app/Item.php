@@ -24,6 +24,7 @@ class Item extends Model
         return [
             "delivery_order_items",
             "stock_mutations",
+            "stocks",
         ];
     }
 
@@ -35,6 +36,11 @@ class Item extends Model
     public function stock_mutations()
     {
         return $this->hasMany(StockMutation::class);
+    }
+
+    public function stocks()
+    {
+        return $this->hasMany(Stock::class);
     }
 
     public function vendors()

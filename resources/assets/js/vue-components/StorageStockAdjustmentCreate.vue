@@ -221,7 +221,10 @@ export default {
 
         getStockOriginName(stock) {
             if (stock.origin_type === "DELIVERY_ORDER_ITEM") {
-                return `${stock.origin.delivery_order.source.name}`
+                return get(
+                    stock,
+                    "origin.delivery_order.source.name",
+                )
             }
             else if (stock.origin_type === "STOCK_ADJUSTMENT") {
                 return "STOCK ADJUSTMENT"
@@ -232,7 +235,13 @@ export default {
 
         getStockOriginDate(stock) {
             if (stock.origin_type === "DELIVERY_ORDER_ITEM") {
-                return `${dateFormat(stock.origin.delivery_order.received_at)}`
+                let received_at = get(stock, "origin.delivery_order.received_at", null)
+
+                if (received_at) {
+                    return dateFormat(received_at)
+                }
+
+                return null;
             }
             else if (stock.origin_type === "STOCK_ADJUSTMENT") {
                 return `${dateFormat(stock.origin.created_at)}`
