@@ -21,12 +21,20 @@ class Item extends Model
 
     public static function countedRelations()
     {
-        return ["delivery_order_items"];
+        return [
+            "delivery_order_items",
+            "stock_mutations",
+        ];
     }
 
     public function vendor()
     {
         return $this->belongsTo(Vendor::class);
+    }
+
+    public function stock_mutations()
+    {
+        return $this->hasMany(StockMutation::class);
     }
 
     public function vendors()
