@@ -91,6 +91,7 @@
                 :options="unpicked_stocks"
                 v-model="stock"
                 :preselect-first="true"
+                :custom-label="stock => `${stock.item.name} ${stockOriginName(stock)} ${stockOriginDate(stock)}`"
             >
                 <template slot="singleLabel" slot-scope="props">
                     <span class="option__desc"><span class="option__title">{{ props.option.item.name }}</span></span>
@@ -111,7 +112,9 @@
                             </span>
                         </div>
                         <div>
-                            <span class="option__small"> {{ stockOriginName(props.option) }} {{ stockOriginDate(props.option) }} </span>
+                            <span class="option__small">
+                                {{ stockOriginName(props.option) }} {{ stockOriginDate(props.option) }}
+                            </span>
                         </div>
                     </div>
                 </template>
@@ -224,7 +227,8 @@ export default {
 
         stockOriginName(stock) {
             if (stock.origin_type === "DELIVERY_ORDER_ITEM") {
-                return `${stock.origin.delivery_order.source.name}`
+                let name = get(stock, "origin.delivery_order.source.name", null)
+                return name
             }
             else if (stock.origin_type === "STOCK_ADJUSTMENT") {
                 return "STOCK ADJUSTMENT"
@@ -235,10 +239,12 @@ export default {
 
         stockOriginDate(stock) {
             if (stock.origin_type === "DELIVERY_ORDER_ITEM") {
-                return `${dateFormat(stock.origin.delivery_order.sent_at)}`
+                let sent_at = get(stock, "origin.delivery_order.sent_at", false)
+                return sent_at ? dateFormat(sent_at) : null
             }
             else if (stock.origin_type === "STOCK_ADJUSTMENT") {
-                return `${dateFormat(stock.origin.created_at)}`
+                let created_at = get(stock, "origin.created_at", false)
+                return created_at ? dateFormat(created_at) : null
             }
 
             return null
