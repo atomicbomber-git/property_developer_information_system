@@ -38,8 +38,6 @@ class Stock extends Model
             throw new \Exception("Target model has to have a stocks() method.");
         }
 
-        DB::beginTransaction();
-
         /* Replicates this stock except for the quantity */
         $new_stock = $this->replicate(["quantity"]);
         $new_stock->quantity = $quantity;
@@ -89,8 +87,6 @@ class Stock extends Model
         else {
             $target->stocks()->save($new_stock);
         }
-
-        DB::commit();
     }
 
     public function decrementQuantity($quantity)

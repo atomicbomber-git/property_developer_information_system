@@ -25,4 +25,9 @@ class Storage extends Model
     {
         return $this->morphMany(DeliveryOrder::class, 'source');
     }
+
+    public function stock_mutations()
+    {
+        return $this->morphMany(StockMutation::class, 'storage');
+    }
 }
