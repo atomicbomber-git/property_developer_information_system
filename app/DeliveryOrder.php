@@ -4,6 +4,7 @@ namespace App;
 
 use App\Traits\CanCountRelatedModels;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class DeliveryOrder extends Model
 {
@@ -94,5 +95,35 @@ class DeliveryOrder extends Model
     public function stock_transactions()
     {
         return $this->morphMany(StockTransaction::class, "source");
+    }
+
+    public function performTransaction()
+    {
+        $this->loadMissing("delivery_order_items.stock_mutations", "source", "target");
+
+
+        DB::beginTransaction();
+
+        foreach ($this->delivery_order_items as $delivery_order_item) {
+            if ($delivery_order_item->stock_mutations->count() > 0) {
+                continue;
+            }
+
+            $stock = (new Stock([
+                "item_id" => $delivery_order_item->item_id,
+                "quantity" => $delivery_order_item->quantity,
+                "value" => 0,
+            ]))
+            ->storage()->associate($this->source)
+            ->origin()->associate($delivery_order_item);
+
+            $stock->moveTo(
+                $this->target,
+                $delivery_order_item->quantity,
+                $this,
+            );
+        }
+
+        DB::commit();
     }
 }
