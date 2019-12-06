@@ -71,7 +71,6 @@
             <label> Item to Add: </label>
             <multiselect
                 placeholder="Item"
-                :allow-empty="false"
                 selectLabel=""
                 selectedLabel=""
                 deselectLabel=""
@@ -79,7 +78,6 @@
                 label="name"
                 :options="item_options"
                 v-model="selected_item"
-                :preselect-first="true"
             ></multiselect>
         </div>
 

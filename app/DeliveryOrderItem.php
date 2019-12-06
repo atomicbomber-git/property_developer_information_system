@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -49,5 +50,39 @@ class DeliveryOrderItem extends Model
         $this->update(compact("price"));
 
         DB::commit();
+    }
+
+    public function scopeWithLatestPrice(Builder $query)
+    {
+        $parentTableAlias = $this->getTable();
+        $subTableAlias = "reference_delivery_order_items";
+
+        $query->addSelect([
+            "latest_price" =>
+                DeliveryOrderItem::from("delivery_order_items AS {$subTableAlias}")
+                    ->select("price")
+                    ->whereColumn("{$subTableAlias}.item_id", "{$parentTableAlias}.item_id")
+                    ->whereNotNull("price")
+                    ->belongsToExternalDeliveryOrder()
+                    ->orderByLatestSentDeliveryOrder()
+                    ->limit(1)
+        ]);
+    }
+
+    public function scopeBelongsToExternalDeliveryOrder(Builder $query)
+    {
+        $query->whereHas("delivery_order", function (Builder $query) {
+            $query->whereHasMorph("source", [Vendor::class]);
+        });
+    }
+
+    public function scopeOrderByLatestSentDeliveryOrder(Builder $query)
+    {
+        $query->orderByDesc(
+            DeliveryOrder::query()
+                ->select("sent_at")
+                ->whereColumn("delivery_order_id", "delivery_order_items.id")
+                ->limit(1)
+        );
     }
 }

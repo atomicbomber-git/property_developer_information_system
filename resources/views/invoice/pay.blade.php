@@ -64,7 +64,7 @@
                         <tr>
                             <td> {{ $loop->iteration }}. </td>
                             <td>
-                                <a target="_blank" href="{{ route('delivery-order.update_price', $delivery_order->id) }}">
+                                <a target="_blank" href="{{ route('delivery-order-price.edit', $delivery_order->id) }}">
                                     Delivery Order {{ $delivery_order->id }}
                                     ({{ ( new Date ($delivery_order->received_at) )->format('d-m-Y')  }})
                                 </a>

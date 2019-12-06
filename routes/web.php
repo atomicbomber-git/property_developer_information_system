@@ -2,11 +2,14 @@
 use App\Http\Controllers\CategoryItemController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeliveryOrderController;
+use App\Http\Controllers\DeliveryOrderPriceController;
 use App\Http\Controllers\InternalDeliveryOrderController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemPriceHistoryController;
 use App\Http\Controllers\StorageController;
 use App\Http\Controllers\StorageStockController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
@@ -148,7 +151,7 @@ Route::middleware(['auth'])->group(function() {
     });
 });
 
-// Route::fallback(function() {
-//     return redirect()
-//         ->route("dashboard.show");
-// });
+Route::group(['prefix' => '/delivery-order-price', 'as' => 'delivery-order-price.'], function() {
+    Route::get('/edit/{delivery_order}', [DeliveryOrderPriceController::class, 'edit'])->name('edit');
+    Route::post('/update/{delivery_order}', [DeliveryOrderPriceController::class, 'update'])->name('update');
+});
