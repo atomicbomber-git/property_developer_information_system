@@ -29,10 +29,6 @@ class DeliveryOrder extends Model
         'sent_at',
     ];
 
-    public $casts = [
-        'received_at' => 'datetime:d-m-Y'
-    ];
-
     public static function countedRelations()
     {
         return [

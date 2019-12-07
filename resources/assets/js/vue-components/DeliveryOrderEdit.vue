@@ -159,6 +159,10 @@ export default {
     ],
 
     data() {
+        console.log(
+            toHTMLInputDateFormat(this.delivery_order.received_at)
+        )
+
         return {
             m_vendors: this.vendors.map(vendor => {
                 return {

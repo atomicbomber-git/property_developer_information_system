@@ -17441,6 +17441,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     data: function data() {
         var _this = this;
 
+        console.log(Object(__WEBPACK_IMPORTED_MODULE_0__helpers_datetime__["b" /* toHTMLInputDateFormat */])(this.delivery_order.received_at));
+
         return {
             m_vendors: this.vendors.map(function (vendor) {
                 return _extends({}, vendor, {

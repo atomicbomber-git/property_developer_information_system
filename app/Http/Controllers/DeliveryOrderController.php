@@ -6,6 +6,7 @@ use Illuminate\Validation\Rule;
 use App\DeliveryOrder;
 use App\DeliveryOrderItem;
 use App\Enums\EntityType;
+use App\Helpers\Formatter;
 use App\Stock;
 use App\Vendor;
 use App\Storage;
@@ -53,6 +54,9 @@ class DeliveryOrderController extends Controller
         return DataTables::eloquent($delivery_orders)
             ->smart(true)
             ->addIndexColumn()
+            ->editColumn('received_at', function($data) {
+                return app(Formatter::class)->date($data->received_at);
+            })
             ->addColumn("controls", function (DeliveryOrder $delivery_order) {
                 return view("delivery_order.control", compact("delivery_order"));
             })
