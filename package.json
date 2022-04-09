@@ -25,7 +25,7 @@
         "less": "^3.8.1",
         "less-loader": "^4.1.0",
         "lodash": "^4.17.5",
-        "moment": "^2.24.0",
+        "moment": "^2.29.2",
         "numeral": "^2.0.6",
         "popper.js": "^1.12",
         "react": "^16.2.0",
